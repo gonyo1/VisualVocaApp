@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>968</width>
+    <width>970</width>
     <height>700</height>
    </rect>
   </property>
@@ -30,6 +30,23 @@ border-color: rgb(0, 0, 255);
 QWidget {
 color: black;
 font: 16px &quot;Segoe UI&quot;;
+}
+
+QScrollBar:vertical {
+border: 0px solid;
+background:transparent;
+width:8px;
+margin: 0px 0px 0px 0px;
+}
+QScrollBar::handle:vertical {
+background: rgb(190, 190, 190);
+min-height: 0px;
+border-radius: 4px;
+}
+QScrollBar::sub-line:vertical {
+height: 0 px;
+subcontrol-position: top;
+subcontrol-origin: margin;
 }</string>
   </property>
   <widget class="QWidget" name="mb_1">
@@ -37,160 +54,26 @@ font: 16px &quot;Segoe UI&quot;;
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-1</y>
-      <width>165</width>
+      <y>0</y>
+      <width>151</width>
       <height>701</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QObject {
-margin: 0px;
-background-color: transparent;
-}</string>
-    </property>
-    <widget class="QWidget" name="mb_voca_btn_adj" native="true">
-     <property name="geometry">
-      <rect>
-       <x>150</x>
-       <y>0</y>
-       <width>15</width>
-       <height>650</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>15</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QWidget {
-margin: 0px;
-font: 10px;
-}
-QPushButton#mb_voca_expand {
-padding-left: 0px;
-padding-right: 0px;
-padding-top: 20px;
-padding-bottom: 20px;
-border-top-right-radius: 5px;
-border-bottom-right-radius: 5px;
-background-color: rgb(230, 230, 233);
-font: 10px;
-}</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <spacer name="mb_voca_spcacer_top">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QPushButton" name="mb_voca_expand">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>◀</string>
-        </property>
-        <property name="autoRepeatDelay">
-         <number>300</number>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="mb_voca_spcacer_bottom">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="mb_voca_main" native="true">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>150</width>
-       <height>700</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QWidget {
-padding: 5px;
+     <string notr="true">QWidget {
+padding: 0px;
 background-color: rgb(230, 230, 233);
 }
-QWidget.QLabel {
-color: rgb(30, 30, 30);
-font: 18px;
+
+QScrollArea .QLabel {
+color: rgb(170, 170, 170);
+font: 13px;
+margin-left: 10px;
+margin-right: 10px;
 font-weight: bold;
-qproperty-alignment: AlignCenter;
 }
+
 QListWidget::item {
-background-color: rgb(255, 255, 255); 
 border-radius: 5px;
 padding: 5px;
 padding-left: 10px;
@@ -198,13 +81,25 @@ padding-right: 10px;
 color: black;
 }
 QListWidget::item:hover {
-background-color: rgb(0, 155, 255); 
-color: white;
+background-color: rgb(200, 200, 200);
+}
+
+QListView {
+margin-left: 10px;
+margin-right: 10px;
+}
+QListView::item {
+margin:3px;
+margin-left: 10px;
 font-weight: bold;
 }
+QScrollArea .QWidget  .QWidget .QListWidget {
+font-weight: semi-bold;
+}
+
 QWidget.QPushButton#mb_voca_open {
+margin: 10px 10px 10px 10px;
 font: 16px;
-color: white;
 border-radius: 5px;
 background-color: rgb(0, 155, 255);
 }
@@ -213,120 +108,275 @@ font: 16px;
 color: white;
 border-radius: 5px;
 background-color: rgba(0, 155, 255, 80);
-}
-QListView {margin: 0px;}
-QListView::item {
-margin:4px;
 }</string>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>5</number>
      </property>
-     <widget class="QLabel" name="mb_voca_title">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>81</y>
-        <width>151</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Word Wrap</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QListWidget" name="mb_voca_word">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>119</y>
-        <width>151</width>
-        <height>581</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="cursor" stdset="0">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="contextMenuPolicy">
-       <enum>Qt::NoContextMenu</enum>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Plain</enum>
-      </property>
-      <property name="lineWidth">
-       <number>0</number>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="autoScrollMargin">
-       <number>16</number>
-      </property>
-      <property name="isWrapping" stdset="0">
-       <bool>false</bool>
-      </property>
-      <property name="resizeMode">
-       <enum>QListView::Fixed</enum>
-      </property>
-      <property name="layoutMode">
-       <enum>QListView::SinglePass</enum>
-      </property>
-      <property name="spacing">
-       <number>5</number>
-      </property>
-      <property name="viewMode">
-       <enum>QListView::ListMode</enum>
-      </property>
-      <property name="wordWrap">
-       <bool>false</bool>
-      </property>
-      <item>
-       <property name="text">
-        <string>jump</string>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="mb_icon">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>50</height>
+        </size>
        </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>see</string>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>50</height>
+        </size>
        </property>
-      </item>
-      <item>
        <property name="text">
-        <string>fly</string>
+        <string/>
        </property>
-      </item>
-     </widget>
-     <widget class="QPushButton" name="mb_voca_open">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>131</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>New file</string>
-      </property>
-     </widget>
-    </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QScrollArea" name="mb_voca_scroll">
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="mb_voca_scroll_widget">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>151</width>
+          <height>581</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <property name="spacing">
+          <number>5</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QWidget" name="mb_voca_widget_1" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="mb_voca_title_1">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>Word List</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QListWidget" name="mb_voca_word_adj_1">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>300</height>
+               </size>
+              </property>
+              <property name="cursor" stdset="0">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="contextMenuPolicy">
+               <enum>Qt::NoContextMenu</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Plain</enum>
+              </property>
+              <property name="lineWidth">
+               <number>0</number>
+              </property>
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarAsNeeded</enum>
+              </property>
+              <property name="horizontalScrollBarPolicy">
+               <enum>Qt::ScrollBarAlwaysOff</enum>
+              </property>
+              <property name="autoScrollMargin">
+               <number>5</number>
+              </property>
+              <property name="isWrapping" stdset="0">
+               <bool>false</bool>
+              </property>
+              <property name="resizeMode">
+               <enum>QListView::Adjust</enum>
+              </property>
+              <property name="layoutMode">
+               <enum>QListView::SinglePass</enum>
+              </property>
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="viewMode">
+               <enum>QListView::ListMode</enum>
+              </property>
+              <property name="wordWrap">
+               <bool>false</bool>
+              </property>
+              <item>
+               <property name="text">
+                <string>jump</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>run</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>walk</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>talk</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>calculate</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>see</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>fly</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="mb_voca_scroll_spacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="mb_voca_open">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>60</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>60</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>New file</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
    <widget class="QWidget" name="mb_show_adj" native="true">
     <property name="geometry">
      <rect>
-      <x>148</x>
+      <x>150</x>
       <y>0</y>
       <width>821</width>
       <height>700</height>
@@ -341,23 +391,23 @@ QPushButton#forward {
 background-color: rgb(230, 230, 230);
 border-radius: 10px;
 }
-
-QLabel#mb_show_eng {
+QLabel#mb_show_eng_adj {
 font: 100px;
 font-weight: bold;
 }
-QLabel#mb_show_kor {
+QLabel#mb_show_kor_adj {
 font: 50px;
 font-weight: bold;
-}</string>
+}
+</string>
     </property>
     <widget class="QWidget" name="mb_show_btns_adj" native="true">
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>630</y>
+       <y>655</y>
        <width>821</width>
-       <height>57</height>
+       <height>30</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
@@ -393,7 +443,7 @@ font-weight: bold;
        <widget class="QWidget" name="mb_show_btn_widget" native="true">
         <property name="minimumSize">
          <size>
-          <width>200</width>
+          <width>100</width>
           <height>0</height>
          </size>
         </property>
@@ -424,12 +474,12 @@ font-weight: bold;
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>50</height>
+             <height>30</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>30</width>
              <height>16777215</height>
             </size>
            </property>
@@ -456,12 +506,12 @@ font-weight: bold;
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>50</height>
+             <height>30</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>30</width>
              <height>16777215</height>
             </size>
            </property>
@@ -488,11 +538,11 @@ font-weight: bold;
       </item>
      </layout>
     </widget>
-    <widget class="QLabel" name="mb_show_eng">
+    <widget class="QLabel" name="mb_show_eng_adj">
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>10</y>
+       <y>50</y>
        <width>821</width>
        <height>131</height>
       </rect>
@@ -504,11 +554,11 @@ font-weight: bold;
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="mb_show_image">
+    <widget class="QLabel" name="mb_show_image_adj">
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>160</y>
+       <y>190</y>
        <width>821</width>
        <height>361</height>
       </rect>
@@ -520,11 +570,11 @@ font-weight: bold;
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="mb_show_kor">
+    <widget class="QLabel" name="mb_show_kor_adj">
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>530</y>
+       <y>560</y>
        <width>821</width>
        <height>81</height>
       </rect>
