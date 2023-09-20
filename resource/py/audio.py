@@ -9,13 +9,13 @@ except:
 
 if __name__ == '__main__':
     tts = gTTS(
-        text='안녕하세요',
+        text='점프하다',
         lang='ko', slow=False
     )
     tts.save('ex_ko.mp3')
 
     tts1 = gTTS(
-        text='Hello',
+        text='jump',
         lang='en', slow=False
     )
     tts1.save('ex_en.mp3')

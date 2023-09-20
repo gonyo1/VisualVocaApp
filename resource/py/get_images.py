@@ -1,14 +1,14 @@
 import os
 import requests
-import urllib3
 
+import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # <--- Import or Install Packages --->
 try:
     import lxml.html
 except ModuleNotFoundError:
-    os.popen("pip install lxml")
+    os.system("pip install lxml")
     import lxml.html
 
 
@@ -17,6 +17,7 @@ except ModuleNotFoundError:
 def get_images_from_word(word: str = None) -> str:
     def is_main_app(word: str = None) -> str:
         base_dir = str()
+
         if os.path.basename(os.path.abspath("./")) != "py":
             base_dir = os.path.abspath(f"./resource/img/{word}")
         else:
@@ -34,7 +35,7 @@ def get_images_from_word(word: str = None) -> str:
         res = requests.get(base_url, verify=False)
 
         if res.status_code == 200:
-            print("  Starting web site crawling...")
+            print("  Starting website crawling...")
             html = res.text
             tree = lxml.html.fromstring(html)
             selectors = tree.cssselect('#tiles > li > a > img')
@@ -45,6 +46,7 @@ def get_images_from_word(word: str = None) -> str:
 
     def is_image_downloaded(path: str = None, word: str = None) -> str:
         status = "waiting"
+
         if os.path.isfile(os.path.abspath(f"{path}\\{word}(1).jpg")):
             status = "saved"
         else:
