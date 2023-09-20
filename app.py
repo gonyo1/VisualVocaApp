@@ -13,8 +13,9 @@ from resource.py import get_images
 
 try:
     os.system("pyuic5 main.ui -o main_ui.py")
-except:
-    print("  Error happend from 'pyuic5' ")
+    os.system("pyrcc5 main.qrc -o main_rc.py")
+except FileNotFoundError:
+    print("  Error happend from 'pyuic or pyrcc' ")
 
 
 class MainWindow(QMainWindow, mp):
@@ -23,7 +24,7 @@ class MainWindow(QMainWindow, mp):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         self.show()
-        self.setWindowTitle("  VisualVoca by Gonyo (Released 2022.12.19.)")
+        self.setWindowTitle("  VisualVoca by Gonyo (Released 2023.9.00.)")
         # self.setWindowIcon(QIcon(":/M1/icon.png"))
 
         self.word = None

@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainApp(object):
     def setupUi(self, MainApp):
         MainApp.setObjectName("MainApp")
-        MainApp.resize(970, 700)
+        MainApp.resize(971, 700)
         MainApp.setMinimumSize(QtCore.QSize(900, 700))
         MainApp.setStyleSheet("QObject {\n"
 "background-color: blue;\n"
@@ -29,25 +29,26 @@ class Ui_MainApp(object):
 "}\n"
 "\n"
 "QScrollBar:vertical {\n"
+"background: white;\n"
 "border: 0px solid;\n"
-"background:transparent;\n"
-"width:8px;\n"
-"margin: 0px 0px 0px 0px;\n"
+"width: 8px;\n"
+"margin: 0px;\n"
 "}\n"
 "QScrollBar::handle:vertical {\n"
 "background: rgb(190, 190, 190);\n"
 "min-height: 0px;\n"
+"max-height: 30px;\n"
 "border-radius: 4px;\n"
 "}\n"
 "QScrollBar::sub-line:vertical {\n"
-"height: 0 px;\n"
+"height: 0px;\n"
 "subcontrol-position: top;\n"
 "subcontrol-origin: margin;\n"
 "}")
         self.mb_1 = QtWidgets.QWidget(MainApp)
         self.mb_1.setObjectName("mb_1")
         self.mb_voca_adj = QtWidgets.QWidget(self.mb_1)
-        self.mb_voca_adj.setGeometry(QtCore.QRect(0, 0, 151, 701))
+        self.mb_voca_adj.setGeometry(QtCore.QRect(0, 0, 200, 701))
         self.mb_voca_adj.setStyleSheet("QWidget {\n"
 "padding: 0px;\n"
 "background-color: rgb(230, 230, 233);\n"
@@ -100,19 +101,34 @@ class Ui_MainApp(object):
         self.mb_voca_adj.setObjectName("mb_voca_adj")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.mb_voca_adj)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout.setSpacing(5)
+        self.verticalLayout.setSpacing(1)
         self.verticalLayout.setObjectName("verticalLayout")
         self.mb_icon = QtWidgets.QLabel(self.mb_voca_adj)
         self.mb_icon.setMinimumSize(QtCore.QSize(0, 50))
         self.mb_icon.setMaximumSize(QtCore.QSize(16777215, 50))
+        self.mb_icon.setStyleSheet("background-image: url(:/main/resource/logo.svg);")
         self.mb_icon.setText("")
         self.mb_icon.setObjectName("mb_icon")
         self.verticalLayout.addWidget(self.mb_icon)
+        self.line = QtWidgets.QFrame(self.mb_voca_adj)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.line.sizePolicy().hasHeightForWidth())
+        self.line.setSizePolicy(sizePolicy)
+        self.line.setMinimumSize(QtCore.QSize(0, 1))
+        self.line.setMaximumSize(QtCore.QSize(16777215, 1))
+        self.line.setStyleSheet("background-color: rgb(0, 0, 0);")
+        self.line.setLineWidth(1)
+        self.line.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line.setObjectName("line")
+        self.verticalLayout.addWidget(self.line)
         self.mb_voca_scroll = QtWidgets.QScrollArea(self.mb_voca_adj)
         self.mb_voca_scroll.setWidgetResizable(True)
         self.mb_voca_scroll.setObjectName("mb_voca_scroll")
         self.mb_voca_scroll_widget = QtWidgets.QWidget()
-        self.mb_voca_scroll_widget.setGeometry(QtCore.QRect(0, 0, 151, 581))
+        self.mb_voca_scroll_widget.setGeometry(QtCore.QRect(0, 0, 200, 587))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -124,11 +140,12 @@ class Ui_MainApp(object):
         self.verticalLayout_3.setSpacing(5)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.mb_voca_widget_1 = QtWidgets.QWidget(self.mb_voca_scroll_widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mb_voca_widget_1.sizePolicy().hasHeightForWidth())
         self.mb_voca_widget_1.setSizePolicy(sizePolicy)
+        self.mb_voca_widget_1.setMaximumSize(QtCore.QSize(16777215, 400))
         self.mb_voca_widget_1.setObjectName("mb_voca_widget_1")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.mb_voca_widget_1)
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
@@ -152,7 +169,7 @@ class Ui_MainApp(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mb_voca_word_adj_1.sizePolicy().hasHeightForWidth())
         self.mb_voca_word_adj_1.setSizePolicy(sizePolicy)
-        self.mb_voca_word_adj_1.setMaximumSize(QtCore.QSize(16777215, 300))
+        self.mb_voca_word_adj_1.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.mb_voca_word_adj_1.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.mb_voca_word_adj_1.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         self.mb_voca_word_adj_1.setStyleSheet("")
@@ -162,6 +179,7 @@ class Ui_MainApp(object):
         self.mb_voca_word_adj_1.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         self.mb_voca_word_adj_1.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.mb_voca_word_adj_1.setAutoScrollMargin(5)
+        self.mb_voca_word_adj_1.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.mb_voca_word_adj_1.setProperty("isWrapping", False)
         self.mb_voca_word_adj_1.setResizeMode(QtWidgets.QListView.Adjust)
         self.mb_voca_word_adj_1.setLayoutMode(QtWidgets.QListView.SinglePass)
@@ -194,14 +212,18 @@ class Ui_MainApp(object):
         self.mb_voca_open.setObjectName("mb_voca_open")
         self.verticalLayout.addWidget(self.mb_voca_open)
         self.mb_show_adj = QtWidgets.QWidget(self.mb_1)
-        self.mb_show_adj.setGeometry(QtCore.QRect(150, 0, 821, 700))
+        self.mb_show_adj.setGeometry(QtCore.QRect(200, 0, 771, 700))
         self.mb_show_adj.setStyleSheet("QWidget {\n"
 "background-color: white;\n"
 "}\n"
 "QPushButton#back, \n"
 "QPushButton#forward {\n"
+"font: 13px;\n"
+"padding: 0px;\n"
+"margin: 0px;\n"
 "background-color: rgb(230, 230, 230);\n"
-"border-radius: 10px;\n"
+"border-radius: 15px;\n"
+"text-align: center;\n"
 "}\n"
 "QLabel#mb_show_eng_adj {\n"
 "font: 100px;\n"
@@ -214,7 +236,7 @@ class Ui_MainApp(object):
 "")
         self.mb_show_adj.setObjectName("mb_show_adj")
         self.mb_show_btns_adj = QtWidgets.QWidget(self.mb_show_adj)
-        self.mb_show_btns_adj.setGeometry(QtCore.QRect(0, 655, 821, 30))
+        self.mb_show_btns_adj.setGeometry(QtCore.QRect(0, 655, 771, 30))
         self.mb_show_btns_adj.setObjectName("mb_show_btns_adj")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.mb_show_btns_adj)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -249,15 +271,15 @@ class Ui_MainApp(object):
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem2)
         self.mb_show_eng_adj = QtWidgets.QLabel(self.mb_show_adj)
-        self.mb_show_eng_adj.setGeometry(QtCore.QRect(0, 50, 821, 131))
+        self.mb_show_eng_adj.setGeometry(QtCore.QRect(0, 50, 771, 131))
         self.mb_show_eng_adj.setAlignment(QtCore.Qt.AlignCenter)
         self.mb_show_eng_adj.setObjectName("mb_show_eng_adj")
         self.mb_show_image_adj = QtWidgets.QLabel(self.mb_show_adj)
-        self.mb_show_image_adj.setGeometry(QtCore.QRect(0, 190, 821, 361))
+        self.mb_show_image_adj.setGeometry(QtCore.QRect(0, 190, 771, 361))
         self.mb_show_image_adj.setAlignment(QtCore.Qt.AlignCenter)
         self.mb_show_image_adj.setObjectName("mb_show_image_adj")
         self.mb_show_kor_adj = QtWidgets.QLabel(self.mb_show_adj)
-        self.mb_show_kor_adj.setGeometry(QtCore.QRect(0, 560, 821, 81))
+        self.mb_show_kor_adj.setGeometry(QtCore.QRect(0, 560, 771, 81))
         self.mb_show_kor_adj.setAlignment(QtCore.Qt.AlignCenter)
         self.mb_show_kor_adj.setObjectName("mb_show_kor_adj")
         self.mb_show_adj.raise_()
@@ -294,3 +316,4 @@ class Ui_MainApp(object):
         self.mb_show_eng_adj.setText(_translate("MainApp", "jump"))
         self.mb_show_image_adj.setText(_translate("MainApp", "image"))
         self.mb_show_kor_adj.setText(_translate("MainApp", "점프하다"))
+import main_rc
