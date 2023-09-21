@@ -62,15 +62,22 @@ class Ui_MainApp(object):
 "font-weight: bold;\n"
 "}\n"
 "\n"
-"QListWidget::item {\n"
+"QScrollArea .QWidget  .QWidget .QListWidget::item:focus {\n"
+"font-weight: bold;\n"
+"}\n"
+"QScrollArea .QWidget  .QWidget .QListWidget::item {\n"
 "border-radius: 5px;\n"
 "padding: 5px;\n"
 "padding-left: 10px;\n"
 "padding-right: 10px;\n"
 "color: black;\n"
 "}\n"
-"QListWidget::item:hover {\n"
+"QScrollArea .QWidget  .QWidget .QListWidget::item:hover {\n"
 "background-color: rgb(200, 200, 200);\n"
+"}\n"
+"QScrollArea .QWidget  .QWidget .QListWidget::item:selected {\n"
+"background-color: rgb(255, 130, 45);\n"
+"color: white;\n"
 "}\n"
 "\n"
 "QListView {\n"
@@ -80,12 +87,7 @@ class Ui_MainApp(object):
 "QListView::item {\n"
 "margin:3px;\n"
 "margin-left: 10px;\n"
-"font-weight: bold;\n"
 "}\n"
-"QScrollArea .QWidget  .QWidget .QListWidget {\n"
-"font-weight: semi-bold;\n"
-"}\n"
-"\n"
 "QWidget.QPushButton#mb_voca_open {\n"
 "margin: 10px 10px 10px 10px;\n"
 "font: 16px;\n"
@@ -106,24 +108,25 @@ class Ui_MainApp(object):
         self.mb_icon = QtWidgets.QLabel(self.mb_voca_adj)
         self.mb_icon.setMinimumSize(QtCore.QSize(0, 50))
         self.mb_icon.setMaximumSize(QtCore.QSize(16777215, 50))
-        self.mb_icon.setStyleSheet("background-image: url(:/main/resource/logo.svg);")
+        self.mb_icon.setStyleSheet("")
         self.mb_icon.setText("")
         self.mb_icon.setObjectName("mb_icon")
         self.verticalLayout.addWidget(self.mb_icon)
-        self.line = QtWidgets.QFrame(self.mb_voca_adj)
+        self.mb_h_line_1 = QtWidgets.QFrame(self.mb_voca_adj)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.line.sizePolicy().hasHeightForWidth())
-        self.line.setSizePolicy(sizePolicy)
-        self.line.setMinimumSize(QtCore.QSize(0, 1))
-        self.line.setMaximumSize(QtCore.QSize(16777215, 1))
-        self.line.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.line.setLineWidth(1)
-        self.line.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line.setObjectName("line")
-        self.verticalLayout.addWidget(self.line)
+        sizePolicy.setHeightForWidth(self.mb_h_line_1.sizePolicy().hasHeightForWidth())
+        self.mb_h_line_1.setSizePolicy(sizePolicy)
+        self.mb_h_line_1.setMinimumSize(QtCore.QSize(0, 1))
+        self.mb_h_line_1.setMaximumSize(QtCore.QSize(16777215, 1))
+        self.mb_h_line_1.setStyleSheet("background-color: rgb(160, 160, 160);\n"
+"margin: 0px 10px 0px 10px;")
+        self.mb_h_line_1.setLineWidth(1)
+        self.mb_h_line_1.setFrameShape(QtWidgets.QFrame.HLine)
+        self.mb_h_line_1.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.mb_h_line_1.setObjectName("mb_h_line_1")
+        self.verticalLayout.addWidget(self.mb_h_line_1)
         self.mb_voca_scroll = QtWidgets.QScrollArea(self.mb_voca_adj)
         self.mb_voca_scroll.setWidgetResizable(True)
         self.mb_voca_scroll.setObjectName("mb_voca_scroll")
@@ -140,7 +143,7 @@ class Ui_MainApp(object):
         self.verticalLayout_3.setSpacing(5)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.mb_voca_widget_1 = QtWidgets.QWidget(self.mb_voca_scroll_widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mb_voca_widget_1.sizePolicy().hasHeightForWidth())
@@ -164,13 +167,14 @@ class Ui_MainApp(object):
         self.mb_voca_title_1.setObjectName("mb_voca_title_1")
         self.verticalLayout_4.addWidget(self.mb_voca_title_1)
         self.mb_voca_word_adj_1 = QtWidgets.QListWidget(self.mb_voca_widget_1)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mb_voca_word_adj_1.sizePolicy().hasHeightForWidth())
         self.mb_voca_word_adj_1.setSizePolicy(sizePolicy)
         self.mb_voca_word_adj_1.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.mb_voca_word_adj_1.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.mb_voca_word_adj_1.setFocusPolicy(QtCore.Qt.NoFocus)
         self.mb_voca_word_adj_1.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         self.mb_voca_word_adj_1.setStyleSheet("")
         self.mb_voca_word_adj_1.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -216,8 +220,8 @@ class Ui_MainApp(object):
         self.mb_show_adj.setStyleSheet("QWidget {\n"
 "background-color: white;\n"
 "}\n"
-"QPushButton#back, \n"
-"QPushButton#forward {\n"
+"#back, \n"
+"#forward {\n"
 "font: 13px;\n"
 "padding: 0px;\n"
 "margin: 0px;\n"
@@ -225,11 +229,11 @@ class Ui_MainApp(object):
 "border-radius: 15px;\n"
 "text-align: center;\n"
 "}\n"
-"QLabel#mb_show_eng_adj {\n"
+"#mb_show_eng_adj {\n"
 "font: 100px;\n"
 "font-weight: bold;\n"
 "}\n"
-"QLabel#mb_show_kor_adj {\n"
+"#mb_show_kor_adj {\n"
 "font: 50px;\n"
 "font-weight: bold;\n"
 "}\n"
@@ -272,10 +276,12 @@ class Ui_MainApp(object):
         self.horizontalLayout.addItem(spacerItem2)
         self.mb_show_eng_adj = QtWidgets.QLabel(self.mb_show_adj)
         self.mb_show_eng_adj.setGeometry(QtCore.QRect(0, 50, 771, 131))
+        self.mb_show_eng_adj.setStyleSheet("")
         self.mb_show_eng_adj.setAlignment(QtCore.Qt.AlignCenter)
         self.mb_show_eng_adj.setObjectName("mb_show_eng_adj")
         self.mb_show_image_adj = QtWidgets.QLabel(self.mb_show_adj)
         self.mb_show_image_adj.setGeometry(QtCore.QRect(0, 190, 771, 361))
+        self.mb_show_image_adj.setStyleSheet("")
         self.mb_show_image_adj.setAlignment(QtCore.Qt.AlignCenter)
         self.mb_show_image_adj.setObjectName("mb_show_image_adj")
         self.mb_show_kor_adj = QtWidgets.QLabel(self.mb_show_adj)
@@ -316,4 +322,3 @@ class Ui_MainApp(object):
         self.mb_show_eng_adj.setText(_translate("MainApp", "jump"))
         self.mb_show_image_adj.setText(_translate("MainApp", "image"))
         self.mb_show_kor_adj.setText(_translate("MainApp", "점프하다"))
-import main_rc

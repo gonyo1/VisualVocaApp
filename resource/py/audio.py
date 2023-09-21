@@ -1,21 +1,32 @@
 import os
+from io import BytesIO
 
 try:
     from gtts import gTTS
-except:
+except (FileNotFoundError, ImportError):
     os.system("pip install gtts")
     from gtts import gTTS
 
 
-if __name__ == '__main__':
-    tts = gTTS(
-        text='점프하다',
-        lang='ko', slow=False
-    )
-    tts.save('ex_ko.mp3')
 
-    tts1 = gTTS(
-        text='jump',
-        lang='en', slow=False
+
+def get_tts(word: str = None, lang: str = None):
+    def is_main_app() -> str:
+        if os.path.basename(os.path.abspath("./")) != "py":
+            base_dir = os.path.abspath(f"./resource/py")
+        else:
+            base_dir = os.path.abspath(f"./")
+
+        return base_dir
+
+    output_path = is_main_app()
+    output_file = f'{output_path}\\{word}_{lang}.wav'
+
+    tts = gTTS(
+        text=word,
+        lang=lang, slow=False
     )
-    tts1.save('ex_en.mp3')
+    tts.save(output_file)
+
+    output_path = os.path.realpath(output_file)
+    return output_path

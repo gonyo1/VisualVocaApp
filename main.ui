@@ -74,15 +74,22 @@ margin-right: 10px;
 font-weight: bold;
 }
 
-QListWidget::item {
+QScrollArea .QWidget  .QWidget .QListWidget::item:focus {
+font-weight: bold;
+}
+QScrollArea .QWidget  .QWidget .QListWidget::item {
 border-radius: 5px;
 padding: 5px;
 padding-left: 10px;
 padding-right: 10px;
 color: black;
 }
-QListWidget::item:hover {
+QScrollArea .QWidget  .QWidget .QListWidget::item:hover {
 background-color: rgb(200, 200, 200);
+}
+QScrollArea .QWidget  .QWidget .QListWidget::item:selected {
+background-color: rgb(255, 130, 45);
+color: white;
 }
 
 QListView {
@@ -92,12 +99,7 @@ margin-right: 10px;
 QListView::item {
 margin:3px;
 margin-left: 10px;
-font-weight: bold;
 }
-QScrollArea .QWidget  .QWidget .QListWidget {
-font-weight: semi-bold;
-}
-
 QWidget.QPushButton#mb_voca_open {
 margin: 10px 10px 10px 10px;
 font: 16px;
@@ -142,7 +144,7 @@ background-color: rgba(0, 155, 255, 80);
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-image: url(:/main/resource/logo.svg);</string>
+        <string notr="true"/>
        </property>
        <property name="text">
         <string/>
@@ -150,7 +152,7 @@ background-color: rgba(0, 155, 255, 80);
       </widget>
      </item>
      <item>
-      <widget class="Line" name="line">
+      <widget class="Line" name="mb_h_line_1">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -170,7 +172,8 @@ background-color: rgba(0, 155, 255, 80);
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(0, 0, 0);</string>
+        <string notr="true">background-color: rgb(160, 160, 160);
+margin: 0px 10px 0px 10px;</string>
        </property>
        <property name="lineWidth">
         <number>1</number>
@@ -219,7 +222,7 @@ background-color: rgba(0, 155, 255, 80);
          <item>
           <widget class="QWidget" name="mb_voca_widget_1" native="true">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -280,7 +283,7 @@ background-color: rgba(0, 155, 255, 80);
             <item>
              <widget class="QListWidget" name="mb_voca_word_adj_1">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -293,6 +296,9 @@ background-color: rgba(0, 155, 255, 80);
               </property>
               <property name="cursor" stdset="0">
                <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
               </property>
               <property name="contextMenuPolicy">
                <enum>Qt::NoContextMenu</enum>
@@ -433,8 +439,8 @@ background-color: rgba(0, 155, 255, 80);
      <string notr="true">QWidget {
 background-color: white;
 }
-QPushButton#back, 
-QPushButton#forward {
+#back, 
+#forward {
 font: 13px;
 padding: 0px;
 margin: 0px;
@@ -442,11 +448,11 @@ background-color: rgb(230, 230, 230);
 border-radius: 15px;
 text-align: center;
 }
-QLabel#mb_show_eng_adj {
+#mb_show_eng_adj {
 font: 100px;
 font-weight: bold;
 }
-QLabel#mb_show_kor_adj {
+#mb_show_kor_adj {
 font: 50px;
 font-weight: bold;
 }
@@ -598,6 +604,9 @@ font-weight: bold;
        <height>131</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="text">
       <string>jump</string>
      </property>
@@ -613,6 +622,9 @@ font-weight: bold;
        <width>771</width>
        <height>361</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
      </property>
      <property name="text">
       <string>image</string>
@@ -642,8 +654,6 @@ font-weight: bold;
    <zorder>mb_voca_adj</zorder>
   </widget>
  </widget>
- <resources>
-  <include location="main.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
