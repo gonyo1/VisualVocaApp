@@ -5,7 +5,7 @@ from glob import glob
 import time
 
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QWidget
+from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidget, QFileDialog, QWidget
 from PyQt5.QtCore import QTimer, pyqtSignal, QRect
 
 from main_ui import Ui_MainApp as mp
@@ -25,14 +25,22 @@ class MainWindow(QMainWindow, mp):
         self.setupUi(self)
         self.show()
         self.setWindowTitle("  VisualVoca by Gonyo (Released 2023.9.00.)")
-        # self.setWindowIcon(QIcon(":/M1/icon.png"))
+        self.setWindowIcon(QIcon("resource/src/app icon.png"))
 
         self.word = None
+        self.pics = None
+        self.slideshow_time = 1000
+        self.image_idx = 0
         self.calculate_ratio()
 
+        self.timer = QTimer(self)
+
         self.resized.connect(self.resize_widget)
-        self.mb_voca_word_adj_1.itemClicked.connect(self.change_voca_title)
-        self.mb_voca_word_adj_1.itemClicked.connect(self.change_voca_images)
+        self.list_widgets = self.findChildren(QListWidget)
+
+        for widget in self.list_widgets:
+            widget.itemClicked.connect(lambda: self.change_mb_voca_widget(obj=widget))
+        self.timer.timeout.connect(lambda: self.change_mb_voca_image(idx=self.image_idx))
 
     def calculate_ratio(self):
         init_x, init_y, init_w, init_h = self.geometry().getRect()
@@ -108,21 +116,33 @@ class MainWindow(QMainWindow, mp):
 
         obj.setGeometry(QRect(_x, _y, _w, _h))
 
-    def change_voca_title(self):
-        self.word = self.mb_voca_word.currentItem().text()
-        self.mb_show_eng.setText(self.word)
+    def change_mb_voca_widget(self, obj):
+        # reset index of image
+        self.timer.stop()
+        self.timer.start(1000)
+        self.image_idx = 0
 
-    def change_voca_images(self):
+        # Start slide show timer
+        self.timer.start(self.slideshow_time)
+
+        # Change voca title
+        self.word = obj.currentItem().text()
+        self.mb_show_eng_adj.setText(self.word)
+
+        # Change image
         status = get_images.get_images_from_word(self.word)
-        print(status)
+        self.pics = [QPixmap(item) for item in glob(f"./resource/voca/img/{self.word}/*.jpg")]
 
-        self.pics = [QPixmap(item) for item in glob(f"./resource/img/{self.word}/*.jpg")]
+    def change_mb_voca_image(self, idx):
+        # Get image and change pixmap
+        pic = self.pics[idx]
 
-        for pic in self.pics:
-            self.mb_show_image.clear()
-            self.mb_show_image.setPixmap(pic)
-            time.sleep(2)
-            self.mb_show_image.repaint()
+        self.mb_show_image_adj.clear()
+        self.mb_show_image_adj.setPixmap(pic)
+        self.mb_show_image_adj.repaint()
+
+        # reset index of image
+        self.image_idx += 1
 
     def resizeEvent(self, event):
         self.resized.emit()
