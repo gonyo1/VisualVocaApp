@@ -13,9 +13,9 @@ except (FileNotFoundError, ImportError):
 def get_tts(word: str = None, lang: str = None):
     def is_main_app() -> str:
         if os.path.basename(os.path.abspath("./")) != "py":
-            base_dir = os.path.abspath(f"./resource/py")
+            base_dir = os.path.abspath(f"./resource/voca")
         else:
-            base_dir = os.path.abspath(f"./")
+            base_dir = os.path.abspath(f"../voca")
 
         return base_dir
 

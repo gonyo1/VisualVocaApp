@@ -49,6 +49,11 @@ class Ui_MainApp(object):
         self.mb_1.setObjectName("mb_1")
         self.mb_voca_adj = QtWidgets.QWidget(self.mb_1)
         self.mb_voca_adj.setGeometry(QtCore.QRect(0, 0, 200, 701))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.mb_voca_adj.sizePolicy().hasHeightForWidth())
+        self.mb_voca_adj.setSizePolicy(sizePolicy)
         self.mb_voca_adj.setStyleSheet("QWidget {\n"
 "padding: 0px;\n"
 "background-color: rgb(230, 230, 233);\n"
@@ -99,19 +104,64 @@ class Ui_MainApp(object):
 "color: white;\n"
 "border-radius: 5px;\n"
 "background-color: rgba(0, 155, 255, 80);\n"
+"}\n"
+"#mb_top_bar_onoff_title {\n"
+"font: 9px;\n"
+"margin-top: 10px;\n"
+"padding-top: 5px;\n"
 "}")
         self.mb_voca_adj.setObjectName("mb_voca_adj")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.mb_voca_adj)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setSpacing(1)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.mb_icon = QtWidgets.QLabel(self.mb_voca_adj)
+        self.mb_top_bar = QtWidgets.QWidget(self.mb_voca_adj)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.mb_top_bar.sizePolicy().hasHeightForWidth())
+        self.mb_top_bar.setSizePolicy(sizePolicy)
+        self.mb_top_bar.setMinimumSize(QtCore.QSize(0, 50))
+        self.mb_top_bar.setMaximumSize(QtCore.QSize(16777215, 50))
+        self.mb_top_bar.setObjectName("mb_top_bar")
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.mb_top_bar)
+        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_4.setSpacing(0)
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.mb_icon = QtWidgets.QLabel(self.mb_top_bar)
         self.mb_icon.setMinimumSize(QtCore.QSize(0, 50))
         self.mb_icon.setMaximumSize(QtCore.QSize(16777215, 50))
         self.mb_icon.setStyleSheet("")
         self.mb_icon.setText("")
         self.mb_icon.setObjectName("mb_icon")
-        self.verticalLayout.addWidget(self.mb_icon)
+        self.horizontalLayout_4.addWidget(self.mb_icon)
+        self.mb_top_bar_onoff = QtWidgets.QWidget(self.mb_top_bar)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.mb_top_bar_onoff.sizePolicy().hasHeightForWidth())
+        self.mb_top_bar_onoff.setSizePolicy(sizePolicy)
+        self.mb_top_bar_onoff.setMinimumSize(QtCore.QSize(40, 0))
+        self.mb_top_bar_onoff.setMaximumSize(QtCore.QSize(40, 50))
+        self.mb_top_bar_onoff.setObjectName("mb_top_bar_onoff")
+        self.mb_top_bar_onoff_verticalLayout = QtWidgets.QVBoxLayout(self.mb_top_bar_onoff)
+        self.mb_top_bar_onoff_verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.mb_top_bar_onoff_verticalLayout.setSpacing(5)
+        self.mb_top_bar_onoff_verticalLayout.setObjectName("mb_top_bar_onoff_verticalLayout")
+        self.mb_top_bar_onoff_title = QtWidgets.QLabel(self.mb_top_bar_onoff)
+        self.mb_top_bar_onoff_title.setEnabled(True)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.mb_top_bar_onoff_title.sizePolicy().hasHeightForWidth())
+        self.mb_top_bar_onoff_title.setSizePolicy(sizePolicy)
+        self.mb_top_bar_onoff_title.setMinimumSize(QtCore.QSize(0, 30))
+        self.mb_top_bar_onoff_title.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.mb_top_bar_onoff_title.setAlignment(QtCore.Qt.AlignCenter)
+        self.mb_top_bar_onoff_title.setObjectName("mb_top_bar_onoff_title")
+        self.mb_top_bar_onoff_verticalLayout.addWidget(self.mb_top_bar_onoff_title)
+        self.horizontalLayout_4.addWidget(self.mb_top_bar_onoff)
+        self.verticalLayout.addWidget(self.mb_top_bar)
         self.mb_h_line_1 = QtWidgets.QFrame(self.mb_voca_adj)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -236,8 +286,7 @@ class Ui_MainApp(object):
 "#mb_show_kor_adj {\n"
 "font: 50px;\n"
 "font-weight: bold;\n"
-"}\n"
-"")
+"}")
         self.mb_show_adj.setObjectName("mb_show_adj")
         self.mb_show_btns_adj = QtWidgets.QWidget(self.mb_show_adj)
         self.mb_show_btns_adj.setGeometry(QtCore.QRect(0, 655, 771, 30))
@@ -288,6 +337,15 @@ class Ui_MainApp(object):
         self.mb_show_kor_adj.setGeometry(QtCore.QRect(0, 560, 771, 81))
         self.mb_show_kor_adj.setAlignment(QtCore.Qt.AlignCenter)
         self.mb_show_kor_adj.setObjectName("mb_show_kor_adj")
+        self.mb_show_top_bar = QtWidgets.QWidget(self.mb_show_adj)
+        self.mb_show_top_bar.setGeometry(QtCore.QRect(0, 0, 771, 50))
+        self.mb_show_top_bar.setObjectName("mb_show_top_bar")
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.mb_show_top_bar)
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_3.setSpacing(0)
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem3)
         self.mb_show_adj.raise_()
         self.mb_voca_adj.raise_()
         MainApp.setCentralWidget(self.mb_1)
@@ -298,6 +356,7 @@ class Ui_MainApp(object):
     def retranslateUi(self, MainApp):
         _translate = QtCore.QCoreApplication.translate
         MainApp.setWindowTitle(_translate("MainApp", "MainWindow"))
+        self.mb_top_bar_onoff_title.setText(_translate("MainApp", "Auto"))
         self.mb_voca_title_1.setText(_translate("MainApp", "Word List"))
         __sortingEnabled = self.mb_voca_word_adj_1.isSortingEnabled()
         self.mb_voca_word_adj_1.setSortingEnabled(False)

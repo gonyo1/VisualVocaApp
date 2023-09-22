@@ -5,13 +5,15 @@ from glob import glob
 import time
 
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidget, QFileDialog, QWidget
+from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidget, QFileDialog, QWidget, QCheckBox
 from PyQt5.QtCore import QTimer, pyqtSignal, QRect, QBuffer
 from PyQt5 import QtMultimedia
 
-from main_ui import Ui_MainApp as mp
 from resource.py import get_images
 from resource.py import audio
+from resource.py.toggle import Toggle, AnimatedToggle
+
+from main_ui import Ui_MainApp as mp
 
 try:
     os.system("pyuic5 main.ui -o main_ui.py")
@@ -33,14 +35,18 @@ class MainWindow(QMainWindow, mp):
 
         self.is_variable()
         self.is_signal()
+        self.make_gui_widget()
 
     def is_variable(self):
         self.word = None
         self.pics = None
+        self.focused_listwidget = None
+        self.auto_slide = True
         self.slideshow_time = 1000
         self.image_idx = 0
 
         self.timer = QTimer(self)
+        self.ani_toggle = QCheckBox(self)
         self.calculate_ratio()
 
         self.player = QtMultimedia
@@ -52,8 +58,8 @@ class MainWindow(QMainWindow, mp):
         # voca word clicked event on QListWidget
         self.list_widgets = self.findChildren(QListWidget)
         for widget in self.list_widgets:
-            widget.itemClicked.connect(lambda: self.change_mb_voca_widget(obj=widget))
-            widget.itemClicked.connect(lambda: self.get_audio_tts(voca=self.word))
+            widget.currentRowChanged.connect(lambda: self.change_mb_voca_widget(obj=widget))
+            widget.currentRowChanged.connect(lambda: self.get_audio_tts(voca=self.word))
         self.timer.timeout.connect(lambda: self.change_mb_voca_image(idx=self.image_idx))
 
     def calculate_ratio(self):
@@ -81,23 +87,67 @@ class MainWindow(QMainWindow, mp):
         self.mb_show_btns_adj_ratio_y = self.mb_show_btns_adj.geometry().getRect()[1] / mbs_h
         self.mb_show_btns_adj_ratio_h = self.mb_show_btns_adj.geometry().getRect()[3] / mbs_h
 
+    def make_gui_widget(self):
+        def make_toggle_button(parent):
+            self.ani_toggle = AnimatedToggle(
+                checked_color="#4ed164"
+            )
+            parent.mb_top_bar_onoff_verticalLayout.addWidget(self.ani_toggle)
+
+            self.ani_toggle.setChecked(True)
+
+        make_toggle_button(self)
+
     # <-- New Voca Clicked Event Handler --------------------------------------------------->
     def change_mb_voca_widget(self, obj):
+        # save obj and variables
+        self.word = obj.currentItem().text()
+        self.focused_listwidget = obj
+
         # reset index of image
         self.image_idx = 0
         self.timer.stop()
-        self.timer.start(1000)
+        self.timer.start(0)
 
         # Start slide show timer
         self.timer.start(self.slideshow_time)
 
-        # Change voca title
-        self.word = obj.currentItem().text()
-        self.mb_show_eng_adj.setText(self.word)
 
         # Change image
         status = get_images.get_images_from_word(self.word)
         self.pics = [QPixmap(item) for item in glob(f"./resource/voca/img/{self.word}/*.jpg")]
+
+        # Change voca title
+        self.mb_show_eng_adj.setText(self.word)
+
+
+
+    def change_mb_voca_image(self, idx):
+        # Start timer to slide second to end image
+        self.timer.stop()
+        self.timer.start(1000)
+        # add image_idx
+        if idx >= len(self.pics):
+            self.timer.stop()
+            self.move_next_voca()
+        else:
+            # Get image and change pixmap
+            pic = self.pics[idx]
+
+            self.mb_show_image_adj.clear()
+            self.mb_show_image_adj.setPixmap(pic)
+            self.mb_show_image_adj.repaint()
+
+            self.image_idx += 1
+
+    def move_next_voca(self):
+        idx = self.focused_listwidget.currentRow()
+
+        if idx < self.focused_listwidget.count() - 1:
+            idx = idx + 1
+            self.focused_listwidget.setCurrentRow(idx)
+        else:
+            print("last word")
 
     def get_audio_tts(self, voca: str = None, lang: str = None):
         self.audio_path = audio.get_tts(word=voca, lang='en')
@@ -107,25 +157,12 @@ class MainWindow(QMainWindow, mp):
         print(self.audio_path)
         tts.play()
 
-
-    def change_mb_voca_image(self, idx):
-        # Get image and change pixmap
-        pic = self.pics[idx]
-
-        self.mb_show_image_adj.clear()
-        self.mb_show_image_adj.setPixmap(pic)
-        self.mb_show_image_adj.repaint()
-
-        # add image_idx
-        if (idx + 1) == len(self.pics):
-            self.timer.stop()
-        else:
-            self.image_idx += 1
-
     # <-- Resize Event Handler ------------------------------------------------------------->
     def resize_widget(self):
         @staticmethod
         def calculate_font_ratio(obj, origin) -> int:
+            font_size = None
+
             # Calculate resized height ratio
             resized_h = obj.geometry().getRect()[3]
             origin_h = origin
@@ -150,7 +187,7 @@ class MainWindow(QMainWindow, mp):
                     _y = h - parent.mb_voca_open_h - parent.mb_voca_open_bottom
                     _h = parent.mb_voca_open_h
 
-            if 'mb_show' in obj.objectName():
+            elif 'mb_show' in obj.objectName():
                 if w is not None:
                     _w = (w - parent.mb_show_x)
 
@@ -221,6 +258,7 @@ class MainWindow(QMainWindow, mp):
         resize_widget_setting(self, self.mb_voca_open, h=h)
 
         # Right - Main Showing Section
+        resize_widget_setting(self, self.mb_show_top_bar, w=w)
         resize_widget_setting(self, self.mb_show_adj, w=w, h=h)
         resize_widget_setting(self, self.mb_show_eng_adj, w=w, h=h)
         resize_widget_setting(self, self.mb_show_image_adj, w=w, h=h)
