@@ -33,11 +33,11 @@ class MainWindow(QMainWindow, mp):
         self.setWindowIcon(QIcon("resource/src/app_icon.png"))
         self.mb_icon.setPixmap(QPixmap('resource/src/logo.svg'))
 
-        self.is_variable()
-        self.is_signal()
+        self.set_variable()
+        self.set_signal()
         self.make_gui_widget()
 
-    def is_variable(self):
+    def set_variable(self):
         self.word = None
         self.pics = None
         self.focused_listwidget = None
@@ -51,7 +51,7 @@ class MainWindow(QMainWindow, mp):
 
         self.player = QtMultimedia
 
-    def is_signal(self):
+    def set_signal(self):
         # window resized event
         self.resized.connect(self.resize_widget)
 
