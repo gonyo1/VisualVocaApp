@@ -17,6 +17,7 @@ from main_ui import Ui_MainApp as mp
 
 try:
     os.system("pyuic5 main.ui -o main_ui.py")
+    print("  pyuic5 has done...")
     # os.system("pyrcc5 main.qrc -o main_rc.py")
 except FileNotFoundError:
     print("  Error happend from 'pyuic or pyrcc' ")
@@ -58,6 +59,7 @@ class MainWindow(QMainWindow, mp):
         # voca word clicked event on QListWidget
         self.list_widgets = self.findChildren(QListWidget)
         for widget in self.list_widgets:
+            widget.itemClicked.connect(lambda: self.change_mb_voca_row(obj=widget))
             widget.currentRowChanged.connect(lambda: self.change_mb_voca_widget(obj=widget))
             widget.currentRowChanged.connect(lambda: self.get_audio_tts(voca=self.word))
         self.timer.timeout.connect(lambda: self.change_mb_voca_image(idx=self.image_idx))
@@ -92,13 +94,29 @@ class MainWindow(QMainWindow, mp):
             self.ani_toggle = AnimatedToggle(
                 checked_color="#4ed164"
             )
-            parent.mb_top_bar_onoff_verticalLayout.addWidget(self.ani_toggle)
+            parent.mb_top_bar_auto_scroll_verticalLayout.addWidget(self.ani_toggle)
 
+            self.ani_toggle.setStyleSheet("margin: 6px 0px 6px 0px\n")
+            self.ani_toggle.setMaximumHeight(self.mb_top_bar_auto_scroll_title.height())
             self.ani_toggle.setChecked(True)
 
+        def set_padding(parent):
+            QListWidget()
+            parent.mb_voca_word_adj_1.setStyleSheet("""
+                QListWidget::item {
+                    margin:20px;
+                    background-color: blue;
+            background-color: blue;
+                """)
         make_toggle_button(self)
+        set_padding(self)
 
     # <-- New Voca Clicked Event Handler --------------------------------------------------->
+    @staticmethod
+    def change_mb_voca_row(obj):
+        idx = obj.currentRow()
+        obj.setCurrentRow(idx)
+
     def change_mb_voca_widget(self, obj):
         # save obj and variables
         self.word = obj.currentItem().text()
@@ -112,15 +130,12 @@ class MainWindow(QMainWindow, mp):
         # Start slide show timer
         self.timer.start(self.slideshow_time)
 
-
         # Change image
         status = get_images.get_images_from_word(self.word)
         self.pics = [QPixmap(item) for item in glob(f"./resource/voca/img/{self.word}/*.jpg")]
 
         # Change voca title
         self.mb_show_eng_adj.setText(self.word)
-
-
 
     def change_mb_voca_image(self, idx):
         # Start timer to slide second to end image
@@ -141,20 +156,24 @@ class MainWindow(QMainWindow, mp):
             self.image_idx += 1
 
     def move_next_voca(self):
-        idx = self.focused_listwidget.currentRow()
+        def is_auto_scroll_checked(parent):
+            return parent.ani_toggle.isChecked()
 
-        if idx < self.focused_listwidget.count() - 1:
-            idx = idx + 1
-            self.focused_listwidget.setCurrentRow(idx)
+        if is_auto_scroll_checked(self):
+            idx = self.focused_listwidget.currentRow()
+
+            if idx < self.focused_listwidget.count() - 1:
+                idx = idx + 1
+                self.focused_listwidget.setCurrentRow(idx)
+            else:
+                print("<-- No more images left to show -->")
         else:
-            print("last word")
+            print("<-- Auto scroll is not clicked -->")
 
     def get_audio_tts(self, voca: str = None, lang: str = None):
         self.audio_path = audio.get_tts(word=voca, lang='en')
 
         tts = self.player.QSound(self.audio_path)
-        print(tts)
-        print(self.audio_path)
         tts.play()
 
     # <-- Resize Event Handler ------------------------------------------------------------->
@@ -181,7 +200,7 @@ class MainWindow(QMainWindow, mp):
 
             if 'mb_voca' in obj.objectName():
                 _h = h - _y
-                if 'mb_voca_word_adj' in obj.objectName():
+                if 'mb_voca_scroll' in obj.objectName():
                     _h = _h - parent.mb_voca_open_h - parent.mb_voca_open_bottom
                 elif 'mb_voca_open' in obj.objectName():
                     _y = h - parent.mb_voca_open_h - parent.mb_voca_open_bottom
@@ -264,6 +283,7 @@ class MainWindow(QMainWindow, mp):
         resize_widget_setting(self, self.mb_show_image_adj, w=w, h=h)
         resize_widget_setting(self, self.mb_show_kor_adj, w=w, h=h)
         resize_widget_setting(self, self.mb_show_btns_adj, w=w, h=h)
+        resize_widget_setting(self, self.mb_dev, w=w, h=h)
 
         # Right - Main Font Resize Section
         change_stylesheet(self, self.mb_show_eng_adj, font=calculate_font_ratio(self.mb_show_eng_adj, self.mb_show_eng_h))
