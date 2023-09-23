@@ -283,7 +283,7 @@ class MainWindow(QMainWindow, mp):
         resize_widget_setting(self, self.mb_show_image_adj, w=w, h=h)
         resize_widget_setting(self, self.mb_show_kor_adj, w=w, h=h)
         resize_widget_setting(self, self.mb_show_btns_adj, w=w, h=h)
-        resize_widget_setting(self, self.mb_dev, w=w, h=h)
+        resize_widget_setting(self, self.mb_show_dev, w=w, h=h)
 
         # Right - Main Font Resize Section
         change_stylesheet(self, self.mb_show_eng_adj, font=calculate_font_ratio(self.mb_show_eng_adj, self.mb_show_eng_h))
