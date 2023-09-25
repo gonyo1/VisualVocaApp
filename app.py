@@ -9,9 +9,10 @@ from PyQt5.QtCore import QTimer, pyqtSignal, QRect, QBuffer, Qt, QUrl
 from PyQt5.QtMultimedia import QSound, QMediaPlayer, QMediaContent
 
 from resource.py import get_images
-from resource.py import audio
+from resource.py import get_tts_audio
 from resource.py.toggle import Toggle, AnimatedToggle
 from resource.py.load_json import load_json_file
+from resource.py.load_main_csv import get_main_csv
 
 from main_ui import Ui_MainApp as mp
 
@@ -26,6 +27,7 @@ except FileNotFoundError:
 class MainWindow(QMainWindow, mp):
     resized = pyqtSignal()
     JSON_DATA = load_json_file()
+    CSV_DATA = get_main_csv()
 
     def __init__(self, parent=None):
         # Overloading MainWindow
@@ -131,12 +133,12 @@ class MainWindow(QMainWindow, mp):
 
         # voca word clicked event on QListWidget
         self.list_widgets = self.findChildren(QListWidget)
+        self.player.stateChanged.connect(self.play_tts_audio)
+
         for widget in self.list_widgets:
             widget.itemClicked.connect(lambda: self.change_mb_voca_row(obj=widget))
             widget.currentRowChanged.connect(lambda: self.change_mb_voca_widget(obj=widget))
             widget.currentRowChanged.connect(lambda: self.get_audio_tts(obj=widget))
-
-        self.player.stateChanged.connect(self.play_tts_audio)
 
     def calculate_ratio(self):
         init_x, init_y, init_w, init_h = self.geometry().getRect()
@@ -204,6 +206,16 @@ class MainWindow(QMainWindow, mp):
                 else:
                     btn.setPixmap(self.folder_icon)
 
+
+        def get_file_csv():
+            os.path.abspath()
+
+        def make_lesson_title():
+            name = self.CSV_DATA.keys()[0]
+            lessons = list(set(self.CSV_DATA[name]))
+            for lesson in lessons:
+                pass
+
         make_toggle_button(self)
         set_padding(self)
         insert_folder_image(self)
@@ -266,9 +278,6 @@ class MainWindow(QMainWindow, mp):
             print("<-- Auto scroll is not clicked -->")
 
     def play_tts_audio(self):
-        self.test += 1
-        print(self.test, self.player.state())
-
         if self.player.state() == 0 and not self.is_finished:
             # Todo 마지막에 한번 더 나오는거 어떻게 처리할지 고민해보기
 
@@ -279,7 +288,7 @@ class MainWindow(QMainWindow, mp):
             if self.tts_idx == 0 and not self.is_voca_changed:
                 self.change_mb_voca_image(idx=self.image_idx)
 
-            audio_path = audio.get_tts(word=self.word, lang=self.lang[self.tts_idx])
+            audio_path = get_tts_audio.get_tts(word=self.word, lang=self.lang[self.tts_idx])
             url = QUrl.fromLocalFile(audio_path)
             content = QMediaContent(url)
 
@@ -299,6 +308,8 @@ class MainWindow(QMainWindow, mp):
         if not self.is_playing:
             self.play_tts_audio()
             self.is_playing = True
+
+
 
     # <-- Resize Event Handler ------------------------------------------------------------->
     def resize_widget(self):
