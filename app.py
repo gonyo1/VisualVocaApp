@@ -106,8 +106,14 @@ class MainWindow(QMainWindow, mp):
         self.pics = None
         self.focused_listwidget = None
         self.auto_slide = True
-        self.slideshow_time = 1000
+
+        self.is_voca_changed = False
         self.image_idx = 0
+
+        self.lang = ['en', 'ko']
+        self.is_playing = False
+        self.is_finished = False
+        self.tts_idx = 0
         self.tts_repeat = 3
 
         self.timer = QTimer(self)
@@ -115,6 +121,9 @@ class MainWindow(QMainWindow, mp):
         self.calculate_ratio()
 
         self.player = QMediaPlayer()
+
+
+        self.test = 0
 
     def set_signal(self):
         # window resized event
@@ -124,9 +133,10 @@ class MainWindow(QMainWindow, mp):
         self.list_widgets = self.findChildren(QListWidget)
         for widget in self.list_widgets:
             widget.itemClicked.connect(lambda: self.change_mb_voca_row(obj=widget))
-            widget.currentRowChanged.connect(lambda: self.get_audio_tts(obj=widget))
             widget.currentRowChanged.connect(lambda: self.change_mb_voca_widget(obj=widget))
-        self.timer.timeout.connect(lambda: self.change_mb_voca_image(idx=self.image_idx))
+            widget.currentRowChanged.connect(lambda: self.get_audio_tts(obj=widget))
+
+        self.player.stateChanged.connect(self.play_tts_audio)
 
     def calculate_ratio(self):
         init_x, init_y, init_w, init_h = self.geometry().getRect()
@@ -199,36 +209,33 @@ class MainWindow(QMainWindow, mp):
         insert_folder_image(self)
 
     # <-- New Voca Clicked Event Handler --------------------------------------------------->
-    @staticmethod
-    def change_mb_voca_row(obj):
+    def change_mb_voca_row(self, obj):
         idx = obj.currentRow()
         obj.setCurrentRow(idx)
 
     def change_mb_voca_widget(self, obj):
-        # save obj and variables
+        # Get currentItem Text
+        self.is_voca_changed = True
         self.word = obj.currentItem().text()
+
+        # save obj and variables
         self.focused_listwidget = obj
 
         # reset index of image
         self.image_idx = 0
-        self.timer.stop()
-        self.timer.start(0)
-
-        # Start slide show timer
-        self.timer.start(self.slideshow_time)
 
         # Change image
-        status = get_images.get_images_from_word(self.word)
+        status = get_images.get_images_from_word(self.word, self.JSON_DATA["ImageDownCount"])
         self.pics = [QPixmap(item) for item in glob(f"./resource/voca/img/{self.word}/*.jpg")]
 
         # Change voca title
         self.mb_show_eng_adj.setText(self.word)
 
+        # Chagne image when voca has been changed
+        self.change_mb_voca_image(self.image_idx)
+
     def change_mb_voca_image(self, idx):
-        # Start timer to slide second to end image
-        self.timer.stop()
-        self.timer.start(1000)
-        # add image_idx
+        # Add image_idx
         if idx >= len(self.pics):
             self.timer.stop()
             self.move_next_voca()
@@ -253,22 +260,45 @@ class MainWindow(QMainWindow, mp):
                 idx = idx + 1
                 self.focused_listwidget.setCurrentRow(idx)
             else:
+                self.is_finished = True
                 print("<-- No more images left to show -->")
         else:
             print("<-- Auto scroll is not clicked -->")
 
-    def get_audio_tts(self, obj: str = None, lang: str = None):
-        word = obj.currentItem().text()
+    def play_tts_audio(self):
+        self.test += 1
+        print(self.test, self.player.state())
 
-        for time in range(self.tts_repeat):
-            for lang in ['en', 'ko']:
-                audio_path = audio.get_tts(word=word, lang=lang)
+        if self.player.state() == 0 and not self.is_finished:
+            # Todo 마지막에 한번 더 나오는거 어떻게 처리할지 고민해보기
 
-                url = QUrl.fromLocalFile(audio_path)
-                content = QMediaContent(url)
+            # Play ALL TTS Audio in language list
+            self.tts_idx = self.tts_idx % len(self.lang)
 
-                self.player.setMedia(content)
-                self.player.play()
+            # If ALL TTS Files played, change images
+            if self.tts_idx == 0 and not self.is_voca_changed:
+                self.change_mb_voca_image(idx=self.image_idx)
+
+            audio_path = audio.get_tts(word=self.word, lang=self.lang[self.tts_idx])
+            url = QUrl.fromLocalFile(audio_path)
+            content = QMediaContent(url)
+
+            self.player.setMedia(content)
+            self.player.play()
+
+            # Setup [tts_idx, is_voca_changed]
+            self.tts_idx += 1
+            self.is_voca_changed = False
+
+
+    def get_audio_tts(self, obj: str = None):
+        # Get currentItem Text
+        self.word = obj.currentItem().text()
+
+        # Play Audio when is not playing Visual Voca Sliding
+        if not self.is_playing:
+            self.play_tts_audio()
+            self.is_playing = True
 
     # <-- Resize Event Handler ------------------------------------------------------------->
     def resize_widget(self):
@@ -322,7 +352,6 @@ class MainWindow(QMainWindow, mp):
                     elif 'mb_show_dev' in obj.objectName():
                         _y = h - _h
                         _w -= 10
-                        print(obj.geometry())
 
             obj.setGeometry(QRect(_x, _y, _w, _h))
 
