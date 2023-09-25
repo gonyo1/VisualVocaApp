@@ -2,41 +2,104 @@
 import os.path
 import sys
 from glob import glob
-import time
 
-from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidget, QFileDialog, QWidget, QCheckBox
-from PyQt5.QtCore import QTimer, pyqtSignal, QRect, QBuffer
-from PyQt5 import QtMultimedia
+from PyQt5.QtGui import QIcon, QPixmap, QFont, QFontDatabase
+from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidget, QFileDialog, QWidget, QCheckBox, QLabel, QPushButton
+from PyQt5.QtCore import QTimer, pyqtSignal, QRect, QBuffer, Qt, QUrl
+from PyQt5.QtMultimedia import QSound, QMediaPlayer, QMediaContent
 
 from resource.py import get_images
 from resource.py import audio
 from resource.py.toggle import Toggle, AnimatedToggle
+from resource.py.load_json import load_json_file
 
 from main_ui import Ui_MainApp as mp
 
 try:
     os.system("pyuic5 main.ui -o main_ui.py")
-    print("  pyuic5 has done...")
+    print("  [Info] pyuic5 has done...")
     # os.system("pyrcc5 main.qrc -o main_rc.py")
 except FileNotFoundError:
-    print("  Error happend from 'pyuic or pyrcc' ")
+    print("  [Error] Error happened from 'pyuic5 or pyrcc5' ")
 
 
 class MainWindow(QMainWindow, mp):
     resized = pyqtSignal()
+    JSON_DATA = load_json_file()
 
     def __init__(self, parent=None):
+        # Overloading MainWindow
         super(MainWindow, self).__init__(parent)
+
+        # Setup GUI Widget
+        self.set_font_family()
         self.setupUi(self)
         self.show()
-        self.setWindowTitle("  VisualVoca by Gonyo (Released 2023.9.00.)")
-        self.setWindowIcon(QIcon("resource/src/app_icon.png"))
-        self.mb_icon.setPixmap(QPixmap('resource/src/logo.svg'))
 
+        # Setup Variable and Setting
         self.set_variable()
         self.set_signal()
+
+        # Setup Graphic Part
+        self.setWindowTitle("  VisualVoca")
+        self.setWindowIcon(QIcon("resource/src/img/AppIcon.png"))
+        self.mb_icon.setPixmap(QPixmap('resource/src/img/Logo.svg'))
         self.make_gui_widget()
+
+    def set_font_family(self):
+        def grab_ttf_file() -> list:
+            return glob(os.path.abspath("./resource/src/font/*.ttf"))
+
+        def get_font_name(font_path: str = None) -> str:
+            from fontTools import ttLib
+
+            font = ttLib.TTFont(font_path)
+            font_family_name = font['name'].getDebugName(1)
+            # fullName = font['name'].getDebugName(4)
+
+            return font_family_name
+
+        def del_special_character(font: str = None) -> str:
+            font = font.replace("-", "")
+            font = font.replace("_", "")
+            font = font.replace(" ", "")
+            font = font.lower()
+
+            return font
+
+
+        # Make Font Database
+        fontDB = QFontDatabase()
+
+        # Get font name by JSON_DATA
+        font_path = None
+        font_name = None
+        font_file_list = grab_ttf_file()
+        user_target_font = self.JSON_DATA['FontFamily']
+
+        try:
+            # Check if PC has a font that user want to set as font family
+            modified_font_name = del_special_character(user_target_font)
+            font_file_name = [del_special_character(os.path.basename(item).replace(".ttf","")) for item in font_file_list]
+
+            # Find User Target Font
+            idx = font_file_name.index(modified_font_name)
+            font_path = font_file_list[idx]
+            font_name = get_font_name(font_path)
+            print(f"  [Info] Changed Successfully by User font:{font_name}")
+
+        except Exception as e:
+            # Set font as Noto Sans KR Semi Bold if error happened
+            font_path = "resource/src/font/NotoSansKR-SemiBold.ttf"
+            font_name = "Noto Sans KR SemiBold"
+            print(f"  [Error] Changed Failed:{e}")
+
+        fontDB.addApplicationFont(os.path.abspath(font_path))
+
+        # Customize font family
+        custom_stylesheet = self.styleSheet()
+        custom_stylesheet = custom_stylesheet.replace("Noto Sans KR SemiBold", font_name)
+        self.setStyleSheet(custom_stylesheet)
 
     def set_variable(self):
         self.word = None
@@ -45,12 +108,13 @@ class MainWindow(QMainWindow, mp):
         self.auto_slide = True
         self.slideshow_time = 1000
         self.image_idx = 0
+        self.tts_repeat = 3
 
         self.timer = QTimer(self)
-        self.ani_toggle = QCheckBox(self)
+        self.ani_toggle = QCheckBox()
         self.calculate_ratio()
 
-        self.player = QtMultimedia
+        self.player = QMediaPlayer()
 
     def set_signal(self):
         # window resized event
@@ -60,8 +124,8 @@ class MainWindow(QMainWindow, mp):
         self.list_widgets = self.findChildren(QListWidget)
         for widget in self.list_widgets:
             widget.itemClicked.connect(lambda: self.change_mb_voca_row(obj=widget))
+            widget.currentRowChanged.connect(lambda: self.get_audio_tts(obj=widget))
             widget.currentRowChanged.connect(lambda: self.change_mb_voca_widget(obj=widget))
-            widget.currentRowChanged.connect(lambda: self.get_audio_tts(voca=self.word))
         self.timer.timeout.connect(lambda: self.change_mb_voca_image(idx=self.image_idx))
 
     def calculate_ratio(self):
@@ -108,8 +172,31 @@ class MainWindow(QMainWindow, mp):
                     background-color: blue;
             background-color: blue;
                 """)
+
+        def insert_folder_image(parent):
+            # Get Folder Image Path
+            base_path = os.path.abspath("./resource/src/img")
+            self.folder_icon = QPixmap(os.path.join(base_path, "Folder.svg"))
+            self.folder_open_icon = QPixmap(os.path.join(base_path, "FolderOpen.svg"))
+
+            # Find Voca Button Object from parent
+            voca_btns = [label for label in self.findChildren(QLabel) if 'mb_voca_button_icon_adj' in label.objectName()]
+            push_btns = [push for push in self.findChildren(QPushButton) if 'mb_voca_button_group_title_adj' in push.objectName()]
+
+            # Setup Pixmap
+            max_size = int(voca_btns[0].maximumHeight() * 0.8)
+            for idx, btn in enumerate(voca_btns):
+                self.folder_icon = self.folder_icon.scaledToHeight(max_size)
+                self.folder_open_icon = self.folder_open_icon.scaledToHeight(max_size)
+
+                if push_btns[idx].isChecked():
+                    btn.setPixmap(self.folder_open_icon)
+                else:
+                    btn.setPixmap(self.folder_icon)
+
         make_toggle_button(self)
         set_padding(self)
+        insert_folder_image(self)
 
     # <-- New Voca Clicked Event Handler --------------------------------------------------->
     @staticmethod
@@ -170,15 +257,21 @@ class MainWindow(QMainWindow, mp):
         else:
             print("<-- Auto scroll is not clicked -->")
 
-    def get_audio_tts(self, voca: str = None, lang: str = None):
-        self.audio_path = audio.get_tts(word=voca, lang='en')
+    def get_audio_tts(self, obj: str = None, lang: str = None):
+        word = obj.currentItem().text()
 
-        tts = self.player.QSound(self.audio_path)
-        tts.play()
+        for time in range(self.tts_repeat):
+            for lang in ['en', 'ko']:
+                audio_path = audio.get_tts(word=word, lang=lang)
+
+                url = QUrl.fromLocalFile(audio_path)
+                content = QMediaContent(url)
+
+                self.player.setMedia(content)
+                self.player.play()
 
     # <-- Resize Event Handler ------------------------------------------------------------->
     def resize_widget(self):
-        @staticmethod
         def calculate_font_ratio(obj, origin) -> int:
             font_size = None
 
@@ -195,6 +288,7 @@ class MainWindow(QMainWindow, mp):
             return font_size
 
         def resize_widget_setting(parent, obj, w: int = None, h: int = None):
+            print("  [Info] Resize Event emitted")
             # get parent geometry
             _x, _y, _w, _h = obj.geometry().getRect()
 
@@ -225,6 +319,10 @@ class MainWindow(QMainWindow, mp):
                     elif 'mb_show_btns_adj' in obj.objectName():
                         _y = int(h * parent.mb_show_btns_adj_ratio_y)
                         _h = int(h * parent.mb_show_btns_adj_ratio_h)
+                    elif 'mb_show_dev' in obj.objectName():
+                        _y = h - _h
+                        _w -= 10
+                        print(obj.geometry())
 
             obj.setGeometry(QRect(_x, _y, _w, _h))
 

@@ -8,8 +8,6 @@ except (FileNotFoundError, ImportError):
     from gtts import gTTS
 
 
-
-
 def get_tts(word: str = None, lang: str = None):
     def is_main_app() -> str:
         if os.path.basename(os.path.abspath("./")) != "py":
@@ -22,11 +20,11 @@ def get_tts(word: str = None, lang: str = None):
     output_path = is_main_app()
     output_file = f'{output_path}\\{word}_{lang}.wav'
 
-    tts = gTTS(
-        text=word,
-        lang=lang, slow=False
-    )
-    tts.save(output_file)
+    if not os.path.isfile(output_path):
+        tts = gTTS(
+            text=word,
+            lang=lang, slow=False
+        )
+        tts.save(output_file)
 
-    output_path = os.path.realpath(output_file)
-    return output_path
+    return os.path.realpath(output_file)

@@ -117,6 +117,7 @@ font: 14px;
 margin: 0px 0px 0px 10px;
 color: black;
 }
+
 /* Left - Title Part:Gray title */
 #mb_setting_title,
 #mb_voca_total_title {
@@ -129,24 +130,30 @@ text-align: Left;
 #mb_voca_total_title {
 margin: 10px;
 margin-bottom: 0px;
+padding-left: 0px;
 }
 
 /* QScrollWidget PushButton part ------------------ */
+QScrollArea .QLabel {
+padding-left: 10px;
+}
 QScrollArea .QPushButton {
 margin: 5px 10px 5px 10px;
 color: black;
 text-align: left;
 }
-QAbstractItemDelegate {
-padding-left: 40px;
+#mb_voca_scroll_widget .QWidget .QWidget:hover {
+background-color: rgb(204, 227, 249);
 }
 
 /* QListWidget Part ------------------------------ */
 QListView::item {
-margin: 5px;
+border: 0px;
+margin: 5px 0px 5px -4px;
 }
 QListWidget {
 font-weight: light;
+padding-right: 4px;
 }
 QListWidget::item {
 padding: 3px;
@@ -447,7 +454,7 @@ margin: 0px 10px 0px 10px;</string>
           <x>0</x>
           <y>0</y>
           <width>180</width>
-          <height>486</height>
+          <height>492</height>
          </rect>
         </property>
         <property name="sizePolicy">
@@ -543,25 +550,74 @@ margin: 0px 10px 0px 10px;</string>
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="mb_voca_word_title_1">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="text">
-               <string>Lesson 1</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
+             <widget class="QWidget" name="mb_voca_button_adj_1" native="true">
+              <layout class="QHBoxLayout" name="horizontalLayout_4">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="mb_voca_button_icon_adj_1">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="mb_voca_button_group_title_adj_1">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="text">
+                  <string>Lesson 1</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </item>
             <item>
@@ -770,7 +826,7 @@ font: 10px;
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>655</y>
+       <y>640</y>
        <width>771</width>
        <height>30</height>
       </rect>
@@ -909,7 +965,7 @@ font: 10px;
        <x>0</x>
        <y>50</y>
        <width>771</width>
-       <height>131</height>
+       <height>141</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -1013,6 +1069,12 @@ font: 10px;
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
+    <zorder>mb_show_eng_adj</zorder>
+    <zorder>mb_show_image_adj</zorder>
+    <zorder>mb_show_kor_adj</zorder>
+    <zorder>mb_show_top_bar</zorder>
+    <zorder>mb_show_dev</zorder>
+    <zorder>mb_show_btns_adj</zorder>
    </widget>
    <zorder>mb_show_adj</zorder>
    <zorder>mb_voca_adj</zorder>
