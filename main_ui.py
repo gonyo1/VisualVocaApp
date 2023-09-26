@@ -383,16 +383,25 @@ class Ui_MainApp(object):
         self.mb_show_adj = QtWidgets.QWidget(self.mb_1)
         self.mb_show_adj.setGeometry(QtCore.QRect(200, 0, 771, 700))
         self.mb_show_adj.setStyleSheet("QWidget {\n"
-"background-color: white;\n"
-"}\n"
-"#back, \n"
-"#forward {\n"
-"font: 13px;\n"
 "padding: 0px;\n"
 "margin: 0px;\n"
+"background-color: white;\n"
+"}\n"
+"#mb_show_top_bar .QPushButton,\n"
+"#mb_show_btns_adj .QPushButton {\n"
+"font: 12px;\n"
+"padding: 0px;\n"
+"margin: 0px 5px 0px 0px;\n"
 "background-color: rgb(230, 230, 230);\n"
-"border-radius: 15px;\n"
+"border-radius: 13px;\n"
 "text-align: center;\n"
+"}\n"
+"#mb_show_top_bar .QPushButton:hover,\n"
+"#mb_show_btns_adj .QPushButton:hover {\n"
+"background-color: rgba(0, 155, 255, 80);\n"
+"}\n"
+"#mb_show_top_bar .QPushButton:checked {\n"
+"background-color: \"#4ed164\";\n"
 "}\n"
 "#mb_show_eng_adj {\n"
 "font: 100px;\n"
@@ -425,8 +434,8 @@ class Ui_MainApp(object):
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.back = QtWidgets.QPushButton(self.mb_show_btn_widget)
-        self.back.setMinimumSize(QtCore.QSize(0, 30))
-        self.back.setMaximumSize(QtCore.QSize(30, 16777215))
+        self.back.setMinimumSize(QtCore.QSize(0, 26))
+        self.back.setMaximumSize(QtCore.QSize(26, 16777215))
         self.back.setObjectName("back")
         self.horizontalLayout_2.addWidget(self.back)
         self.dummy = QtWidgets.QLabel(self.mb_show_btn_widget)
@@ -435,8 +444,8 @@ class Ui_MainApp(object):
         self.dummy.setObjectName("dummy")
         self.horizontalLayout_2.addWidget(self.dummy)
         self.forward = QtWidgets.QPushButton(self.mb_show_btn_widget)
-        self.forward.setMinimumSize(QtCore.QSize(0, 30))
-        self.forward.setMaximumSize(QtCore.QSize(30, 16777215))
+        self.forward.setMinimumSize(QtCore.QSize(0, 26))
+        self.forward.setMaximumSize(QtCore.QSize(26, 16777215))
         self.forward.setObjectName("forward")
         self.horizontalLayout_2.addWidget(self.forward)
         self.horizontalLayout.addWidget(self.mb_show_btn_widget)
@@ -463,8 +472,36 @@ class Ui_MainApp(object):
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.mb_show_top_bar_btns = QtWidgets.QWidget(self.mb_show_top_bar)
+        self.mb_show_top_bar_btns.setMinimumSize(QtCore.QSize(100, 0))
+        self.mb_show_top_bar_btns.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.mb_show_top_bar_btns.setObjectName("mb_show_top_bar_btns")
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.mb_show_top_bar_btns)
+        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_4.setSpacing(0)
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem4)
+        self.horizontalLayout_4.addItem(spacerItem4)
+        self.mb_show_top_both = QtWidgets.QPushButton(self.mb_show_top_bar_btns)
+        self.mb_show_top_both.setMinimumSize(QtCore.QSize(31, 26))
+        self.mb_show_top_both.setMaximumSize(QtCore.QSize(31, 26))
+        self.mb_show_top_both.setCheckable(True)
+        self.mb_show_top_both.setChecked(True)
+        self.mb_show_top_both.setObjectName("mb_show_top_both")
+        self.horizontalLayout_4.addWidget(self.mb_show_top_both)
+        self.mb_show_top_bar_only_eng = QtWidgets.QPushButton(self.mb_show_top_bar_btns)
+        self.mb_show_top_bar_only_eng.setMinimumSize(QtCore.QSize(31, 26))
+        self.mb_show_top_bar_only_eng.setMaximumSize(QtCore.QSize(31, 26))
+        self.mb_show_top_bar_only_eng.setCheckable(True)
+        self.mb_show_top_bar_only_eng.setObjectName("mb_show_top_bar_only_eng")
+        self.horizontalLayout_4.addWidget(self.mb_show_top_bar_only_eng)
+        self.mb_show_top_bar_only_kor = QtWidgets.QPushButton(self.mb_show_top_bar_btns)
+        self.mb_show_top_bar_only_kor.setMinimumSize(QtCore.QSize(31, 26))
+        self.mb_show_top_bar_only_kor.setMaximumSize(QtCore.QSize(31, 26))
+        self.mb_show_top_bar_only_kor.setCheckable(True)
+        self.mb_show_top_bar_only_kor.setObjectName("mb_show_top_bar_only_kor")
+        self.horizontalLayout_4.addWidget(self.mb_show_top_bar_only_kor)
+        self.horizontalLayout_3.addWidget(self.mb_show_top_bar_btns)
         self.mb_show_dev = QtWidgets.QLabel(self.mb_show_adj)
         self.mb_show_dev.setGeometry(QtCore.QRect(1, 680, 761, 20))
         self.mb_show_dev.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
@@ -514,4 +551,7 @@ class Ui_MainApp(object):
         self.mb_show_eng_adj.setText(_translate("MainApp", "jump"))
         self.mb_show_image_adj.setText(_translate("MainApp", "image"))
         self.mb_show_kor_adj.setText(_translate("MainApp", "점프하다"))
+        self.mb_show_top_both.setText(_translate("MainApp", "All"))
+        self.mb_show_top_bar_only_eng.setText(_translate("MainApp", "En"))
+        self.mb_show_top_bar_only_kor.setText(_translate("MainApp", "Ko"))
         self.mb_show_dev.setText(_translate("MainApp", "Developed by Gonyo & AhnJH"))

@@ -149,62 +149,6 @@ class MainWindow(QMainWindow, mp):
             widget.currentRowChanged.connect(lambda: self.get_audio_tts(obj=widget))
 
     def setup_window_graphic(self):
-        def make_toggle_button():
-            self.auto_scroll_toggle = AnimatedToggle(
-                checked_color="#4ed164"
-            )
-            self.mb_top_bar_auto_scroll_verticalLayout.addWidget(self.auto_scroll_toggle)
-
-            self.auto_scroll_toggle.setStyleSheet("margin: 6px 0px 6px 0px\n")
-            self.auto_scroll_toggle.setMaximumHeight(self.mb_top_bar_auto_scroll_title.height())
-            self.auto_scroll_toggle.setChecked(True)
-
-        def insert_folder_image():
-            # Get Folder Image Path
-            base_path = os.path.abspath("./resource/src/img")
-            self.folder_icon = QPixmap(os.path.join(base_path, "Folder.svg"))
-            self.folder_open_icon = QPixmap(os.path.join(base_path, "FolderOpen.svg"))
-
-            # Find Voca Button Object from parent
-            voca_btns = [label for label in self.findChildren(QLabel) if 'mb_voca_button_icon_adj' in label.objectName()]
-            push_btns = [push for push in self.findChildren(QPushButton) if 'mb_voca_button_group_title_adj' in push.objectName()]
-
-            # Setup Pixmap
-            max_size = int(voca_btns[0].maximumHeight() * 0.8)
-            for idx, btn in enumerate(voca_btns):
-                self.folder_icon = self.folder_icon.scaledToHeight(max_size)
-                self.folder_open_icon = self.folder_open_icon.scaledToHeight(max_size)
-
-                if push_btns[idx].isChecked():
-                    btn.setPixmap(self.folder_open_icon)
-                else:
-                    btn.setPixmap(self.folder_icon)
-
-        def calculate_ratio():
-            init_x, init_y, init_w, init_h = self.geometry().getRect()
-            mbs_x, mbs_y, mbs_w, mbs_h = self.mb_show_adj.geometry().getRect()
-
-            # <--- mb_1 영역의 widget 절대값 기록 --->
-            self.mb_show_x = self.mb_show_adj.geometry().getRect()[0]
-            self.mb_voca_open_y = self.mb_voca_open.geometry().getRect()[1]
-            self.mb_voca_open_h = self.mb_voca_open.geometry().getRect()[3]
-            self.mb_show_eng_h = self.mb_show_eng_adj.geometry().getRect()[3]
-            self.mb_show_kor_h = self.mb_show_kor_adj.geometry().getRect()[3]
-            self.mb_voca_open_bottom = init_h - (self.mb_voca_open_y + self.mb_voca_open_h)
-
-            # <--- mb_show_adj 영역의 y 비율 계산 --->
-            self.mb_show_eng_adj_ratio_y = self.mb_show_eng_adj.geometry().getRect()[1] / mbs_h
-            self.mb_show_eng_adj_ratio_h = self.mb_show_eng_adj.geometry().getRect()[3] / mbs_h
-
-            self.mb_show_image_adj_ratio_y = self.mb_show_image_adj.geometry().getRect()[1] / mbs_h
-            self.mb_show_image_adj_ratio_h = self.mb_show_image_adj.geometry().getRect()[3] / mbs_h
-
-            self.mb_show_kor_adj_ratio_y = self.mb_show_kor_adj.geometry().getRect()[1] / mbs_h
-            self.mb_show_kor_adj_ratio_h = self.mb_show_kor_adj.geometry().getRect()[3] / mbs_h
-
-            self.mb_show_btns_adj_ratio_y = self.mb_show_btns_adj.geometry().getRect()[1] / mbs_h
-            self.mb_show_btns_adj_ratio_h = self.mb_show_btns_adj.geometry().getRect()[3] / mbs_h
-
         def make_lesson_title():
             def find_mb_voca_widgets():
                 voca_widgets = self.findChildren(QWidget)
@@ -354,11 +298,6 @@ class MainWindow(QMainWindow, mp):
                         self.q_list_widget.addItem(item)
                         self.q_list_widget.item(w_idx).setText(word)
 
-
-
-
-                # -------------------------------------------------------
-
             def make_mb_voca_widget():
                 voca_widgets = find_mb_voca_widgets()
 
@@ -371,9 +310,62 @@ class MainWindow(QMainWindow, mp):
 
             # delete_mb_voca_widget()
             make_mb_voca_widget()
-            # lessons = list(set(self.CSV_DATA[name]))
-            # for lesson in lessons:
-                # pass
+
+        def make_toggle_button():
+            self.auto_scroll_toggle = AnimatedToggle(
+                checked_color="#4ed164"
+            )
+            self.mb_top_bar_auto_scroll_verticalLayout.addWidget(self.auto_scroll_toggle)
+
+            self.auto_scroll_toggle.setStyleSheet("margin: 6px 0px 6px 0px\n")
+            self.auto_scroll_toggle.setMaximumHeight(self.mb_top_bar_auto_scroll_title.height())
+            self.auto_scroll_toggle.setChecked(True)
+
+        def insert_folder_image():
+            # Get Folder Image Path
+            base_path = os.path.abspath("./resource/src/img")
+            self.folder_icon = QPixmap(os.path.join(base_path, "Folder.svg"))
+            self.folder_open_icon = QPixmap(os.path.join(base_path, "FolderOpen.svg"))
+
+            # Find Voca Button Object from parent
+            voca_btns = [label for label in self.findChildren(QLabel) if 'mb_voca_button_icon_adj' in label.objectName()]
+            push_btns = [push for push in self.findChildren(QPushButton) if 'mb_voca_button_group_title_adj' in push.objectName()]
+
+            # Setup Pixmap
+            max_size = int(voca_btns[0].maximumHeight() * 0.8)
+            for idx, btn in enumerate(voca_btns):
+                self.folder_icon = self.folder_icon.scaledToHeight(max_size)
+                self.folder_open_icon = self.folder_open_icon.scaledToHeight(max_size)
+
+                if push_btns[idx].isChecked():
+                    btn.setPixmap(self.folder_open_icon)
+                else:
+                    btn.setPixmap(self.folder_icon)
+
+        def calculate_ratio():
+            init_x, init_y, init_w, init_h = self.geometry().getRect()
+            mbs_x, mbs_y, mbs_w, mbs_h = self.mb_show_adj.geometry().getRect()
+
+            # <--- mb_1 영역의 widget 절대값 기록 --->
+            self.mb_show_x = self.mb_show_adj.geometry().getRect()[0]
+            self.mb_voca_open_y = self.mb_voca_open.geometry().getRect()[1]
+            self.mb_voca_open_h = self.mb_voca_open.geometry().getRect()[3]
+            self.mb_show_eng_h = self.mb_show_eng_adj.geometry().getRect()[3]
+            self.mb_show_kor_h = self.mb_show_kor_adj.geometry().getRect()[3]
+            self.mb_voca_open_bottom = init_h - (self.mb_voca_open_y + self.mb_voca_open_h)
+
+            # <--- mb_show_adj 영역의 y 비율 계산 --->
+            self.mb_show_eng_adj_ratio_y = self.mb_show_eng_adj.geometry().getRect()[1] / mbs_h
+            self.mb_show_eng_adj_ratio_h = self.mb_show_eng_adj.geometry().getRect()[3] / mbs_h
+
+            self.mb_show_image_adj_ratio_y = self.mb_show_image_adj.geometry().getRect()[1] / mbs_h
+            self.mb_show_image_adj_ratio_h = self.mb_show_image_adj.geometry().getRect()[3] / mbs_h
+
+            self.mb_show_kor_adj_ratio_y = self.mb_show_kor_adj.geometry().getRect()[1] / mbs_h
+            self.mb_show_kor_adj_ratio_h = self.mb_show_kor_adj.geometry().getRect()[3] / mbs_h
+
+            self.mb_show_btns_adj_ratio_y = self.mb_show_btns_adj.geometry().getRect()[1] / mbs_h
+            self.mb_show_btns_adj_ratio_h = self.mb_show_btns_adj.geometry().getRect()[3] / mbs_h
 
         make_lesson_title()
         make_toggle_button()

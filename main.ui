@@ -781,7 +781,7 @@ margin: 0px 10px 0px 10px;</string>
         </size>
        </property>
        <property name="text">
-        <string>Add File</string>
+        <string>Edit File</string>
        </property>
       </widget>
      </item>
@@ -798,16 +798,25 @@ margin: 0px 10px 0px 10px;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QWidget {
-background-color: white;
-}
-#back, 
-#forward {
-font: 13px;
 padding: 0px;
 margin: 0px;
+background-color: white;
+}
+#mb_show_top_bar .QPushButton,
+#mb_show_btns_adj .QPushButton {
+font: 12px;
+padding: 0px;
+margin: 0px 5px 0px 0px;
 background-color: rgb(230, 230, 230);
-border-radius: 15px;
+border-radius: 13px;
 text-align: center;
+}
+#mb_show_top_bar .QPushButton:hover,
+#mb_show_btns_adj .QPushButton:hover {
+background-color: rgba(0, 155, 255, 80);
+}
+#mb_show_top_bar .QPushButton:checked {
+background-color: &quot;#4ed164&quot;;
 }
 #mb_show_eng_adj {
 font: 100px;
@@ -895,12 +904,12 @@ font: 10px;
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>30</height>
+             <height>26</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>30</width>
+             <width>26</width>
              <height>16777215</height>
             </size>
            </property>
@@ -927,12 +936,12 @@ font: 10px;
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>30</height>
+             <height>26</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>30</width>
+             <width>26</width>
              <height>16777215</height>
             </size>
            </property>
@@ -1039,17 +1048,119 @@ font: 10px;
        <number>0</number>
       </property>
       <item>
-       <spacer name="mb_show_top_bar_spacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
+       <widget class="QWidget" name="mb_show_top_bar_btns" native="true">
+        <property name="minimumSize">
          <size>
-          <width>40</width>
-          <height>20</height>
+          <width>100</width>
+          <height>0</height>
          </size>
         </property>
-       </spacer>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <spacer name="mb_show_top_bar_spacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="mb_show_top_both">
+           <property name="minimumSize">
+            <size>
+             <width>31</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>31</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>All</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="mb_show_top_bar_only_eng">
+           <property name="minimumSize">
+            <size>
+             <width>31</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>31</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>En</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="mb_show_top_bar_only_kor">
+           <property name="minimumSize">
+            <size>
+             <width>31</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>31</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Ko</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </item>
      </layout>
     </widget>
