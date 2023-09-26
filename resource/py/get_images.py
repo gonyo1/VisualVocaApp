@@ -15,7 +15,7 @@ except ModuleNotFoundError:
 
 # <--- Get Main Image src url from "GettyImage Web Site" --->
 
-def get_images_from_word(word: str = None) -> str:
+def get_images_from_word(word: str = None, count: int = 4) -> str:
     def is_main_app(word: str = None) -> str:
         base_dir = str()
 
@@ -37,21 +37,23 @@ def get_images_from_word(word: str = None) -> str:
             res = requests.get(base_url, verify=False, timeout=5)
 
             if res.status_code == 200:
-                print("  Starting website crawling...")
+                print("  [Web] Starting website crawling...")
                 html = res.text
                 tree = lxml.html.fromstring(html)
                 selectors = tree.cssselect('.wrapThumbList > #list700 > #tiles > li > a > img')
                 src = [img.get("src") for img in selectors]
-                for idx, url in enumerate(src[:3]):
+                for idx, url in enumerate(src[:count]):
                     idx = str(idx + 1)
-                    os.system(f"curl -k {url} > {base_dir}\\{word}({idx}).jpg")
-        except:
-            print("  Please Check Internet Network ...")
+
+                    if not os.path.isfile(f"{base_dir}\\{word}({idx}).jpg"):
+                        os.system(f"curl -k {url} > {base_dir}\\{word}({idx}).jpg")
+        except Exception as e:
+            print("  [WebError] Please Check Internet Network ...")
 
     def is_image_downloaded(path: str = None, word: str = None) -> str:
         status = "waiting"
 
-        if os.path.isfile(os.path.abspath(f"{path}\\{word}(1).jpg")):
+        if os.path.isfile(os.path.abspath(f"{path}\\{word}({str(count)}).jpg")):
             status = "saved"
         else:
             is_directory(path)

@@ -4,8 +4,9 @@ import sys
 from glob import glob
 
 from PyQt5.QtGui import QIcon, QPixmap, QFont, QFontDatabase
-from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidget, QFileDialog, QWidget, QCheckBox, QLabel, QPushButton
-from PyQt5.QtCore import QTimer, pyqtSignal, QRect, QBuffer, Qt, QUrl
+from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidget, QFileDialog, QWidget, QCheckBox, QLabel, QPushButton, QSizePolicy, QVBoxLayout
+from PyQt5.QtCore import QTimer, pyqtSignal, QRect, QBuffer, Qt, QUrl, QSize
 from PyQt5.QtMultimedia import QSound, QMediaPlayer, QMediaContent
 
 from resource.py import get_images
@@ -38,15 +39,17 @@ class MainWindow(QMainWindow, mp):
         self.setupUi(self)
         self.show()
 
-        # Setup Variable and Setting
+        # Setup Variable
         self.set_variable()
-        self.set_signal()
 
         # Setup Graphic Part
         self.setWindowTitle("  VisualVoca")
         self.setWindowIcon(QIcon("resource/src/img/AppIcon.png"))
         self.mb_icon.setPixmap(QPixmap('resource/src/img/Logo.svg'))
-        self.make_gui_widget()
+        self.setup_window_graphic()
+
+        # Setup Signal and Slots
+        self.set_signal()
 
     def set_font_family(self):
         def grab_ttf_file() -> list:
@@ -104,28 +107,29 @@ class MainWindow(QMainWindow, mp):
         self.setStyleSheet(custom_stylesheet)
 
     def set_variable(self):
-        self.word = None
-        self.pics = None
-        self.focused_listwidget = None
+        # Configuration Variables
+        self.auto_scroll_toggle = QCheckBox()
         self.auto_slide = True
 
+        # Voca Variables
+        self.word = None
+        self.focused_listwidget = None
+
+        # Image Variables
+        self.pics = None
         self.is_voca_changed = False
         self.image_idx = 0
 
+        # Audion Variables
+        self.player = QMediaPlayer()
         self.lang = ['en', 'ko']
         self.is_playing = False
         self.is_finished = False
         self.tts_idx = 0
         self.tts_repeat = 3
 
+        # ETC
         self.timer = QTimer(self)
-        self.ani_toggle = QCheckBox()
-        self.calculate_ratio()
-
-        self.player = QMediaPlayer()
-
-
-        self.test = 0
 
     def set_signal(self):
         # window resized event
@@ -140,52 +144,26 @@ class MainWindow(QMainWindow, mp):
             widget.currentRowChanged.connect(lambda: self.change_mb_voca_widget(obj=widget))
             widget.currentRowChanged.connect(lambda: self.get_audio_tts(obj=widget))
 
-    def calculate_ratio(self):
-        init_x, init_y, init_w, init_h = self.geometry().getRect()
-        mbs_x, mbs_y, mbs_w, mbs_h = self.mb_show_adj.geometry().getRect()
-
-        # <--- mb_1 영역의 widget 절대값 기록 --->
-        self.mb_show_x = self.mb_show_adj.geometry().getRect()[0]
-        self.mb_voca_open_y = self.mb_voca_open.geometry().getRect()[1]
-        self.mb_voca_open_h = self.mb_voca_open.geometry().getRect()[3]
-        self.mb_show_eng_h = self.mb_show_eng_adj.geometry().getRect()[3]
-        self.mb_show_kor_h = self.mb_show_kor_adj.geometry().getRect()[3]
-        self.mb_voca_open_bottom = init_h - (self.mb_voca_open_y + self.mb_voca_open_h)
-
-        # <--- mb_show_adj 영역의 y 비율 계산 --->
-        self.mb_show_eng_adj_ratio_y = self.mb_show_eng_adj.geometry().getRect()[1] / mbs_h
-        self.mb_show_eng_adj_ratio_h = self.mb_show_eng_adj.geometry().getRect()[3] / mbs_h
-
-        self.mb_show_image_adj_ratio_y = self.mb_show_image_adj.geometry().getRect()[1] / mbs_h
-        self.mb_show_image_adj_ratio_h = self.mb_show_image_adj.geometry().getRect()[3] / mbs_h
-
-        self.mb_show_kor_adj_ratio_y = self.mb_show_kor_adj.geometry().getRect()[1] / mbs_h
-        self.mb_show_kor_adj_ratio_h = self.mb_show_kor_adj.geometry().getRect()[3] / mbs_h
-
-        self.mb_show_btns_adj_ratio_y = self.mb_show_btns_adj.geometry().getRect()[1] / mbs_h
-        self.mb_show_btns_adj_ratio_h = self.mb_show_btns_adj.geometry().getRect()[3] / mbs_h
-
-    def make_gui_widget(self):
-        def make_toggle_button(parent):
-            self.ani_toggle = AnimatedToggle(
+    def setup_window_graphic(self):
+        def make_toggle_button():
+            self.auto_scroll_toggle = AnimatedToggle(
                 checked_color="#4ed164"
             )
-            parent.mb_top_bar_auto_scroll_verticalLayout.addWidget(self.ani_toggle)
+            self.mb_top_bar_auto_scroll_verticalLayout.addWidget(self.auto_scroll_toggle)
 
-            self.ani_toggle.setStyleSheet("margin: 6px 0px 6px 0px\n")
-            self.ani_toggle.setMaximumHeight(self.mb_top_bar_auto_scroll_title.height())
-            self.ani_toggle.setChecked(True)
+            self.auto_scroll_toggle.setStyleSheet("margin: 6px 0px 6px 0px\n")
+            self.auto_scroll_toggle.setMaximumHeight(self.mb_top_bar_auto_scroll_title.height())
+            self.auto_scroll_toggle.setChecked(True)
 
-        def set_padding(parent):
-            QListWidget()
-            parent.mb_voca_word_adj_1.setStyleSheet("""
+        def set_padding():
+            self.mb_voca_word_adj_1.setStyleSheet("""
                 QListWidget::item {
                     margin:20px;
                     background-color: blue;
             background-color: blue;
                 """)
 
-        def insert_folder_image(parent):
+        def insert_folder_image():
             # Get Folder Image Path
             base_path = os.path.abspath("./resource/src/img")
             self.folder_icon = QPixmap(os.path.join(base_path, "Folder.svg"))
@@ -206,22 +184,174 @@ class MainWindow(QMainWindow, mp):
                 else:
                     btn.setPixmap(self.folder_icon)
 
+        def calculate_ratio():
+            init_x, init_y, init_w, init_h = self.geometry().getRect()
+            mbs_x, mbs_y, mbs_w, mbs_h = self.mb_show_adj.geometry().getRect()
+
+            # <--- mb_1 영역의 widget 절대값 기록 --->
+            self.mb_show_x = self.mb_show_adj.geometry().getRect()[0]
+            self.mb_voca_open_y = self.mb_voca_open.geometry().getRect()[1]
+            self.mb_voca_open_h = self.mb_voca_open.geometry().getRect()[3]
+            self.mb_show_eng_h = self.mb_show_eng_adj.geometry().getRect()[3]
+            self.mb_show_kor_h = self.mb_show_kor_adj.geometry().getRect()[3]
+            self.mb_voca_open_bottom = init_h - (self.mb_voca_open_y + self.mb_voca_open_h)
+
+            # <--- mb_show_adj 영역의 y 비율 계산 --->
+            self.mb_show_eng_adj_ratio_y = self.mb_show_eng_adj.geometry().getRect()[1] / mbs_h
+            self.mb_show_eng_adj_ratio_h = self.mb_show_eng_adj.geometry().getRect()[3] / mbs_h
+
+            self.mb_show_image_adj_ratio_y = self.mb_show_image_adj.geometry().getRect()[1] / mbs_h
+            self.mb_show_image_adj_ratio_h = self.mb_show_image_adj.geometry().getRect()[3] / mbs_h
+
+            self.mb_show_kor_adj_ratio_y = self.mb_show_kor_adj.geometry().getRect()[1] / mbs_h
+            self.mb_show_kor_adj_ratio_h = self.mb_show_kor_adj.geometry().getRect()[3] / mbs_h
+
+            self.mb_show_btns_adj_ratio_y = self.mb_show_btns_adj.geometry().getRect()[1] / mbs_h
+            self.mb_show_btns_adj_ratio_h = self.mb_show_btns_adj.geometry().getRect()[3] / mbs_h
 
         def get_file_csv():
             os.path.abspath()
 
         def make_lesson_title():
-            name = self.CSV_DATA.keys()[0]
-            lessons = list(set(self.CSV_DATA[name]))
-            for lesson in lessons:
+            def find_mb_voca_widgets():
+                voca_widgets = self.findChildren(QWidget)
+                voca_widgets = [widget for widget in voca_widgets if "mb_voca_widget" in widget.objectName()]
+
+                return voca_widgets
+
+            def delete_mb_voca_widget(obj):
                 pass
 
-        make_toggle_button(self)
-        set_padding(self)
-        insert_folder_image(self)
+            def mb_voca_widget(index: int = 0):
+                index = str(index)
+
+                def setup_QListWidget():
+                    obj = QtWidgets.QListWidget(voca_widget)
+                    sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred,
+                                                       QtWidgets.QSizePolicy.MinimumExpanding)
+                    sizePolicy.setHorizontalStretch(0)
+                    sizePolicy.setVerticalStretch(0)
+                    sizePolicy.setHeightForWidth(obj.sizePolicy().hasHeightForWidth())
+                    obj.setSizePolicy(sizePolicy)
+                    obj.setMaximumSize(QtCore.QSize(16777215, 16777215))
+                    obj.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                    obj.setFocusPolicy(QtCore.Qt.NoFocus)
+                    obj.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
+                    obj.setStyleSheet("")
+                    obj.setFrameShape(QtWidgets.QFrame.NoFrame)
+                    obj.setFrameShadow(QtWidgets.QFrame.Plain)
+                    obj.setLineWidth(0)
+                    obj.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
+                    obj.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+                    obj.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+                    obj.setAutoScrollMargin(1)
+                    obj.setProperty("showDropIndicator", True)
+                    obj.setAlternatingRowColors(False)
+                    obj.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+                    obj.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+                    obj.setMovement(QtWidgets.QListView.Free)
+                    obj.setProperty("isWrapping", False)
+                    obj.setResizeMode(QtWidgets.QListView.Adjust)
+                    obj.setLayoutMode(QtWidgets.QListView.SinglePass)
+                    obj.setViewMode(QtWidgets.QListView.ListMode)
+                    obj.setWordWrap(False)
+                    obj.setObjectName("mb_voca_word_adj_1")
+
+                    return obj
+
+                def setup_QWidget_wrapper():
+                    obj = QWidget(self.mb_voca_scroll_widget)
+                    sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+                    sizePolicy.setHorizontalStretch(0)
+                    sizePolicy.setVerticalStretch(0)
+                    sizePolicy.setHeightForWidth(obj.sizePolicy().hasHeightForWidth())
+                    obj.setSizePolicy(sizePolicy)
+                    obj.setMaximumSize(QSize(16777215, 300))
+                    obj.setObjectName(f"mb_voca_widget_{index}")
+
+                    return obj
+
+                def setup_VHox_wrapper(parent=None):
+                    obj = QtWidgets.QVBoxLayout(parent)
+                    obj.setContentsMargins(0, 0, 0, 0)
+                    obj.setSpacing(0)
+                    obj.setObjectName(f"mb_voca_widget_verticalLayout_{index}")
+
+                    return obj
+
+                def setup_button_icon(parent=None):
+                    obj = QtWidgets.QLabel(parent)
+                    sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+                    sizePolicy.setHorizontalStretch(0)
+                    sizePolicy.setVerticalStretch(0)
+                    sizePolicy.setHeightForWidth(obj.sizePolicy().hasHeightForWidth())
+
+                    obj.setSizePolicy(sizePolicy)
+                    obj.setMaximumSize(QSize(16777215, 20))
+                    obj.setStyleSheet("")
+                    obj.setText("")
+                    obj.setObjectName(f"mb_voca_button_icon_adj_{index}")
+
+                    return obj
+
+                q_widget_wrapper = setup_QWidget_wrapper()
+                q_widget_vertical_layout = setup_VHox_wrapper(q_widget_wrapper)
+                q_pushbutton_icon = setup_button_icon()
+                # -------------------------------------------------------
+                
+                mb_voca_button_group = QtWidgets.QWidget(voca_widget)
+                self.horizontalLayout_4 = QtWidgets.QHBoxLayout(mb_voca_button_group)
+                self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
+                self.horizontalLayout_4.setSpacing(0)
+                self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+
+                self.horizontalLayout_4.addWidget(mb_voca_icon)
+                self.mb_voca_button_group_title_adj_1 = QtWidgets.QPushButton(mb_voca_button_group)
+                sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+                sizePolicy.setHorizontalStretch(0)
+                sizePolicy.setVerticalStretch(0)
+                sizePolicy.setHeightForWidth(self.mb_voca_button_group_title_adj_1.sizePolicy().hasHeightForWidth())
+                self.mb_voca_button_group_title_adj_1.setSizePolicy(sizePolicy)
+                self.mb_voca_button_group_title_adj_1.setMaximumSize(QtCore.QSize(16777215, 16777215))
+                self.mb_voca_button_group_title_adj_1.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                self.mb_voca_button_group_title_adj_1.setCheckable(True)
+                self.mb_voca_button_group_title_adj_1.setChecked(True)
+                self.mb_voca_button_group_title_adj_1.setObjectName("mb_voca_button_group_title_adj_1")
+                self.horizontalLayout_4.addWidget(self.mb_voca_button_group_title_adj_1)
+                self.mb_voca_widget_verticalLayout.addWidget(mb_voca_button_group)
+
+                # QListWidget
+                q_list_widget = setup_QListWidget()
+                self.mb_voca_widget_verticalLayout.addWidget(q_list_widget)
+                self.verticalLayout_3.addWidget(voca_widget)
+
+            def make_mb_voca_widget():
+                voca_widgets = find_mb_voca_widgets()
+                print(voca_widgets)
+                group_name = self.CSV_DATA["unique_name"]
+
+                sub_widget_count = len(group_name) - len(voca_widgets)
+
+                if sub_widget_count != 0:
+                    for widget in range(sub_widget_count):
+                        add_widget = voca_widget()[:]
+                        self.mb_voca_widget_verticalLayout.addWidget(add_widget)
+
+            make_mb_voca_widget()
+
+            # lessons = list(set(self.CSV_DATA[name]))
+            # for lesson in lessons:
+                # pass
+
+        make_toggle_button()
+        set_padding()
+        insert_folder_image()
+        calculate_ratio()
+        # make_lesson_title()
 
     # <-- New Voca Clicked Event Handler --------------------------------------------------->
-    def change_mb_voca_row(self, obj):
+    @staticmethod
+    def change_mb_voca_row(obj):
         idx = obj.currentRow()
         obj.setCurrentRow(idx)
 
@@ -234,11 +364,13 @@ class MainWindow(QMainWindow, mp):
         self.focused_listwidget = obj
 
         # reset index of image
+        self.is_finished = False
+        self.tts_idx = 0
         self.image_idx = 0
 
         # Change image
         status = get_images.get_images_from_word(self.word, self.JSON_DATA["ImageDownCount"])
-        self.pics = [QPixmap(item) for item in glob(f"./resource/voca/img/{self.word}/*.jpg")]
+        self.pics = [QPixmap(item) for item in glob(f"./resource/voca/img/{self.word}/*.jpg")][:self.JSON_DATA["ImageDownCount"]]
 
         # Change voca title
         self.mb_show_eng_adj.setText(self.word)
@@ -249,7 +381,6 @@ class MainWindow(QMainWindow, mp):
     def change_mb_voca_image(self, idx):
         # Add image_idx
         if idx >= len(self.pics):
-            self.timer.stop()
             self.move_next_voca()
         else:
             # Get image and change pixmap
@@ -262,21 +393,20 @@ class MainWindow(QMainWindow, mp):
             self.image_idx += 1
 
     def move_next_voca(self):
-        def is_auto_scroll_checked(parent):
-            return parent.ani_toggle.isChecked()
-
-        if is_auto_scroll_checked(self):
+        if self.auto_scroll_toggle.isChecked():
             idx = self.focused_listwidget.currentRow()
-
             if idx < self.focused_listwidget.count() - 1:
                 idx = idx + 1
                 self.focused_listwidget.setCurrentRow(idx)
             else:
                 self.is_finished = True
-                print("<-- No more images left to show -->")
+                print("  [Info] <-- No more images left to show -->")
         else:
-            print("<-- Auto scroll is not clicked -->")
+            self.is_playing = False
+            self.is_finished = True
+            print("  [Info] <-- Auto scroll is not clicked -->")
 
+    # <-- Play audio TTS ------------------------------------------------------------------->
     def play_tts_audio(self):
         if self.player.state() == 0 and not self.is_finished:
             # Todo 마지막에 한번 더 나오는거 어떻게 처리할지 고민해보기
@@ -299,7 +429,6 @@ class MainWindow(QMainWindow, mp):
             self.tts_idx += 1
             self.is_voca_changed = False
 
-
     def get_audio_tts(self, obj: str = None):
         # Get currentItem Text
         self.word = obj.currentItem().text()
@@ -308,8 +437,6 @@ class MainWindow(QMainWindow, mp):
         if not self.is_playing:
             self.play_tts_audio()
             self.is_playing = True
-
-
 
     # <-- Resize Event Handler ------------------------------------------------------------->
     def resize_widget(self):

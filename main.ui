@@ -530,7 +530,7 @@ margin: 0px 10px 0px 10px;</string>
              <height>300</height>
             </size>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
+           <layout class="QVBoxLayout" name="mb_voca_widget_verticalLayout">
             <property name="spacing">
              <number>0</number>
             </property>
