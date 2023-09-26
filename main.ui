@@ -517,7 +517,7 @@ margin: 0px 10px 0px 10px;</string>
           </widget>
          </item>
          <item>
-          <widget class="QWidget" name="mb_voca_widget_1" native="true">
+          <widget class="QWidget" name="mb_voca_widget_0" native="true">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -550,8 +550,8 @@ margin: 0px 10px 0px 10px;</string>
              <number>0</number>
             </property>
             <item>
-             <widget class="QWidget" name="mb_voca_button_adj_1" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <widget class="QWidget" name="mb_voca_button_adj_0" native="true">
+              <layout class="QHBoxLayout" name="button_horizontalLayout_4">
                <property name="spacing">
                 <number>0</number>
                </property>
@@ -568,7 +568,7 @@ margin: 0px 10px 0px 10px;</string>
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="mb_voca_button_icon_adj_1">
+                <widget class="QLabel" name="mb_voca_button_icon_adj_0">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                    <horstretch>0</horstretch>
@@ -590,7 +590,7 @@ margin: 0px 10px 0px 10px;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="mb_voca_button_group_title_adj_1">
+                <widget class="QPushButton" name="mb_voca_button_group_title_adj_0">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
@@ -621,7 +621,7 @@ margin: 0px 10px 0px 10px;</string>
              </widget>
             </item>
             <item>
-             <widget class="QListWidget" name="mb_voca_word_adj_1">
+             <widget class="QListWidget" name="mb_voca_word_adj_0">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
                 <horstretch>0</horstretch>
@@ -975,7 +975,7 @@ font: 10px;
       <string>jump</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignHCenter|Qt::AlignTop</set>
      </property>
     </widget>
     <widget class="QLabel" name="mb_show_image_adj">

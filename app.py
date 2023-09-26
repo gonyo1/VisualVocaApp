@@ -3,6 +3,8 @@ import os.path
 import sys
 from glob import glob
 
+import PyQt5.QtCore
+import pandas
 from PyQt5.QtGui import QIcon, QPixmap, QFont, QFontDatabase
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidget, QFileDialog, QWidget, QCheckBox, QLabel, QPushButton, QSizePolicy, QVBoxLayout
@@ -137,6 +139,8 @@ class MainWindow(QMainWindow, mp):
 
         # voca word clicked event on QListWidget
         self.list_widgets = self.findChildren(QListWidget)
+        print(self.list_widgets)
+
         self.player.stateChanged.connect(self.play_tts_audio)
 
         for widget in self.list_widgets:
@@ -154,14 +158,6 @@ class MainWindow(QMainWindow, mp):
             self.auto_scroll_toggle.setStyleSheet("margin: 6px 0px 6px 0px\n")
             self.auto_scroll_toggle.setMaximumHeight(self.mb_top_bar_auto_scroll_title.height())
             self.auto_scroll_toggle.setChecked(True)
-
-        def set_padding():
-            self.mb_voca_word_adj_1.setStyleSheet("""
-                QListWidget::item {
-                    margin:20px;
-                    background-color: blue;
-            background-color: blue;
-                """)
 
         def insert_folder_image():
             # Get Folder Image Path
@@ -209,9 +205,6 @@ class MainWindow(QMainWindow, mp):
             self.mb_show_btns_adj_ratio_y = self.mb_show_btns_adj.geometry().getRect()[1] / mbs_h
             self.mb_show_btns_adj_ratio_h = self.mb_show_btns_adj.geometry().getRect()[3] / mbs_h
 
-        def get_file_csv():
-            os.path.abspath()
-
         def make_lesson_title():
             def find_mb_voca_widgets():
                 voca_widgets = self.findChildren(QWidget)
@@ -219,14 +212,19 @@ class MainWindow(QMainWindow, mp):
 
                 return voca_widgets
 
-            def delete_mb_voca_widget(obj):
+            def delete_mb_voca_widget():
+                widgets = self.findChildren(QWidget)
+
+                for widget in widgets:
+                    if widget.objectName() == "mb_voca_widget_1":
+                        for i in reversed(range(widget.findChildren(QtCore.QObject))):
+                            widget.removeChild(widget.child(i))
+                        widget.deleteLater()
                 pass
 
-            def mb_voca_widget(index: int = 0):
-                index = str(index)
-
-                def setup_QListWidget():
-                    obj = QtWidgets.QListWidget(voca_widget)
+            def mb_voca_widget(groups: list = None):
+                def setup_QListWidget(parent=None):
+                    obj = QtWidgets.QListWidget(parent)
                     sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred,
                                                        QtWidgets.QSizePolicy.MinimumExpanding)
                     sizePolicy.setHorizontalStretch(0)
@@ -255,12 +253,12 @@ class MainWindow(QMainWindow, mp):
                     obj.setLayoutMode(QtWidgets.QListView.SinglePass)
                     obj.setViewMode(QtWidgets.QListView.ListMode)
                     obj.setWordWrap(False)
-                    obj.setObjectName("mb_voca_word_adj_1")
+                    obj.setObjectName(f"mb_voca_word_adj_{index}")
 
                     return obj
 
-                def setup_QWidget_wrapper():
-                    obj = QWidget(self.mb_voca_scroll_widget)
+                def setup_QWidget_wrapper(parent=None):
+                    obj = QWidget(parent)
                     sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
                     sizePolicy.setHorizontalStretch(0)
                     sizePolicy.setVerticalStretch(0)
@@ -279,6 +277,14 @@ class MainWindow(QMainWindow, mp):
 
                     return obj
 
+                def setup_button_HBOX_wrapper(parent=None):
+                    obj_layout = QtWidgets.QHBoxLayout(parent)
+                    obj_layout.setContentsMargins(0, 0, 0, 0)
+                    obj_layout.setSpacing(0)
+                    obj_layout.setObjectName(f"button_horizontalLayout_{index}")
+
+                    return obj_layout
+
                 def setup_button_icon(parent=None):
                     obj = QtWidgets.QLabel(parent)
                     sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
@@ -288,66 +294,91 @@ class MainWindow(QMainWindow, mp):
 
                     obj.setSizePolicy(sizePolicy)
                     obj.setMaximumSize(QSize(16777215, 20))
-                    obj.setStyleSheet("")
-                    obj.setText("")
                     obj.setObjectName(f"mb_voca_button_icon_adj_{index}")
 
                     return obj
 
-                q_widget_wrapper = setup_QWidget_wrapper()
-                q_widget_vertical_layout = setup_VHox_wrapper(q_widget_wrapper)
-                q_pushbutton_icon = setup_button_icon()
+                def setup_voca_title(parent=None):
+                    obj = QtWidgets.QPushButton(parent)
+                    sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+                    sizePolicy.setHorizontalStretch(0)
+                    sizePolicy.setVerticalStretch(0)
+                    sizePolicy.setHeightForWidth(obj.sizePolicy().hasHeightForWidth())
+                    obj.setSizePolicy(sizePolicy)
+                    obj.setMaximumSize(QtCore.QSize(16777215, 16777215))
+                    obj.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                    obj.setCheckable(True)
+                    obj.setChecked(False)
+                    obj.setObjectName(f"mb_voca_button_group_title_adj_{index}")
+
+                    return obj
+
+                def make_voca_widget_by_code():
+                    # Make QWidget to QScrollWidget -> QWidget:[q_widget_wrapper]
+                    NEW_WIDGET_WRAPPER = setup_QWidget_wrapper(parent=self.mb_voca_scroll_widget)
+                    self.q_widget_vertical_layout = setup_VHox_wrapper(NEW_WIDGET_WRAPPER)
+
+                    # Make QWidget to "q_widget_wrapper" -> QWidget:[q_widget_button_wrapper]
+                    self.q_widget_button_wrapper = QtWidgets.QWidget(NEW_WIDGET_WRAPPER)
+                    self.q_widget_button_wrapper_layout = setup_button_HBOX_wrapper(self.q_widget_button_wrapper)
+
+                    # Make QLabel and Add to ["q_widget_button_wrapper"]
+                    self.q_label_icon = setup_button_icon(self.q_widget_button_wrapper)
+                    self.q_widget_button_wrapper_layout.addWidget(self.q_label_icon)
+
+                    # Make QPushButton and Add to ["q_widget_button_wrapper"]
+                    self.q_pushbutton_title = setup_voca_title(self.q_widget_button_wrapper)
+                    self.q_widget_button_wrapper_layout.addWidget(self.q_pushbutton_title)
+
+                    # Add to ["q_widget_vertical_layout"]
+                    self.q_widget_vertical_layout.addWidget(self.q_widget_button_wrapper)
+
+                    # Make QListWidget and Add to ["q_widget_vertical_layout"]
+                    self.q_list_widget = setup_QListWidget(NEW_WIDGET_WRAPPER)
+                    self.q_widget_vertical_layout.addWidget(self.q_list_widget)
+
+                    return NEW_WIDGET_WRAPPER
+
+                for index, value in enumerate(groups):
+                    index += 1
+                    self.q_widget_wrapper = make_voca_widget_by_code()
+                    self.mb_voca_widget_verticalLayout.addWidget(self.q_widget_wrapper)
+
+                    self.q_pushbutton_title.setText(value)
+
+                    words_in_group = self.CSV_DATA["dataframe"][self.CSV_DATA["dataframe"]["그룹"] == value]["단어"]
+                    words_in_group = words_in_group.to_list()
+
+                    for w_idx, word in enumerate(words_in_group):
+                        item = QtWidgets.QListWidgetItem()
+                        self.q_list_widget.addItem(item)
+                        self.q_list_widget.item(w_idx).setText(word)
+
+
+
+
                 # -------------------------------------------------------
-                
-                mb_voca_button_group = QtWidgets.QWidget(voca_widget)
-                self.horizontalLayout_4 = QtWidgets.QHBoxLayout(mb_voca_button_group)
-                self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
-                self.horizontalLayout_4.setSpacing(0)
-                self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-
-                self.horizontalLayout_4.addWidget(mb_voca_icon)
-                self.mb_voca_button_group_title_adj_1 = QtWidgets.QPushButton(mb_voca_button_group)
-                sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-                sizePolicy.setHorizontalStretch(0)
-                sizePolicy.setVerticalStretch(0)
-                sizePolicy.setHeightForWidth(self.mb_voca_button_group_title_adj_1.sizePolicy().hasHeightForWidth())
-                self.mb_voca_button_group_title_adj_1.setSizePolicy(sizePolicy)
-                self.mb_voca_button_group_title_adj_1.setMaximumSize(QtCore.QSize(16777215, 16777215))
-                self.mb_voca_button_group_title_adj_1.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-                self.mb_voca_button_group_title_adj_1.setCheckable(True)
-                self.mb_voca_button_group_title_adj_1.setChecked(True)
-                self.mb_voca_button_group_title_adj_1.setObjectName("mb_voca_button_group_title_adj_1")
-                self.horizontalLayout_4.addWidget(self.mb_voca_button_group_title_adj_1)
-                self.mb_voca_widget_verticalLayout.addWidget(mb_voca_button_group)
-
-                # QListWidget
-                q_list_widget = setup_QListWidget()
-                self.mb_voca_widget_verticalLayout.addWidget(q_list_widget)
-                self.verticalLayout_3.addWidget(voca_widget)
 
             def make_mb_voca_widget():
                 voca_widgets = find_mb_voca_widgets()
-                print(voca_widgets)
-                group_name = self.CSV_DATA["unique_name"]
 
+                group_name = self.CSV_DATA["unique_name"]
                 sub_widget_count = len(group_name) - len(voca_widgets)
 
                 if sub_widget_count != 0:
-                    for widget in range(sub_widget_count):
-                        add_widget = voca_widget()[:]
-                        self.mb_voca_widget_verticalLayout.addWidget(add_widget)
+                    self.add_widget = mb_voca_widget(groups=group_name)
+                    voca_widgets = find_mb_voca_widgets()
 
+            # delete_mb_voca_widget()
             make_mb_voca_widget()
-
             # lessons = list(set(self.CSV_DATA[name]))
             # for lesson in lessons:
                 # pass
 
+        make_lesson_title()
         make_toggle_button()
-        set_padding()
         insert_folder_image()
         calculate_ratio()
-        # make_lesson_title()
 
     # <-- New Voca Clicked Event Handler --------------------------------------------------->
     @staticmethod
@@ -358,7 +389,12 @@ class MainWindow(QMainWindow, mp):
     def change_mb_voca_widget(self, obj):
         # Get currentItem Text
         self.is_voca_changed = True
+        print(obj.objectName())
+
         self.word = obj.currentItem().text()
+        self.current_idx = obj.currentRow()
+        print(self.current_idx)
+        print(type(self.current_idx))
 
         # save obj and variables
         self.focused_listwidget = obj
@@ -367,6 +403,8 @@ class MainWindow(QMainWindow, mp):
         self.is_finished = False
         self.tts_idx = 0
         self.image_idx = 0
+        self.group_name = obj.parent().findChild(QPushButton).text()
+        print(self.group_name)
 
         # Change image
         status = get_images.get_images_from_word(self.word, self.JSON_DATA["ImageDownCount"])
@@ -374,6 +412,13 @@ class MainWindow(QMainWindow, mp):
 
         # Change voca title
         self.mb_show_eng_adj.setText(self.word)
+
+        # Change meaning title
+        meaning = self.CSV_DATA["dataframe"][self.CSV_DATA["dataframe"]["그룹"] == self.group_name]["뜻"]
+
+        meaning = meaning.iloc[self.current_idx]
+
+        self.mb_show_kor_adj.setText(meaning)
 
         # Chagne image when voca has been changed
         self.change_mb_voca_image(self.image_idx)
@@ -418,7 +463,28 @@ class MainWindow(QMainWindow, mp):
             if self.tts_idx == 0 and not self.is_voca_changed:
                 self.change_mb_voca_image(idx=self.image_idx)
 
-            audio_path = get_tts_audio.get_tts(word=self.word, lang=self.lang[self.tts_idx])
+            audio_lang = self.lang[self.tts_idx]
+
+            # 뜻에 맞추어 소리 나도록 설정
+            if audio_lang != self.lang[0]:
+                if audio_lang == 'ko':
+                    self.word = self.mb_show_kor_adj.text()
+                    self.word = self.word.replace("~", "무엇 ")
+                    self.word = self.word.replace("～", "무엇 ")
+                    self.word = self.word.replace("(", " ")
+                    self.word = self.word.replace(")", " ")
+                    self.word = self.word.replace("=", "같은 표현으로는 ")
+                    self.word = self.word.replace("≠", "다른 표현으로는 ")
+                    self.word = self.word.replace("(명)", "명사형으로는 ")
+                    self.word = self.word.replace("(동)", "동사형으로는 ")
+                    self.word = self.word.replace("(형)", "형용사형으로는 ")
+                    self.word = self.word.replace("(복수)", "여러 개를 지칭할 땐 ")
+                else:
+                    self.word = self.mb_show_eng_adj.text()
+            else:
+                self.word = self.mb_show_eng_adj.text()
+
+            audio_path = get_tts_audio.get_tts(word=self.word, lang=audio_lang)
             url = QUrl.fromLocalFile(audio_path)
             content = QMediaContent(url)
 
