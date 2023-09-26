@@ -29,6 +29,7 @@ except FileNotFoundError:
 
 class MainWindow(QMainWindow, mp):
     resized = pyqtSignal()
+    FIRSTRUN = True
     JSON_DATA = load_json_file()
     CSV_DATA = get_main_csv()
 
@@ -52,6 +53,7 @@ class MainWindow(QMainWindow, mp):
 
         # Setup Signal and Slots
         self.set_signal()
+        self.FIRSTRUN = False
 
     def set_font_family(self):
         def grab_ttf_file() -> list:
@@ -109,6 +111,7 @@ class MainWindow(QMainWindow, mp):
         self.setStyleSheet(custom_stylesheet)
 
     def set_variable(self):
+
         # Configuration Variables
         self.auto_scroll_toggle = QCheckBox()
         self.auto_slide = True
@@ -120,6 +123,7 @@ class MainWindow(QMainWindow, mp):
         self.focused_listwidget = None
 
         # Image Variables
+        self.file_type = ('*.jpg', '*.gif', '*.jpeg', '*.bmp')
         self.pics = None
         self.is_voca_changed = False
         self.image_idx = 0
@@ -135,21 +139,49 @@ class MainWindow(QMainWindow, mp):
         # ETC
         self.timer = QTimer(self)
 
-    def set_signal(self):
-        # window resized event
-        self.resized.connect(self.resize_widget)
+    def set_signal(self, *args):
+        def insert_total_signal():
+            # Mainwindow buttons
+            self.mb_voca_open.clicked.connect(self.open_folder)
+            self.mb_voca_refresh.clicked.connect(self.refresh_all_component)
 
-        # pushbutton clicked event on QListWidget
-        for btn in self.voca_widget_button:
-            btn.clicked.connect(self.voca_widget_button_event)
+            # window resized event
+            self.resized.connect(self.resize_widget)
 
-        # voca word clicked event on QListWidget
-        self.list_widgets = self.findChildren(QListWidget)
-        self.player.stateChanged.connect(self.play_tts_audio)
-        for idx, widget in enumerate(self.list_widgets):
-            widget.itemClicked.connect(self.change_current_widget)
-            widget.currentRowChanged.connect(lambda: self.change_mb_voca_widget(obj=self.sending_from_widget))
-            widget.currentRowChanged.connect(lambda: self.get_audio_tts(obj=self.sending_from_widget))
+            # pushbutton clicked event on QListWidget
+            insert_pushbutton_signal()
+
+            # voca word clicked event on QListWidget
+            self.player.stateChanged.connect(self.play_tts_audio)
+            insert_QListWidget_item_signal()
+
+        def insert_pushbutton_signal():
+            print(self.voca_widget_button)
+            for btn in self.voca_widget_button:
+                btn.clicked.connect(self.voca_widget_button_event)
+
+        def insert_QListWidget_item_signal():
+            self.list_widgets = self.findChildren(QListWidget)
+            for item in self.list_widgets:
+                print(item.objectName())
+
+            self.list_widgets = [wdg for wdg in self.list_widgets if not wdg.isVisible()]
+            for item in self.list_widgets:
+                print(item.objectName())
+
+            for idx, widget in enumerate(self.list_widgets):
+                widget.itemClicked.connect(self.change_current_widget)
+                widget.currentRowChanged.connect(lambda: self.change_mb_voca_widget(obj=self.sending_from_widget))
+                widget.currentRowChanged.connect(lambda: self.get_audio_tts(obj=self.sending_from_widget))
+
+
+        if self.FIRSTRUN:
+            insert_total_signal()
+        elif args[0] == 'pushbutton':
+            insert_pushbutton_signal()
+        elif args[0] == 'qlistwidget':
+            insert_QListWidget_item_signal()
+
 
     def setup_window_graphic(self):
         def make_voca_groups():
@@ -160,14 +192,32 @@ class MainWindow(QMainWindow, mp):
                 return voca_widgets
 
             def delete_mb_voca_widget():
-                widgets = self.findChildren(QWidget)
+                if not self.spacer == None:
+                    del self.spacer
 
-                for widget in widgets:
-                    if widget.objectName() == "mb_voca_widget_1":
-                        for i in reversed(range(widget.findChildren(QtCore.QObject))):
-                            widget.removeChild(widget.child(i))
+                widgets = self.mb_voca_scroll_widget.findChildren(QWidget)
+                for widget in reversed(widgets):
+                    if 'mb_voca_widget' in widget.objectName() and widget.objectName() != 'mb_voca_widget_0':
+                        self.remove_item_from_VBox(self.mb_voca_scroll_widget_verticalLayout, widget)
+
+                        # Remove QWidgets
+                        for item in (widget.findChildren(QWidget)):
+                            if 'mb_voca_button_adj' in item.objectName():
+                                self.remove_item_from_VBox(widget, item)
+                                item.deleteLater()
+
+                        # Remove QListWidget
+                        for item in (widget.findChildren(QListWidget)):
+                            if 'mb_voca_word_adj' in item.objectName():
+                                self.remove_item_from_VBox(widget, item)
                         widget.deleteLater()
-                pass
+
+            def make_mb_voca_widget():
+                group_name = self.CSV_DATA["unique_name"]
+                subtract_widget_count = len(group_name) - len(voca_widgets)
+
+                if subtract_widget_count != 0:
+                    self.add_widget = mb_voca_widget(groups=group_name)
 
             def mb_voca_widget(groups: list = None):
                 def make_voca_widget_by_code():
@@ -184,7 +234,7 @@ class MainWindow(QMainWindow, mp):
                     self.q_widget_button_wrapper_layout.addWidget(self.q_label_icon)
 
                     # Make QPushButton and Add to ["q_widget_button_wrapper"]
-                    self.q_pushbutton_title = setup_voca_title(self.q_widget_button_wrapper)
+                    self.q_pushbutton_title = setup_pushbutton_voca_title(self.q_widget_button_wrapper)
                     self.q_widget_button_wrapper_layout.addWidget(self.q_pushbutton_title)
 
                     # Add to ["q_widget_vertical_layout"]
@@ -246,7 +296,7 @@ class MainWindow(QMainWindow, mp):
 
                     return obj
 
-                def setup_voca_title(parent=None):
+                def setup_pushbutton_voca_title(parent=None):
                     obj = QtWidgets.QPushButton(parent)
                     sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
                     sizePolicy.setHorizontalStretch(0)
@@ -296,12 +346,12 @@ class MainWindow(QMainWindow, mp):
                     return obj
 
 
-                for index, value in enumerate(groups):
+                for index, value in enumerate(reversed(groups)):
                     index += 1
 
                     # Make QWidget for wrapping
                     self.q_widget_wrapper = make_voca_widget_by_code()
-                    self.mb_voca_scroll_widget_verticalLayout.addWidget(self.q_widget_wrapper)
+                    self.mb_voca_scroll_widget_verticalLayout.insertWidget(1, self.q_widget_wrapper)
 
                     # Set Group name to QPushButton Title
                     self.q_pushbutton_title.setText(value)
@@ -316,30 +366,25 @@ class MainWindow(QMainWindow, mp):
                         self.q_list_widget.addItem(item)
                         self.q_list_widget.item(w_idx).setText(word)
 
-            def make_mb_voca_widget():
-                group_name = self.CSV_DATA["unique_name"]
-                subtract_widget_count = len(group_name) - len(voca_widgets)
-
-                if subtract_widget_count != 0:
-                    self.add_widget = mb_voca_widget(groups=group_name)
-
-            # delete_mb_voca_widget()
+            delete_mb_voca_widget()
             voca_widgets = find_mb_voca_widgets()
             make_mb_voca_widget()
 
             # find PushButton
             self.voca_widget_button = [btn for btn in self.findChildren(QPushButton) if
                                        'mb_voca_button_group_title_adj' in btn.objectName()]
+            self.voca_widget_button = [btn for btn in self.voca_widget_button if not btn.isVisible()]
 
         def make_toggle_button():
-            self.auto_scroll_toggle = AnimatedToggle(
-                checked_color="#4ed164"
-            )
-            self.mb_top_bar_auto_scroll_verticalLayout.addWidget(self.auto_scroll_toggle)
+            if self.FIRSTRUN:
+                self.auto_scroll_toggle = AnimatedToggle(
+                    checked_color="#4ed164"
+                )
+                self.mb_top_bar_auto_scroll_verticalLayout.addWidget(self.auto_scroll_toggle)
 
-            self.auto_scroll_toggle.setStyleSheet("margin: 6px 0px 6px 0px\n")
-            self.auto_scroll_toggle.setMaximumHeight(self.mb_top_bar_auto_scroll_title.height())
-            self.auto_scroll_toggle.setChecked(True)
+                self.auto_scroll_toggle.setStyleSheet("margin: 6px 0px 6px 0px\n")
+                self.auto_scroll_toggle.setMaximumHeight(self.mb_top_bar_auto_scroll_title.height())
+                self.auto_scroll_toggle.setChecked(bool(self.JSON_DATA["AutoScroll"]))
 
         def insert_folder_image():
             # Get Folder Image Path
@@ -387,50 +432,66 @@ class MainWindow(QMainWindow, mp):
             self.mb_show_btns_adj_ratio_y = self.mb_show_btns_adj.geometry().getRect()[1] / mbs_h
             self.mb_show_btns_adj_ratio_h = self.mb_show_btns_adj.geometry().getRect()[3] / mbs_h
 
+        def insert_refresh_icon():
+            # Get Folder Image Path
+            base_path = os.path.abspath("./resource/src/img")
+
+            refresh = os.path.join(base_path, "Refresh.svg")
+            refresh = refresh.replace("\\", "/")
+
+            refresh_hover = os.path.join(base_path, "RefreshHover.svg")
+            refresh_hover = refresh_hover.replace("\\", "/")
+
+            self.mb_voca_refresh.setStyleSheet("QPushButton {margin: 5px;\n"
+                                               "padding: 0px;\n"
+                                               f"background-image: url({refresh});\n"
+                                               "background-size: cover;\n"
+                                               "background-repeat: none;\n"
+                                               "background-position: center;\n"
+                                               "}\n"
+                                               "QPushButton:hover {\n"
+                                               f"background-image: url({refresh_hover});\n"
+                                               "}\n"
+                                               )
+
 
         # UI 에서 샘플로 만들었던 위젯 지우기
         self.mb_voca_widget_0.hide()
+        self.mb_voca_refresh.setEnabled(False)
 
         # Do Something...
         make_voca_groups()
         make_toggle_button()
         insert_folder_image()
+        insert_refresh_icon()
         self.voca_widget_button_event()
         calculate_ratio()
 
-    def voca_widget_button_event(self):
-        clicked_btn = self.sender()
+    def open_folder(self):
+        base_path = os.path.abspath("./resource/voca/Word_List.csv")
+        os.startfile(base_path)
 
-        if not self.spacer == None:
-            del self.spacer
+    def refresh_all_component(self):
+        self.setup_window_graphic()
 
-        for btn in self.voca_widget_button:
-            append_list_widget = btn.parent().parent().findChild(QListWidget)
-            append_label = btn.parent().findChild(QLabel)
+        self.set_signal("pushbutton")
+        self.set_signal("qlistwidget")
 
-            if btn == clicked_btn:
-                if btn.isChecked():
-                    btn.setChecked(True)
-                    append_label.setPixmap(self.folder_open_icon)
-                    append_list_widget.setHidden(False)
+        self.set_variable()
+        self.JSON_DATA = load_json_file()
+        self.CSV_DATA = get_main_csv()
 
-                    w = append_list_widget.width()
-                    # w = append_list_widget.sizeHintForColumn(0) + append_list_widget.frameWidth() * 2
-                    h = append_list_widget.sizeHintForRow(0) * append_list_widget.count() + 2 * append_list_widget.frameWidth()
-                    append_list_widget.setFixedSize(w, h)
+    def remove_item_from_VBox(self, parent, obj):
+        _type = str(type(parent))
+        if _type in ("PyQt5.QtWidgets.QVBoxLayout"):
+            idx = parent.indexOf(obj)
+            item = parent.itemAt(idx)
+            parent.removeItem(item)
+        elif _type == ("<class 'PyQt5.QtWidgets.QWidget'>",
+                       "<class 'PyQt5.QtWidgets.QListWidget'>"):
+            obj.deleteLater()
 
-                else:
-                    btn.setChecked(False)
-                    append_label.setPixmap(self.folder_icon)
-                    append_list_widget.setHidden(True)
 
-            else:
-                btn.setChecked(False)
-                append_label.setPixmap(self.folder_icon)
-                append_list_widget.setHidden(True)
-
-        self.spacer = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.mb_voca_scroll_widget_verticalLayout.addItem(self.spacer)
 
 
     # <-- New Voca Clicked Event Handler --------------------------------------------------->
@@ -461,8 +522,21 @@ class MainWindow(QMainWindow, mp):
             self.group_name = obj.parent().findChild(QPushButton).text()
 
             # Change image
-            status = get_images.get_images_from_word(self.word, self.JSON_DATA["ImageDownCount"])
-            self.pics = [QPixmap(item) for item in glob(f"./resource/voca/img/{self.word}/*.jpg")][:self.JSON_DATA["ImageDownCount"]]
+            self.pics = list()
+            status = get_images.get_images_from_word(self.word, self.JSON_DATA["ImageDownCount"], self.JSON_DATA, self.file_type)
+            file_types = tuple(f"./resource/voca/img/{self.word}/{extention}" for extention in self.file_type)
+            for file_type in file_types:
+                self.pics.extend([QPixmap(item) for item in glob(file_type)])
+
+            # When Image Files are not downloaded enough
+            if len(self.pics) < self.JSON_DATA["ImageDownCount"]:
+                no_image = QPixmap(os.path.abspath("./resource/src/img/NoImage.svg"))
+                count = self.JSON_DATA["ImageDownCount"] - len(self.pics)
+                for time in range(count):
+                    self.pics.append(no_image)
+
+            # Slice pictures by "ImageDownCount"
+            self.pics = self.pics[:self.JSON_DATA["ImageDownCount"]]
 
             # Change voca title
             self.mb_show_eng_adj.setText(self.word)
@@ -486,7 +560,12 @@ class MainWindow(QMainWindow, mp):
             pic = self.pics[idx]
 
             self.mb_show_image_adj.clear()
-            self.mb_show_image_adj.setPixmap(pic)
+            # self.mb_show_image_adj.setPixmap(pic)
+            self.mb_show_image_adj.setPixmap(pic.scaled(QSize(self.mb_show_image_adj.width(),self.mb_show_image_adj.height()),
+                                                        aspectRatioMode=Qt.KeepAspectRatio,
+                                                        transformMode =Qt.SmoothTransformation
+                                                        )
+                                             )
             self.mb_show_image_adj.repaint()
 
             self.image_idx += 1
@@ -507,10 +586,45 @@ class MainWindow(QMainWindow, mp):
             self.is_finished = True
             print("  [Info] <-- Auto scroll is not clicked -->")
 
+    def voca_widget_button_event(self):
+        self.is_playing = False
+
+        clicked_btn = self.sender()
+
+        for btn in self.voca_widget_button:
+            append_list_widget = btn.parent().parent().findChild(QListWidget)
+            append_label = btn.parent().findChild(QLabel)
+
+            if btn == clicked_btn:
+                if btn.isChecked():
+                    btn.setChecked(True)
+                    append_label.setPixmap(self.folder_open_icon)
+                    append_list_widget.setHidden(False)
+
+                    w = append_list_widget.width()
+                    # w = append_list_widget.sizeHintForColumn(0) + append_list_widget.frameWidth() * 2
+                    h = append_list_widget.sizeHintForRow(0) * append_list_widget.count() + 2 * append_list_widget.frameWidth()
+                    append_list_widget.setFixedSize(w, h)
+
+                else:
+                    btn.setChecked(False)
+                    append_label.setPixmap(self.folder_icon)
+                    append_list_widget.setHidden(True)
+
+            else:
+                btn.setChecked(False)
+                append_label.setPixmap(self.folder_icon)
+                append_list_widget.setHidden(True)
+
+        # insert SpacerItem
+        if self.FIRSTRUN:
+            self.spacer = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+            self.mb_voca_scroll_widget_verticalLayout.addItem(self.spacer)
 
 
     # <-- Play audio TTS ------------------------------------------------------------------->
     def play_tts_audio(self):
+        print(self.tts_idx)
         if self.player.state() == 0 and not self.is_finished:
             # Todo 마지막에 한번 더 나오는거 어떻게 처리할지 고민해보기
 

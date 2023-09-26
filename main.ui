@@ -121,17 +121,15 @@ color: black;
 /* Left - Title Part:Gray title */
 #mb_setting_title,
 #mb_voca_total_title {
+margin: 0px;
 color: rgb(170, 170, 170);
 font: 13px;
-margin: 20px 20px 0px 20px;
 font-weight: bold;
 text-align: Left;
 }
-#mb_voca_total_title {
-margin: 0px;
-padding: 10px 0px 0px 10px;
+#mb_setting_title {
+margin: 20px 20px 0px 20px;
 }
-
 /* QScrollWidget PushButton part ------------------ */
 QScrollArea .QLabel {
 padding-left: 10px;
@@ -483,46 +481,117 @@ margin: 0px 10px 0px 10px;</string>
           <number>0</number>
          </property>
          <item>
-          <widget class="QLabel" name="mb_voca_total_title">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
+          <widget class="QWidget" name="mb_voca_title_bar" native="true">
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>31</height>
+             <height>30</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>16777215</height>
+             <height>30</height>
             </size>
            </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="lineWidth">
-            <number>0</number>
-           </property>
-           <property name="text">
-            <string>Word List</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-           <property name="indent">
-            <number>0</number>
-           </property>
+           <layout class="QHBoxLayout" name="mb_voca_title_bar_horizontalLayout">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="mb_voca_total_title">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>31</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>110</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="lineWidth">
+               <number>0</number>
+              </property>
+              <property name="text">
+               <string>Word List</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+              <property name="indent">
+               <number>0</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="mb_voca_refresh">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
          <item>
           <widget class="QWidget" name="mb_voca_widget_0" native="true">
            <property name="enabled">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
@@ -634,7 +703,7 @@ background-color: rgb(204, 227, 249);
             <item>
              <widget class="QListWidget" name="mb_voca_word_adj_0">
               <property name="enabled">
-               <bool>false</bool>
+               <bool>true</bool>
               </property>
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -827,7 +896,7 @@ font: 50px;
 font-weight: bold;
 }
 #mb_show_image_adj {
-font: 30px;
+font: 20px;
 }
 #mb_show_dev {
 background-color: transparent;
@@ -975,7 +1044,7 @@ font: 10px;
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>50</y>
+       <y>30</y>
        <width>771</width>
        <height>140</height>
       </rect>

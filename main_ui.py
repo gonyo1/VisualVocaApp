@@ -96,17 +96,15 @@ class Ui_MainApp(object):
 "/* Left - Title Part:Gray title */\n"
 "#mb_setting_title,\n"
 "#mb_voca_total_title {\n"
+"margin: 0px;\n"
 "color: rgb(170, 170, 170);\n"
 "font: 13px;\n"
-"margin: 20px 20px 0px 20px;\n"
 "font-weight: bold;\n"
 "text-align: Left;\n"
 "}\n"
-"#mb_voca_total_title {\n"
-"margin: 0px;\n"
-"padding: 10px 0px 0px 10px;\n"
+"#mb_setting_title {\n"
+"margin: 20px 20px 0px 20px;\n"
 "}\n"
-"\n"
 "/* QScrollWidget PushButton part ------------------ */\n"
 "QScrollArea .QLabel {\n"
 "padding-left: 10px;\n"
@@ -268,22 +266,44 @@ class Ui_MainApp(object):
         self.mb_voca_scroll_widget_verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.mb_voca_scroll_widget_verticalLayout.setSpacing(0)
         self.mb_voca_scroll_widget_verticalLayout.setObjectName("mb_voca_scroll_widget_verticalLayout")
-        self.mb_voca_total_title = QtWidgets.QLabel(self.mb_voca_scroll_widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.mb_voca_title_bar = QtWidgets.QWidget(self.mb_voca_scroll_widget)
+        self.mb_voca_title_bar.setMinimumSize(QtCore.QSize(0, 30))
+        self.mb_voca_title_bar.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.mb_voca_title_bar.setObjectName("mb_voca_title_bar")
+        self.mb_voca_title_bar_horizontalLayout = QtWidgets.QHBoxLayout(self.mb_voca_title_bar)
+        self.mb_voca_title_bar_horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.mb_voca_title_bar_horizontalLayout.setSpacing(0)
+        self.mb_voca_title_bar_horizontalLayout.setObjectName("mb_voca_title_bar_horizontalLayout")
+        self.mb_voca_total_title = QtWidgets.QLabel(self.mb_voca_title_bar)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mb_voca_total_title.sizePolicy().hasHeightForWidth())
         self.mb_voca_total_title.setSizePolicy(sizePolicy)
         self.mb_voca_total_title.setMinimumSize(QtCore.QSize(0, 31))
-        self.mb_voca_total_title.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.mb_voca_total_title.setMaximumSize(QtCore.QSize(110, 16777215))
         self.mb_voca_total_title.setStyleSheet("")
         self.mb_voca_total_title.setLineWidth(0)
         self.mb_voca_total_title.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.mb_voca_total_title.setIndent(0)
         self.mb_voca_total_title.setObjectName("mb_voca_total_title")
-        self.mb_voca_scroll_widget_verticalLayout.addWidget(self.mb_voca_total_title)
+        self.mb_voca_title_bar_horizontalLayout.addWidget(self.mb_voca_total_title)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.mb_voca_title_bar_horizontalLayout.addItem(spacerItem1)
+        self.mb_voca_refresh = QtWidgets.QPushButton(self.mb_voca_title_bar)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.mb_voca_refresh.sizePolicy().hasHeightForWidth())
+        self.mb_voca_refresh.setSizePolicy(sizePolicy)
+        self.mb_voca_refresh.setMinimumSize(QtCore.QSize(30, 30))
+        self.mb_voca_refresh.setMaximumSize(QtCore.QSize(30, 30))
+        self.mb_voca_refresh.setText("")
+        self.mb_voca_refresh.setObjectName("mb_voca_refresh")
+        self.mb_voca_title_bar_horizontalLayout.addWidget(self.mb_voca_refresh)
+        self.mb_voca_scroll_widget_verticalLayout.addWidget(self.mb_voca_title_bar)
         self.mb_voca_widget_0 = QtWidgets.QWidget(self.mb_voca_scroll_widget)
-        self.mb_voca_widget_0.setEnabled(False)
+        self.mb_voca_widget_0.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -330,7 +350,7 @@ class Ui_MainApp(object):
         self.button_horizontalLayout_0.addWidget(self.mb_voca_button_group_title_adj_0)
         self.mb_voca_widget_verticalLayout.addWidget(self.mb_voca_button_adj_0)
         self.mb_voca_word_adj_0 = QtWidgets.QListWidget(self.mb_voca_widget_0)
-        self.mb_voca_word_adj_0.setEnabled(False)
+        self.mb_voca_word_adj_0.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -416,7 +436,7 @@ class Ui_MainApp(object):
 "font-weight: bold;\n"
 "}\n"
 "#mb_show_image_adj {\n"
-"font: 30px;\n"
+"font: 20px;\n"
 "}\n"
 "#mb_show_dev {\n"
 "background-color: transparent;\n"
@@ -430,8 +450,8 @@ class Ui_MainApp(object):
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem1)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem2)
         self.mb_show_btn_widget = QtWidgets.QWidget(self.mb_show_btns_adj)
         self.mb_show_btn_widget.setMinimumSize(QtCore.QSize(100, 0))
         self.mb_show_btn_widget.setMaximumSize(QtCore.QSize(16777215, 16777215))
@@ -456,10 +476,10 @@ class Ui_MainApp(object):
         self.forward.setObjectName("forward")
         self.horizontalLayout_2.addWidget(self.forward)
         self.horizontalLayout.addWidget(self.mb_show_btn_widget)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem2)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem3)
         self.mb_show_eng_adj = QtWidgets.QLabel(self.mb_show_adj)
-        self.mb_show_eng_adj.setGeometry(QtCore.QRect(0, 50, 771, 140))
+        self.mb_show_eng_adj.setGeometry(QtCore.QRect(0, 30, 771, 140))
         self.mb_show_eng_adj.setStyleSheet("")
         self.mb_show_eng_adj.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignHCenter)
         self.mb_show_eng_adj.setObjectName("mb_show_eng_adj")
@@ -488,8 +508,8 @@ class Ui_MainApp(object):
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_4.addItem(spacerItem3)
+        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_4.addItem(spacerItem4)
         self.mb_show_top_both = QtWidgets.QPushButton(self.mb_show_top_bar_btns)
         self.mb_show_top_both.setMinimumSize(QtCore.QSize(31, 26))
         self.mb_show_top_both.setMaximumSize(QtCore.QSize(31, 26))
