@@ -14,8 +14,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainApp(object):
     def setupUi(self, MainApp):
         MainApp.setObjectName("MainApp")
-        MainApp.resize(971, 700)
-        MainApp.setMinimumSize(QtCore.QSize(900, 700))
+        MainApp.resize(970, 700)
+        MainApp.setMinimumSize(QtCore.QSize(970, 700))
         MainApp.setStyleSheet("QObject {\n"
 "border: 0px solid;\n"
 "margin: 0px;\n"
@@ -103,9 +103,8 @@ class Ui_MainApp(object):
 "text-align: Left;\n"
 "}\n"
 "#mb_voca_total_title {\n"
-"margin: 10px;\n"
-"margin-bottom: 0px;\n"
-"padding-left: 0px;\n"
+"margin: 0px;\n"
+"padding: 10px 0px 0px 10px;\n"
 "}\n"
 "\n"
 "/* QScrollWidget PushButton part ------------------ */\n"
@@ -114,11 +113,9 @@ class Ui_MainApp(object):
 "}\n"
 "QScrollArea .QPushButton {\n"
 "margin: 5px 10px 5px 10px;\n"
+"padding: 0px;\n"
 "color: black;\n"
 "text-align: left;\n"
-"}\n"
-"#mb_voca_scroll_widget .QWidget .QWidget:hover {\n"
-"background-color: rgb(204, 227, 249);\n"
 "}\n"
 "\n"
 "/* QListWidget Part ------------------------------ */\n"
@@ -255,41 +252,43 @@ class Ui_MainApp(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mb_voca_scroll.sizePolicy().hasHeightForWidth())
         self.mb_voca_scroll.setSizePolicy(sizePolicy)
+        self.mb_voca_scroll.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.mb_voca_scroll.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.mb_voca_scroll.setWidgetResizable(True)
         self.mb_voca_scroll.setObjectName("mb_voca_scroll")
         self.mb_voca_scroll_widget = QtWidgets.QWidget()
-        self.mb_voca_scroll_widget.setGeometry(QtCore.QRect(0, 0, 180, 492))
+        self.mb_voca_scroll_widget.setGeometry(QtCore.QRect(0, 0, 180, 486))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mb_voca_scroll_widget.sizePolicy().hasHeightForWidth())
         self.mb_voca_scroll_widget.setSizePolicy(sizePolicy)
         self.mb_voca_scroll_widget.setObjectName("mb_voca_scroll_widget")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.mb_voca_scroll_widget)
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_3.setSpacing(0)
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.mb_voca_scroll_widget_verticalLayout = QtWidgets.QVBoxLayout(self.mb_voca_scroll_widget)
+        self.mb_voca_scroll_widget_verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.mb_voca_scroll_widget_verticalLayout.setSpacing(0)
+        self.mb_voca_scroll_widget_verticalLayout.setObjectName("mb_voca_scroll_widget_verticalLayout")
         self.mb_voca_total_title = QtWidgets.QLabel(self.mb_voca_scroll_widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mb_voca_total_title.sizePolicy().hasHeightForWidth())
         self.mb_voca_total_title.setSizePolicy(sizePolicy)
-        self.mb_voca_total_title.setMinimumSize(QtCore.QSize(0, 20))
+        self.mb_voca_total_title.setMinimumSize(QtCore.QSize(0, 31))
         self.mb_voca_total_title.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.mb_voca_total_title.setStyleSheet("")
         self.mb_voca_total_title.setLineWidth(0)
         self.mb_voca_total_title.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.mb_voca_total_title.setIndent(0)
         self.mb_voca_total_title.setObjectName("mb_voca_total_title")
-        self.verticalLayout_3.addWidget(self.mb_voca_total_title)
+        self.mb_voca_scroll_widget_verticalLayout.addWidget(self.mb_voca_total_title)
         self.mb_voca_widget_0 = QtWidgets.QWidget(self.mb_voca_scroll_widget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        self.mb_voca_widget_0.setEnabled(False)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mb_voca_widget_0.sizePolicy().hasHeightForWidth())
         self.mb_voca_widget_0.setSizePolicy(sizePolicy)
-        self.mb_voca_widget_0.setMaximumSize(QtCore.QSize(16777215, 300))
         self.mb_voca_widget_0.setObjectName("mb_voca_widget_0")
         self.mb_voca_widget_verticalLayout = QtWidgets.QVBoxLayout(self.mb_voca_widget_0)
         self.mb_voca_widget_verticalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
@@ -297,11 +296,15 @@ class Ui_MainApp(object):
         self.mb_voca_widget_verticalLayout.setSpacing(0)
         self.mb_voca_widget_verticalLayout.setObjectName("mb_voca_widget_verticalLayout")
         self.mb_voca_button_adj_0 = QtWidgets.QWidget(self.mb_voca_widget_0)
+        self.mb_voca_button_adj_0.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.mb_voca_button_adj_0.setStyleSheet("QWidget:hover {\n"
+"background-color: rgb(204, 227, 249);\n"
+"}")
         self.mb_voca_button_adj_0.setObjectName("mb_voca_button_adj_0")
-        self.button_horizontalLayout_4 = QtWidgets.QHBoxLayout(self.mb_voca_button_adj_0)
-        self.button_horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.button_horizontalLayout_4.setSpacing(0)
-        self.button_horizontalLayout_4.setObjectName("button_horizontalLayout_4")
+        self.button_horizontalLayout_0 = QtWidgets.QHBoxLayout(self.mb_voca_button_adj_0)
+        self.button_horizontalLayout_0.setContentsMargins(0, 0, 0, 0)
+        self.button_horizontalLayout_0.setSpacing(0)
+        self.button_horizontalLayout_0.setObjectName("button_horizontalLayout_0")
         self.mb_voca_button_icon_adj_0 = QtWidgets.QLabel(self.mb_voca_button_adj_0)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -312,7 +315,7 @@ class Ui_MainApp(object):
         self.mb_voca_button_icon_adj_0.setStyleSheet("")
         self.mb_voca_button_icon_adj_0.setText("")
         self.mb_voca_button_icon_adj_0.setObjectName("mb_voca_button_icon_adj_0")
-        self.button_horizontalLayout_4.addWidget(self.mb_voca_button_icon_adj_0)
+        self.button_horizontalLayout_0.addWidget(self.mb_voca_button_icon_adj_0)
         self.mb_voca_button_group_title_adj_0 = QtWidgets.QPushButton(self.mb_voca_button_adj_0)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -322,12 +325,13 @@ class Ui_MainApp(object):
         self.mb_voca_button_group_title_adj_0.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.mb_voca_button_group_title_adj_0.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.mb_voca_button_group_title_adj_0.setCheckable(True)
-        self.mb_voca_button_group_title_adj_0.setChecked(True)
+        self.mb_voca_button_group_title_adj_0.setChecked(False)
         self.mb_voca_button_group_title_adj_0.setObjectName("mb_voca_button_group_title_adj_0")
-        self.button_horizontalLayout_4.addWidget(self.mb_voca_button_group_title_adj_0)
+        self.button_horizontalLayout_0.addWidget(self.mb_voca_button_group_title_adj_0)
         self.mb_voca_widget_verticalLayout.addWidget(self.mb_voca_button_adj_0)
         self.mb_voca_word_adj_0 = QtWidgets.QListWidget(self.mb_voca_widget_0)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.MinimumExpanding)
+        self.mb_voca_word_adj_0.setEnabled(False)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mb_voca_word_adj_0.sizePolicy().hasHeightForWidth())
@@ -370,9 +374,7 @@ class Ui_MainApp(object):
         item = QtWidgets.QListWidgetItem()
         self.mb_voca_word_adj_0.addItem(item)
         self.mb_voca_widget_verticalLayout.addWidget(self.mb_voca_word_adj_0)
-        self.verticalLayout_3.addWidget(self.mb_voca_widget_0)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_3.addItem(spacerItem1)
+        self.mb_voca_scroll_widget_verticalLayout.addWidget(self.mb_voca_widget_0)
         self.mb_voca_scroll.setWidget(self.mb_voca_scroll_widget)
         self.verticalLayout.addWidget(self.mb_voca_scroll)
         self.mb_voca_open = QtWidgets.QPushButton(self.mb_voca_adj)
@@ -391,10 +393,12 @@ class Ui_MainApp(object):
 "#mb_show_btns_adj .QPushButton {\n"
 "font: 12px;\n"
 "padding: 0px;\n"
-"margin: 0px 5px 0px 0px;\n"
 "background-color: rgb(230, 230, 230);\n"
 "border-radius: 13px;\n"
 "text-align: center;\n"
+"}\n"
+"#mb_show_top_bar .QPushButton {\n"
+"margin: 0px 5px 0px 0px;\n"
 "}\n"
 "#mb_show_top_bar .QPushButton:hover,\n"
 "#mb_show_btns_adj .QPushButton:hover {\n"
@@ -411,20 +415,23 @@ class Ui_MainApp(object):
 "font: 50px;\n"
 "font-weight: bold;\n"
 "}\n"
+"#mb_show_image_adj {\n"
+"font: 30px;\n"
+"}\n"
 "#mb_show_dev {\n"
 "background-color: transparent;\n"
 "font: 10px;\n"
 "}")
         self.mb_show_adj.setObjectName("mb_show_adj")
         self.mb_show_btns_adj = QtWidgets.QWidget(self.mb_show_adj)
-        self.mb_show_btns_adj.setGeometry(QtCore.QRect(0, 640, 771, 30))
+        self.mb_show_btns_adj.setGeometry(QtCore.QRect(0, 654, 771, 30))
         self.mb_show_btns_adj.setObjectName("mb_show_btns_adj")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.mb_show_btns_adj)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem2)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem1)
         self.mb_show_btn_widget = QtWidgets.QWidget(self.mb_show_btns_adj)
         self.mb_show_btn_widget.setMinimumSize(QtCore.QSize(100, 0))
         self.mb_show_btn_widget.setMaximumSize(QtCore.QSize(16777215, 16777215))
@@ -435,7 +442,7 @@ class Ui_MainApp(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.back = QtWidgets.QPushButton(self.mb_show_btn_widget)
         self.back.setMinimumSize(QtCore.QSize(0, 26))
-        self.back.setMaximumSize(QtCore.QSize(26, 16777215))
+        self.back.setMaximumSize(QtCore.QSize(26, 26))
         self.back.setObjectName("back")
         self.horizontalLayout_2.addWidget(self.back)
         self.dummy = QtWidgets.QLabel(self.mb_show_btn_widget)
@@ -445,16 +452,16 @@ class Ui_MainApp(object):
         self.horizontalLayout_2.addWidget(self.dummy)
         self.forward = QtWidgets.QPushButton(self.mb_show_btn_widget)
         self.forward.setMinimumSize(QtCore.QSize(0, 26))
-        self.forward.setMaximumSize(QtCore.QSize(26, 16777215))
+        self.forward.setMaximumSize(QtCore.QSize(26, 26))
         self.forward.setObjectName("forward")
         self.horizontalLayout_2.addWidget(self.forward)
         self.horizontalLayout.addWidget(self.mb_show_btn_widget)
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem3)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem2)
         self.mb_show_eng_adj = QtWidgets.QLabel(self.mb_show_adj)
-        self.mb_show_eng_adj.setGeometry(QtCore.QRect(0, 50, 771, 141))
+        self.mb_show_eng_adj.setGeometry(QtCore.QRect(0, 50, 771, 140))
         self.mb_show_eng_adj.setStyleSheet("")
-        self.mb_show_eng_adj.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
+        self.mb_show_eng_adj.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignHCenter)
         self.mb_show_eng_adj.setObjectName("mb_show_eng_adj")
         self.mb_show_image_adj = QtWidgets.QLabel(self.mb_show_adj)
         self.mb_show_image_adj.setGeometry(QtCore.QRect(0, 190, 771, 361))
@@ -463,6 +470,7 @@ class Ui_MainApp(object):
         self.mb_show_image_adj.setObjectName("mb_show_image_adj")
         self.mb_show_kor_adj = QtWidgets.QLabel(self.mb_show_adj)
         self.mb_show_kor_adj.setGeometry(QtCore.QRect(0, 560, 771, 81))
+        self.mb_show_kor_adj.setText("")
         self.mb_show_kor_adj.setAlignment(QtCore.Qt.AlignCenter)
         self.mb_show_kor_adj.setObjectName("mb_show_kor_adj")
         self.mb_show_top_bar = QtWidgets.QWidget(self.mb_show_adj)
@@ -480,8 +488,8 @@ class Ui_MainApp(object):
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_4.addItem(spacerItem4)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_4.addItem(spacerItem3)
         self.mb_show_top_both = QtWidgets.QPushButton(self.mb_show_top_bar_btns)
         self.mb_show_top_both.setMinimumSize(QtCore.QSize(31, 26))
         self.mb_show_top_both.setMaximumSize(QtCore.QSize(31, 26))
@@ -545,12 +553,11 @@ class Ui_MainApp(object):
         item = self.mb_voca_word_adj_0.item(6)
         item.setText(_translate("MainApp", "fly"))
         self.mb_voca_word_adj_0.setSortingEnabled(__sortingEnabled)
-        self.mb_voca_open.setText(_translate("MainApp", "Add File"))
+        self.mb_voca_open.setText(_translate("MainApp", "Edit File"))
         self.back.setText(_translate("MainApp", "◀"))
         self.forward.setText(_translate("MainApp", "▶"))
-        self.mb_show_eng_adj.setText(_translate("MainApp", "jump"))
-        self.mb_show_image_adj.setText(_translate("MainApp", "image"))
-        self.mb_show_kor_adj.setText(_translate("MainApp", "점프하다"))
+        self.mb_show_eng_adj.setText(_translate("MainApp", "Visual Voca"))
+        self.mb_show_image_adj.setText(_translate("MainApp", "Waiting for Click Event ..."))
         self.mb_show_top_both.setText(_translate("MainApp", "All"))
         self.mb_show_top_bar_only_eng.setText(_translate("MainApp", "En"))
         self.mb_show_top_bar_only_kor.setText(_translate("MainApp", "Ko"))
