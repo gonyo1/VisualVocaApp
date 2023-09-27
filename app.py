@@ -1,6 +1,7 @@
 # pip install pyqt5 pywin32 pillow pyinstaller tinyaes
 import os.path
 import sys
+
 from glob import glob
 
 from PyQt5.QtGui import QIcon, QPixmap, QFont, QFontDatabase
@@ -9,6 +10,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidget, QFileDialog,
 from PyQt5.QtCore import QTimer, pyqtSignal, QRect, QBuffer, Qt, QUrl, QSize
 from PyQt5.QtMultimedia import QSound, QMediaPlayer, QMediaContent
 
+# Import Local Python Files
 from resource.py import get_images
 from resource.py import get_tts_audio
 from resource.py.toggle import Toggle, AnimatedToggle
@@ -143,11 +145,14 @@ class MainWindow(QMainWindow, mp):
             self.mb_voca_open.clicked.connect(self.open_folder)
             self.mb_voca_refresh.clicked.connect(self.refresh_all_component)
 
-            self.pause.clicked.connect(self.player.stop)
+            self.pause.clicked.connect(self.stop_player)
+            self.pause.clicked.connect(self.mb_show_btns_adj.show)
+
+            self.mb_show_top_bar_repeat_TextEdit.textEdited.connect(lambda: self.change_json_file(key="ImageDownCount"))
 
             for btn in [self.forward, self.back]:
                 btn.clicked.connect(self.player.stop)
-                btn.clicked.connect(lambda: self.change_current_row(obj=btn))
+                btn.clicked.connect(self.change_current_row)
 
             # window resized event
             self.resized.connect(self.resize_widget)
@@ -184,7 +189,7 @@ class MainWindow(QMainWindow, mp):
             elif args[0] == 'qlistwidget':
                 insert_QListWidget_item_signal()
 
-
+    # <-- Main Window Section -------------------------------------------------------------->
     def setup_window_graphic(self):
         def make_voca_groups():
             def find_mb_voca_widgets():
@@ -460,10 +465,18 @@ class MainWindow(QMainWindow, mp):
                                                "}\n"
                                                )
 
+        def insert_FrontImage():
+            self.movie = QtGui.QMovie(os.path.abspath("./resource/src/img/FrontAnimation.gif"), QtCore.QByteArray(), self)
+            self.movie.setCacheMode(QtGui.QMovie.CacheAll)
+
+            self.mb_show_image_adj.setMovie(self.movie)
+            self.movie.start()
 
         # UI 에서 샘플로 만들었던 위젯 지우기
         self.mb_voca_widget_0.hide()
         self.mb_voca_refresh.setEnabled(True)
+        self.mb_show_btns_adj.hide()
+        self.mb_show_top_bar_repeat_TextEdit.setText(str(self.JSON_DATA["ImageDownCount"]))
 
         # Do Something...
         make_voca_groups()
@@ -472,10 +485,7 @@ class MainWindow(QMainWindow, mp):
         insert_refresh_icon()
         self.voca_widget_button_event()
         calculate_ratio()
-
-    def open_folder(self):
-        base_path = os.path.abspath("./resource/voca/Word_List.csv")
-        os.startfile(base_path)
+        insert_FrontImage()
 
     def refresh_all_component(self):
 
@@ -487,7 +497,11 @@ class MainWindow(QMainWindow, mp):
         self.close()
 
         self.__init__()
-        self.mb_show_image_adj.setText("🚀 Updated Program by Saved Files ...")
+        self.mb_show_image_adj.setMovie(self.movie)
+
+    def open_folder(self):
+        base_path = os.path.abspath("./resource/voca/Word_List.csv")
+        os.startfile(base_path)
 
     def remove_item_from_VBox(self, parent, obj):
         _type = str(type(parent))
@@ -502,6 +516,15 @@ class MainWindow(QMainWindow, mp):
     def change_json_file(self, key=None, value=None):
         if key == "AutoScroll":
             value = str(self.auto_scroll_toggle.isChecked())
+            save_json_file(key, value)
+
+        elif key == "ImageDownCount":
+            print("ddddddddddddd")
+            value = self.mb_show_top_bar_repeat_TextEdit.text()
+            value = int(value) if value.isdigit() else 3
+            value = 10 if (value > 10) else value
+            self.mb_show_top_bar_repeat_TextEdit.setText(str(value))
+            self.JSON_DATA["ImageDownCount"] = value
             save_json_file(key, value)
 
 
@@ -520,6 +543,8 @@ class MainWindow(QMainWindow, mp):
             self.get_audio_tts(obj=self.sending_from_widget)
 
     def change_mb_voca_widget(self, obj):
+
+        self.mb_show_btns_adj.show()
         self.player.stop()
 
         # Get currentItem Text
@@ -591,24 +616,36 @@ class MainWindow(QMainWindow, mp):
                 idx = idx + 1
                 self.sending_from_widget.setCurrentRow(idx)
             else:
-                self.is_playing = False
-                self.is_finished = True
+                self.stop_player()
                 print("  [Info] <-- No more images left to show -->")
         else:
-            self.is_playing = False
-            self.is_finished = True
+            self.stop_player()
             print("  [Info] <-- Auto scroll is not clicked -->")
 
-    def change_current_row(self, obj):
+    def stop_player(self):
+        self.player.stop()
+        self.mb_show_btns_adj.hide()
+        self.is_playing = False
+        self.is_finished = True
+
+    def change_current_row(self):
+        # Stop Player and reset setting
+        self.stop_player()
+        self.player.stop()
+
+        # Get obj from sender
+        obj = self.sender()
         name = obj.objectName()
 
+        # Change current index
         if name == "back":
             idx = self.sending_from_widget.currentRow()
+            print(idx)
             self.sending_from_widget.setCurrentRow(idx - 1)
         elif name == "forward":
             idx = self.sending_from_widget.currentRow()
+            print(idx)
             self.sending_from_widget.setCurrentRow(idx + 1)
-
 
     def voca_widget_button_event(self):
         self.is_playing = False
@@ -645,10 +682,8 @@ class MainWindow(QMainWindow, mp):
             self.spacer = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
             self.mb_voca_scroll_widget_verticalLayout.addItem(self.spacer)
 
-
     # <-- Play audio TTS ------------------------------------------------------------------->
     def play_tts_audio(self):
-        print(self.tts_idx)
         if self.player.state() == 0 and not self.is_finished:
             # Todo 마지막에 한번 더 나오는거 어떻게 처리할지 고민해보기
 
@@ -667,6 +702,7 @@ class MainWindow(QMainWindow, mp):
                     self.word = self.mb_show_kor_adj.text()
                     self.word = self.word.replace("~", "무엇 ")
                     self.word = self.word.replace("～", "무엇 ")
+                    self.word = self.word.replace("-", "무엇 ")
                     self.word = self.word.replace("(", " ")
                     self.word = self.word.replace(")", " ")
                     self.word = self.word.replace("=", "같은 표현으로는 ")
@@ -700,8 +736,6 @@ class MainWindow(QMainWindow, mp):
             if not self.is_playing:
                 self.play_tts_audio()
                 self.is_playing = True
-
-
 
     # <-- Resize Event Handler ------------------------------------------------------------->
     def resize_widget(self):

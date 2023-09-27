@@ -416,6 +416,7 @@ class Ui_MainApp(object):
 "margin-right: 5px;\n"
 "}\n"
 "\n"
+"/* Top Bar Part*/\n"
 "#mb_show_top_bar .QPushButton,\n"
 "#mb_show_btns_adj .QPushButton {\n"
 "font: 12px;\n"
@@ -423,14 +424,26 @@ class Ui_MainApp(object):
 "background-color: rgb(230, 230, 230);\n"
 "border-radius: 13px;\n"
 "text-align: center;\n"
+"color: black;\n"
 "}\n"
-"\n"
 "#mb_show_top_bar .QPushButton:hover,\n"
 "#mb_show_btns_adj .QPushButton:hover {\n"
 "background-color: rgba(0, 155, 255, 80);\n"
 "}\n"
 "#mb_show_top_bar .QPushButton:checked {\n"
+"color: white;\n"
 "background-color: \"#4ed164\";\n"
+"}\n"
+"#mb_show_top_bar_repeat {\n"
+"margin: 4px 0px 4px 10px;\n"
+"background-color: rgb(230, 230, 230);\n"
+"border-radius: 10px;\n"
+"}\n"
+"#mb_show_top_bar_repeat .QLabel {\n"
+"background-color: transparent;\n"
+"}\n"
+"#mb_show_top_bar_repeat_TextEdit {\n"
+"border-radius: 8px;\n"
 "}\n"
 "\n"
 "/* Main Show Word Part*/\n"
@@ -513,20 +526,37 @@ class Ui_MainApp(object):
         self.mb_show_kor_adj.setAlignment(QtCore.Qt.AlignCenter)
         self.mb_show_kor_adj.setObjectName("mb_show_kor_adj")
         self.mb_show_top_bar = QtWidgets.QWidget(self.mb_show_adj)
-        self.mb_show_top_bar.setGeometry(QtCore.QRect(0, 0, 771, 50))
+        self.mb_show_top_bar.setGeometry(QtCore.QRect(0, 10, 771, 32))
         self.mb_show_top_bar.setObjectName("mb_show_top_bar")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.mb_show_top_bar)
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.mb_show_top_bar_btns = QtWidgets.QWidget(self.mb_show_top_bar)
-        self.mb_show_top_bar_btns.setMinimumSize(QtCore.QSize(100, 0))
+        self.mb_show_top_bar_btns.setMinimumSize(QtCore.QSize(100, 35))
         self.mb_show_top_bar_btns.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.mb_show_top_bar_btns.setObjectName("mb_show_top_bar_btns")
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.mb_show_top_bar_btns)
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.mb_show_top_bar_repeat = QtWidgets.QWidget(self.mb_show_top_bar_btns)
+        self.mb_show_top_bar_repeat.setMinimumSize(QtCore.QSize(90, 36))
+        self.mb_show_top_bar_repeat.setMaximumSize(QtCore.QSize(90, 36))
+        self.mb_show_top_bar_repeat.setObjectName("mb_show_top_bar_repeat")
+        self.mb_show_top_bar_repeat_title = QtWidgets.QLabel(self.mb_show_top_bar_repeat)
+        self.mb_show_top_bar_repeat_title.setGeometry(QtCore.QRect(20, 10, 31, 16))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.mb_show_top_bar_repeat_title.sizePolicy().hasHeightForWidth())
+        self.mb_show_top_bar_repeat_title.setSizePolicy(sizePolicy)
+        self.mb_show_top_bar_repeat_title.setObjectName("mb_show_top_bar_repeat_title")
+        self.mb_show_top_bar_repeat_TextEdit = QtWidgets.QLineEdit(self.mb_show_top_bar_repeat)
+        self.mb_show_top_bar_repeat_TextEdit.setGeometry(QtCore.QRect(55, 8, 31, 20))
+        self.mb_show_top_bar_repeat_TextEdit.setAlignment(QtCore.Qt.AlignCenter)
+        self.mb_show_top_bar_repeat_TextEdit.setObjectName("mb_show_top_bar_repeat_TextEdit")
+        self.horizontalLayout_4.addWidget(self.mb_show_top_bar_repeat)
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem4)
         self.mb_show_top_both = QtWidgets.QPushButton(self.mb_show_top_bar_btns)
@@ -598,6 +628,8 @@ class Ui_MainApp(object):
         self.forward.setText(_translate("MainApp", "▶"))
         self.mb_show_eng_adj.setText(_translate("MainApp", "Visual Voca"))
         self.mb_show_image_adj.setText(_translate("MainApp", "⭐ Waiting for Click Event ..."))
+        self.mb_show_top_bar_repeat_title.setText(_translate("MainApp", "반복"))
+        self.mb_show_top_bar_repeat_TextEdit.setText(_translate("MainApp", "2"))
         self.mb_show_top_both.setText(_translate("MainApp", "All"))
         self.mb_show_top_bar_only_eng.setText(_translate("MainApp", "En"))
         self.mb_show_top_bar_only_kor.setText(_translate("MainApp", "Ko"))
