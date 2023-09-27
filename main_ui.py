@@ -255,7 +255,7 @@ class Ui_MainApp(object):
         self.mb_voca_scroll.setWidgetResizable(True)
         self.mb_voca_scroll.setObjectName("mb_voca_scroll")
         self.mb_voca_scroll_widget = QtWidgets.QWidget()
-        self.mb_voca_scroll_widget.setGeometry(QtCore.QRect(0, 0, 180, 486))
+        self.mb_voca_scroll_widget.setGeometry(QtCore.QRect(0, 0, 180, 492))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -380,8 +380,10 @@ class Ui_MainApp(object):
         self.mb_voca_word_adj_0.setWordWrap(False)
         self.mb_voca_word_adj_0.setObjectName("mb_voca_word_adj_0")
         item = QtWidgets.QListWidgetItem()
+        item.setCheckState(QtCore.Qt.Checked)
         self.mb_voca_word_adj_0.addItem(item)
         item = QtWidgets.QListWidgetItem()
+        item.setCheckState(QtCore.Qt.PartiallyChecked)
         self.mb_voca_word_adj_0.addItem(item)
         item = QtWidgets.QListWidgetItem()
         self.mb_voca_word_adj_0.addItem(item)
@@ -409,6 +411,11 @@ class Ui_MainApp(object):
 "margin: 0px;\n"
 "background-color: white;\n"
 "}\n"
+"\n"
+"#mb_show_top_bar_btns .QPushButton {\n"
+"margin-right: 5px;\n"
+"}\n"
+"\n"
 "#mb_show_top_bar .QPushButton,\n"
 "#mb_show_btns_adj .QPushButton {\n"
 "font: 12px;\n"
@@ -417,9 +424,7 @@ class Ui_MainApp(object):
 "border-radius: 13px;\n"
 "text-align: center;\n"
 "}\n"
-"#mb_show_top_bar .QPushButton {\n"
-"margin: 0px 5px 0px 0px;\n"
-"}\n"
+"\n"
 "#mb_show_top_bar .QPushButton:hover,\n"
 "#mb_show_btns_adj .QPushButton:hover {\n"
 "background-color: rgba(0, 155, 255, 80);\n"
@@ -427,6 +432,8 @@ class Ui_MainApp(object):
 "#mb_show_top_bar .QPushButton:checked {\n"
 "background-color: \"#4ed164\";\n"
 "}\n"
+"\n"
+"/* Main Show Word Part*/\n"
 "#mb_show_eng_adj {\n"
 "font: 100px;\n"
 "font-weight: bold;\n"
@@ -453,7 +460,7 @@ class Ui_MainApp(object):
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem2)
         self.mb_show_btn_widget = QtWidgets.QWidget(self.mb_show_btns_adj)
-        self.mb_show_btn_widget.setMinimumSize(QtCore.QSize(100, 0))
+        self.mb_show_btn_widget.setMinimumSize(QtCore.QSize(150, 0))
         self.mb_show_btn_widget.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.mb_show_btn_widget.setObjectName("mb_show_btn_widget")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.mb_show_btn_widget)
@@ -470,9 +477,21 @@ class Ui_MainApp(object):
         self.dummy.setText("")
         self.dummy.setObjectName("dummy")
         self.horizontalLayout_2.addWidget(self.dummy)
+        self.pause = QtWidgets.QPushButton(self.mb_show_btn_widget)
+        self.pause.setMinimumSize(QtCore.QSize(26, 26))
+        self.pause.setMaximumSize(QtCore.QSize(26, 26))
+        self.pause.setStyleSheet("")
+        self.pause.setObjectName("pause")
+        self.horizontalLayout_2.addWidget(self.pause)
+        self.dummy_2 = QtWidgets.QLabel(self.mb_show_btn_widget)
+        self.dummy_2.setMaximumSize(QtCore.QSize(50, 16777215))
+        self.dummy_2.setText("")
+        self.dummy_2.setObjectName("dummy_2")
+        self.horizontalLayout_2.addWidget(self.dummy_2)
         self.forward = QtWidgets.QPushButton(self.mb_show_btn_widget)
         self.forward.setMinimumSize(QtCore.QSize(0, 26))
         self.forward.setMaximumSize(QtCore.QSize(26, 26))
+        self.forward.setStyleSheet("")
         self.forward.setObjectName("forward")
         self.horizontalLayout_2.addWidget(self.forward)
         self.horizontalLayout.addWidget(self.mb_show_btn_widget)
@@ -575,9 +594,10 @@ class Ui_MainApp(object):
         self.mb_voca_word_adj_0.setSortingEnabled(__sortingEnabled)
         self.mb_voca_open.setText(_translate("MainApp", "Edit File"))
         self.back.setText(_translate("MainApp", "◀"))
+        self.pause.setText(_translate("MainApp", "■"))
         self.forward.setText(_translate("MainApp", "▶"))
         self.mb_show_eng_adj.setText(_translate("MainApp", "Visual Voca"))
-        self.mb_show_image_adj.setText(_translate("MainApp", "Waiting for Click Event ..."))
+        self.mb_show_image_adj.setText(_translate("MainApp", "⭐ Waiting for Click Event ..."))
         self.mb_show_top_both.setText(_translate("MainApp", "All"))
         self.mb_show_top_bar_only_eng.setText(_translate("MainApp", "En"))
         self.mb_show_top_bar_only_kor.setText(_translate("MainApp", "Ko"))

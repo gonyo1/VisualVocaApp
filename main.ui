@@ -455,7 +455,7 @@ margin: 0px 10px 0px 10px;</string>
           <x>0</x>
           <y>0</y>
           <width>180</width>
-          <height>486</height>
+          <height>492</height>
          </rect>
         </property>
         <property name="sizePolicy">
@@ -793,10 +793,16 @@ background-color: rgb(204, 227, 249);
                <property name="text">
                 <string>jump</string>
                </property>
+               <property name="checkState">
+                <enum>Checked</enum>
+               </property>
               </item>
               <item>
                <property name="text">
                 <string>run</string>
+               </property>
+               <property name="checkState">
+                <enum>PartiallyChecked</enum>
                </property>
               </item>
               <item>
@@ -869,6 +875,11 @@ padding: 0px;
 margin: 0px;
 background-color: white;
 }
+
+#mb_show_top_bar_btns .QPushButton {
+margin-right: 5px;
+}
+
 #mb_show_top_bar .QPushButton,
 #mb_show_btns_adj .QPushButton {
 font: 12px;
@@ -877,9 +888,7 @@ background-color: rgb(230, 230, 230);
 border-radius: 13px;
 text-align: center;
 }
-#mb_show_top_bar .QPushButton {
-margin: 0px 5px 0px 0px;
-}
+
 #mb_show_top_bar .QPushButton:hover,
 #mb_show_btns_adj .QPushButton:hover {
 background-color: rgba(0, 155, 255, 80);
@@ -887,6 +896,8 @@ background-color: rgba(0, 155, 255, 80);
 #mb_show_top_bar .QPushButton:checked {
 background-color: &quot;#4ed164&quot;;
 }
+
+/* Main Show Word Part*/
 #mb_show_eng_adj {
 font: 100px;
 font-weight: bold;
@@ -945,7 +956,7 @@ font: 10px;
        <widget class="QWidget" name="mb_show_btn_widget" native="true">
         <property name="minimumSize">
          <size>
-          <width>100</width>
+          <width>150</width>
           <height>0</height>
          </size>
         </property>
@@ -1004,6 +1015,41 @@ font: 10px;
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="pause">
+           <property name="minimumSize">
+            <size>
+             <width>26</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>26</width>
+             <height>26</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>■</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="dummy_2">
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="forward">
            <property name="minimumSize">
             <size>
@@ -1016,6 +1062,9 @@ font: 10px;
              <width>26</width>
              <height>26</height>
             </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>▶</string>
@@ -1072,7 +1121,7 @@ font: 10px;
       <string notr="true"/>
      </property>
      <property name="text">
-      <string>Waiting for Click Event ...</string>
+      <string>⭐ Waiting for Click Event ...</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

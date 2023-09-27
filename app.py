@@ -3,8 +3,6 @@ import os.path
 import sys
 from glob import glob
 
-import PyQt5.QtCore
-import pandas
 from PyQt5.QtGui import QIcon, QPixmap, QFont, QFontDatabase
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidget, QFileDialog, QWidget, QCheckBox, QLabel, QPushButton, QSizePolicy, QVBoxLayout
@@ -14,7 +12,7 @@ from PyQt5.QtMultimedia import QSound, QMediaPlayer, QMediaContent
 from resource.py import get_images
 from resource.py import get_tts_audio
 from resource.py.toggle import Toggle, AnimatedToggle
-from resource.py.load_json import load_json_file
+from resource.py.open_json import load_json_file, save_json_file
 from resource.py.load_main_csv import get_main_csv
 
 from main_ui import Ui_MainApp as mp
@@ -29,7 +27,6 @@ except FileNotFoundError:
 
 class MainWindow(QMainWindow, mp):
     resized = pyqtSignal()
-    FIRSTRUN = True
     JSON_DATA = load_json_file()
     CSV_DATA = get_main_csv()
 
@@ -113,6 +110,7 @@ class MainWindow(QMainWindow, mp):
     def set_variable(self):
 
         # Configuration Variables
+        self.FIRSTRUN = True
         self.auto_scroll_toggle = QCheckBox()
         self.auto_slide = True
 
@@ -145,6 +143,12 @@ class MainWindow(QMainWindow, mp):
             self.mb_voca_open.clicked.connect(self.open_folder)
             self.mb_voca_refresh.clicked.connect(self.refresh_all_component)
 
+            self.pause.clicked.connect(self.player.stop)
+
+            for btn in [self.forward, self.back]:
+                btn.clicked.connect(self.player.stop)
+                btn.clicked.connect(lambda: self.change_current_row(obj=btn))
+
             # window resized event
             self.resized.connect(self.resize_widget)
 
@@ -152,7 +156,6 @@ class MainWindow(QMainWindow, mp):
             insert_pushbutton_signal()
 
             # voca word clicked event on QListWidget
-            self.player.stateChanged.connect(self.play_tts_audio)
             insert_QListWidget_item_signal()
 
         def insert_pushbutton_signal():
@@ -162,25 +165,24 @@ class MainWindow(QMainWindow, mp):
 
         def insert_QListWidget_item_signal():
             self.list_widgets = self.findChildren(QListWidget)
-            for item in self.list_widgets:
-                print(item.objectName())
 
             self.list_widgets = [wdg for wdg in self.list_widgets if not wdg.isVisible()]
-            for item in self.list_widgets:
-                print(item.objectName())
 
             for idx, widget in enumerate(self.list_widgets):
-                widget.itemClicked.connect(self.change_current_widget)
-                widget.currentRowChanged.connect(lambda: self.change_mb_voca_widget(obj=self.sending_from_widget))
-                widget.currentRowChanged.connect(lambda: self.get_audio_tts(obj=self.sending_from_widget))
+                if widget.objectName() != "mb_voca_word_adj_0":
+                    widget.itemClicked.connect(self.change_current_widget)
+                    widget.currentRowChanged.connect(lambda: self.change_mb_voca_widget(obj=self.sending_from_widget))
+                    widget.currentRowChanged.connect(lambda: self.get_audio_tts(obj=self.sending_from_widget))
 
+        self.player.stateChanged.connect(self.play_tts_audio)
 
         if self.FIRSTRUN:
             insert_total_signal()
-        elif args[0] == 'pushbutton':
-            insert_pushbutton_signal()
-        elif args[0] == 'qlistwidget':
-            insert_QListWidget_item_signal()
+        if len(args) > 0:
+            if args[0] == 'pushbutton':
+                insert_pushbutton_signal()
+            elif args[0] == 'qlistwidget':
+                insert_QListWidget_item_signal()
 
 
     def setup_window_graphic(self):
@@ -199,17 +201,20 @@ class MainWindow(QMainWindow, mp):
                 for widget in reversed(widgets):
                     if 'mb_voca_widget' in widget.objectName() and widget.objectName() != 'mb_voca_widget_0':
                         self.remove_item_from_VBox(self.mb_voca_scroll_widget_verticalLayout, widget)
+                        widget.setParent(None)
 
                         # Remove QWidgets
                         for item in (widget.findChildren(QWidget)):
                             if 'mb_voca_button_adj' in item.objectName():
                                 self.remove_item_from_VBox(widget, item)
+                                item.setParent(None)
                                 item.deleteLater()
 
                         # Remove QListWidget
                         for item in (widget.findChildren(QListWidget)):
                             if 'mb_voca_word_adj' in item.objectName():
                                 self.remove_item_from_VBox(widget, item)
+                                item.setParent(None)
                         widget.deleteLater()
 
             def make_mb_voca_widget():
@@ -366,7 +371,7 @@ class MainWindow(QMainWindow, mp):
                         self.q_list_widget.addItem(item)
                         self.q_list_widget.item(w_idx).setText(word)
 
-            delete_mb_voca_widget()
+            # delete_mb_voca_widget()
             voca_widgets = find_mb_voca_widgets()
             make_mb_voca_widget()
 
@@ -385,6 +390,7 @@ class MainWindow(QMainWindow, mp):
                 self.auto_scroll_toggle.setStyleSheet("margin: 6px 0px 6px 0px\n")
                 self.auto_scroll_toggle.setMaximumHeight(self.mb_top_bar_auto_scroll_title.height())
                 self.auto_scroll_toggle.setChecked(bool(self.JSON_DATA["AutoScroll"]))
+                self.auto_scroll_toggle.stateChanged.connect(lambda state, key="AutoScroll": self.change_json_file(key=key))
 
         def insert_folder_image():
             # Get Folder Image Path
@@ -457,7 +463,7 @@ class MainWindow(QMainWindow, mp):
 
         # UI 에서 샘플로 만들었던 위젯 지우기
         self.mb_voca_widget_0.hide()
-        self.mb_voca_refresh.setEnabled(False)
+        self.mb_voca_refresh.setEnabled(True)
 
         # Do Something...
         make_voca_groups()
@@ -472,14 +478,16 @@ class MainWindow(QMainWindow, mp):
         os.startfile(base_path)
 
     def refresh_all_component(self):
-        self.setup_window_graphic()
 
-        self.set_signal("pushbutton")
-        self.set_signal("qlistwidget")
-
-        self.set_variable()
+        # Setup GUI Widget
+        # self.set_font_family()
         self.JSON_DATA = load_json_file()
         self.CSV_DATA = get_main_csv()
+
+        self.close()
+
+        self.__init__()
+        self.mb_show_image_adj.setText("🚀 Updated Program by Saved Files ...")
 
     def remove_item_from_VBox(self, parent, obj):
         _type = str(type(parent))
@@ -491,11 +499,16 @@ class MainWindow(QMainWindow, mp):
                        "<class 'PyQt5.QtWidgets.QListWidget'>"):
             obj.deleteLater()
 
-
+    def change_json_file(self, key=None, value=None):
+        if key == "AutoScroll":
+            value = str(self.auto_scroll_toggle.isChecked())
+            save_json_file(key, value)
 
 
     # <-- New Voca Clicked Event Handler --------------------------------------------------->
     def change_current_widget(self):
+        self.player.stop()
+
         self.sending_from_widget = self.sender()
 
         if (self.sending_from_widget != None):
@@ -585,6 +598,17 @@ class MainWindow(QMainWindow, mp):
             self.is_playing = False
             self.is_finished = True
             print("  [Info] <-- Auto scroll is not clicked -->")
+
+    def change_current_row(self, obj):
+        name = obj.objectName()
+
+        if name == "back":
+            idx = self.sending_from_widget.currentRow()
+            self.sending_from_widget.setCurrentRow(idx - 1)
+        elif name == "forward":
+            idx = self.sending_from_widget.currentRow()
+            self.sending_from_widget.setCurrentRow(idx + 1)
+
 
     def voca_widget_button_event(self):
         self.is_playing = False
