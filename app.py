@@ -1,7 +1,6 @@
 # <-- Import main pyqt app modules ----------------------------------------------------------->
 import sys
 import os.path
-import platform
 from glob import glob
 from fontTools import ttLib
 from PyQt5 import QtWidgets, QtCore, QtGui, Qt, QtMultimedia
@@ -205,24 +204,26 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             idx = font_file_name.index(modified_font_name)
             font_path = font_file_list[idx]
             font_name = get_font_name(font_path)
-            print(f"  [Info] Changed Successfully by User font:{font_name}")
+            print(f"  [Info] Font changed Successfully to User font:{font_name}")
 
         except Exception as e:
             # Set font as Noto Sans KR Semi Bold if error happened
-            font_path = "resource/src/font/NotoSansKR-SemiBold.ttf"
+            base_name = "resource/src/font/NotoSansKR-SemiBold"
+            font_path = ".".join(base_name, "ttf")
             font_name = "Noto Sans KR SemiBold"
-            print(f"  [Error] Changed Failed: {e}")
+            print(f"  [Error] Error happened while getting font name: {e}")
 
         fontDB.addApplicationFont(os.path.abspath(font_path))
 
         # Customize font family
+        self.setFont(QtGui.QFont(font_name))
         custom_stylesheet = self.styleSheet()
         custom_stylesheet = custom_stylesheet.replace("Noto Sans KR SemiBold", font_name)
         self.setStyleSheet(custom_stylesheet)
 
     def set_variable(self):
         # Configuration Variables
-        self.PLATFORM = platform.system()
+        self.PLATFORM = sys.platform
         self.FIRSTRUN = True
         self.auto_scroll_toggle = QtWidgets.QCheckBox()
         self.auto_slide = True
@@ -603,9 +604,9 @@ class MainWindow(QtWidgets.QMainWindow, mp):
     def open_folder(self):
         base_path = os.path.abspath("./resource/voca/WordList.csv")
 
-        if self.PLATFORM == "Windows":
+        if self.PLATFORM == "win32":
             os.startfile(base_path)
-        elif self.PLATFORM == 'Drawin':
+        elif self.PLATFORM == 'drawin':
             os.system(f"open {base_path}")
 
     def remove_item_from_VBox(self, parent, obj):
@@ -740,14 +741,14 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         # self.mb_show_btns_adj.hide()
 
     def voca_widget_button_event(self):
-        self.is_playing = False
+        self.stop_player()
+        self.BLACK.hide()
 
         clicked_btn = self.sender()
 
         for btn in self.voca_widget_button:
             append_list_widget = btn.parent().parent().findChild(QtWidgets.QListWidget)
             append_label = btn.parent().findChild(QtWidgets.QLabel)
-
             if btn == clicked_btn:
                 if btn.isChecked():
                     btn.setChecked(True)
@@ -877,10 +878,18 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 self.word = self.mb_show_eng_adj.text()
 
             audio_path = get_tts_audio.get_tts(word=self.word, lang=audio_lang)
-            url = QtCore.QUrl.fromLocalFile(audio_path)
-            content = QtMultimedia.QMediaContent(url)
 
-            self.player.setMedia(content)
+            buf = QtCore.QBuffer()
+            buf.open(QtCore.QBuffer.ReadWrite)
+            audio_path.write_to_fp(buf)
+            buf.open(QtCore.QIODevice.ReadOnly)
+
+
+            # url = QtCore.QUrl.fromLocalFile(audio_path)
+            # content = QtMultimedia.QMediaContent(url)
+            content = QtMultimedia.QMediaContent()
+
+            self.player.setMedia(content, buf)
             self.player.play()
 
             # Setup [tts_idx, is_voca_changed]

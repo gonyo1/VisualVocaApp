@@ -22,16 +22,18 @@ def get_tts(word: str = None, lang: str = None):
 
     output_path = is_main_app()
     is_directory(output_path)
-    output_file = f'{output_path}\\{word}_{lang}.wav'
+    output_file = os.path.join(output_path, f'{word}_{lang}.wav')
 
     if not os.path.isfile(output_path):
         tts = gTTS(
             text=word,
-            lang=lang, slow=False
+            lang=lang,
+            slow=False
         )
-        try:
-            tts.save(output_file)
-        except PermissionError:
-            print(f"  [Error] PermissionError happened when downloading {word}({lang}) tts.")
+        # try:
+        #     tts.save(output_file)
+        # except PermissionError:
+        #     print(f"  [Error] PermissionError happened when downloading {word}({lang}) tts.")
 
-    return os.path.realpath(output_file)
+    return tts
+    # os.path.realpath(output_file)

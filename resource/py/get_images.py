@@ -64,8 +64,12 @@ def get_images_from_word(word: str = None, count: int = 4, *args) -> str:
                 idx = str(idx + 1)
                 extension = url[url.rfind("."):]
 
-                if not os.path.isfile(f"{base_dir}\\{word}({idx}){extension}"):
-                    os.system(f"curl -k {url} > {base_dir}\\{word}({idx}){extension}")
+                path = os.path.join(base_dir, f"{word}({idx}){extension}")
+                if not os.path.isfile(path):
+                    img_data = requests.get(url).content
+                    with open(path, 'wb') as img_file:
+                        img_file.write(img_data)
+                    # os.system(f"curl -k {url} > {path}")
         except Exception as e:
             print(e)
             print("  [WebError] Please Check Internet Network ...")
@@ -73,7 +77,7 @@ def get_images_from_word(word: str = None, count: int = 4, *args) -> str:
     def is_image_downloaded(path: str = None, word: str = None) -> str:
         status = "waiting"
 
-        filetypes = tuple(f"{path}\\{word}({str(count)}){extension[1:]}" for extension in args[1])
+        filetypes = tuple(os.path.join(path, f"{word}({str(count)}){extension[1:]}") for extension in args[1])
 
         for filetype in filetypes:
             if os.path.isfile(os.path.abspath(filetype)):

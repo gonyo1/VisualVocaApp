@@ -17,7 +17,7 @@ def get_main_csv() -> dict:
         return dataframe["그룹"].unique()
 
     base_path = is_main_app()
-    csv_file = f'{base_path}\\WordList.csv'
+    csv_file = os.path.join(base_path, 'WordList.csv')
     dataframe = pd.read_csv(csv_file, encoding='cp949')
     unique_name = get_unique_group_name(dataframe)
 
