@@ -36,3 +36,31 @@ def save_json_file(key, value):
 
     return json_data
 
+def generate_init(path):
+    json_data = {
+        "AppName": "Visual Voca",
+        "Contributors": [
+            "Gonyo",
+            "Ahn"
+        ],
+        "FontFamily": "Noto Sans KR SemiBold",
+        "BookmarkIndex": 0,
+        "AutoScroll": "True",
+        "ImageDownCount": 3,
+        "GetImageFromURL": [
+            {
+                "URL": "https://www.gettyimagesbank.com/s/?q=",
+                "CSS": ".wrapThumbList > #list700 > #tiles > li > a > img"
+            },
+            {
+                "URL": "https://tenor.com/ko/search/",
+                "CSS": "div.GifList > div > figure > a > div.Gif > img"
+            }
+            ]
+        }
+
+    with open(path, 'w', encoding='utf-8') as f:
+        json.dump(json_data, f, indent="\t")
+
+    return json_data
+

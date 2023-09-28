@@ -1,38 +1,140 @@
-# pip install pyqt5 pywin32 pillow pyinstaller tinyaes
-import os.path
+# <-- Import main pyqt app modules ----------------------------------------------------------->
 import sys
-
+import os.path
+import platform
 from glob import glob
-
-from PyQt5.QtGui import QIcon, QPixmap, QFont, QFontDatabase
-from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtWidgets import QMainWindow, QApplication, QListWidget, QFileDialog, QWidget, QCheckBox, QLabel, QPushButton, QSizePolicy, QVBoxLayout
-from PyQt5.QtCore import QTimer, pyqtSignal, QRect, QBuffer, Qt, QUrl, QSize
-from PyQt5.QtMultimedia import QSound, QMediaPlayer, QMediaContent
+from fontTools import ttLib
+from PyQt5 import QtWidgets, QtCore, QtGui, Qt, QtMultimedia
 
 # Import Local Python Files
 from resource.py import get_images
 from resource.py import get_tts_audio
-from resource.py.toggle import Toggle, AnimatedToggle
-from resource.py.open_json import load_json_file, save_json_file
+from resource.py.toggle import AnimatedToggle
+from resource.py.open_json import load_json_file, save_json_file, generate_init
 from resource.py.load_main_csv import get_main_csv
+from resource.src.ui.main_ui import Ui_MainApp as mp
 
-from main_ui import Ui_MainApp as mp
+# <-- Import App Update modules --------------------------------------------------------------->
+import logging
+import shutil
+import stat
+import tempfile
+import traceback
 
-try:
-    os.system("pyuic5 main.ui -o main_ui.py")
-    print("  [Info] pyuic5 has done...")
-    # os.system("pyrcc5 main.qrc -o main_rc.py")
-except FileNotFoundError:
-    print("  [Error] Error happened from 'pyuic5 or pyrcc5' ")
+REPO_DIR = os.path.expanduser('~' + os.sep + '.myrepo')
+URL = 'https://MYPROJECT.googlecode.com/hg/'
+MYAPPLOGGER = 'WHATEVER'
 
 
-class MainWindow(QMainWindow, mp):
-    resized = pyqtSignal()
+__author__ = 'https://www.github.com/gonyo1'
+__date__ = 'October 2023'
+__credits__ = ['Gonyo', 'AhnJH']
+
+
+class AppUpdator(QtCore.QThread):
+    """This class automatically updates a PyQt app from a remote
+    Gonyo1's VisualVocaApp repository
+    # Mercurial repository.
+    """
+    def __init__(self, parent=None):
+        QtCore.QThread.__init__(self, parent)
+        # self.ui = ui.ui()
+        self.logger = logging.getLogger(MYAPPLOGGER)
+        self.info = lambda msg: self.logger.info(msg)
+        self.debug = lambda msg: self.logger.debug(msg)
+        self.ui = ui.ui()
+        self.url = 'https://open-ihm.googlecode.com/hg/'
+        try:
+            self.repo = hg.repository(self.ui, REPO_DIR)
+        except Exception:
+            self.repo = hg.repository(self.ui, REPO_DIR, create=True)
+        return
+
+    def run(self):
+        # Redirect stdin and stdout to tempfiles.
+        # This fixes a Windows bug which causes a Bad File Descriptor error.
+        sys.stdout = tempfile.TemporaryFile()
+        sys.stderr = tempfile.TemporaryFile()
+        try:
+            self.pullAndMerge()
+        except Exception:
+            self.fail()
+            return
+        try:
+            self.install()
+        except Exception:
+            self.fail()
+            return
+        self.emit(QtCore.SIGNAL("updateSuccess()"))
+        return
+
+    def chmod(self):
+        """Fix a Windows bug which marks files / folders in REPO_DIR read-only.
+        """
+        if not (sys.platform == 'win32' or sys.platform == 'cygwin'):
+            return
+        for root, dirs, files in os.walk(REPO_DIR):
+            for name in files:
+                os.chmod(os.path.join(root, name), stat.S_IWRITE)
+            for name in dirs:
+                os.chmod(os.path.join(root, name), stat.S_IWRITE)
+        return
+
+    def fail(self):
+        """Called if an error occurs.
+        Take the traceback, log it and notify the MainWindow.
+        """
+        ty, value, tback = sys.exc_info()
+        msg = ''.join(traceback.format_exception(ty, value, tback))
+        self.debug(msg)
+        self.updateFail(msg)
+        return
+
+    def clone(self):
+        """If we don't have a copy of the open-ihm repository on disk
+        clone one now.
+        """
+        try:
+            self.chmod()
+            commands.clone(self.ui, self.url, dest=REPO_DIR, insecure=True)
+        except Exception:
+            self.fail()
+        return
+
+    def pullAndMerge(self):
+        """Run an hg pull and update.
+        Overwrite all local changes by default.
+        If anything goes wrong with the pull or update, clone instead.
+        """
+        try:
+            self.chmod()
+            commands.pull(self.ui, self.repo, source=self.url)
+            self.chmod()
+            commands.update(self.ui, self.repo, clean=True)
+        except error.RepoError:
+            if os.path.exists(REPO_DIR):
+                shutil.rmtree(REPO_DIR)
+                self.clone()
+        return
+
+    def install(self):
+        # Use distutils or whatever to install app.
+        return
+
+    def updateFail(self, message):
+        """If checking for updates times out (for example, if there
+        is no current network connection) then fail silently.
+        """
+        self.emit(QtCore.SIGNAL("updateFailure(QString)"), QtCore.QString(message))
+        return
+
+
+class MainWindow(QtWidgets.QMainWindow, mp):
+    resized = QtCore.pyqtSignal()
     JSON_DATA = load_json_file()
     CSV_DATA = get_main_csv()
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, geometry=None):
         # Overloading MainWindow
         super(MainWindow, self).__init__(parent)
 
@@ -46,21 +148,30 @@ class MainWindow(QMainWindow, mp):
 
         # Setup Graphic Part
         self.setWindowTitle("  VisualVoca")
-        self.setWindowIcon(QIcon("resource/src/img/AppIcon.png"))
-        self.mb_icon.setPixmap(QPixmap('resource/src/img/Logo.svg'))
+        self.setWindowIcon(Qt.QIcon("resource/src/img/AppIcon.ico"))
+        self.mb_icon.setPixmap(Qt.QPixmap('resource/src/img/Logo.svg'))
         self.setup_window_graphic()
 
         # Setup Signal and Slots
         self.set_signal()
+
+        # Repostion of mainwidget
+        if geometry != None:
+            self.setGeometry(geometry)
+
+        # Broadcast FIRSTRUN Finished
         self.FIRSTRUN = False
+
+        # For updating software
+        # self.thread = AppUpdator()
+        return
+
 
     def set_font_family(self):
         def grab_ttf_file() -> list:
             return glob(os.path.abspath("./resource/src/font/*.ttf"))
 
         def get_font_name(font_path: str = None) -> str:
-            from fontTools import ttLib
-
             font = ttLib.TTFont(font_path)
             font_family_name = font['name'].getDebugName(1)
             # fullName = font['name'].getDebugName(4)
@@ -77,7 +188,7 @@ class MainWindow(QMainWindow, mp):
 
 
         # Make Font Database
-        fontDB = QFontDatabase()
+        fontDB = Qt.QFontDatabase()
 
         # Get font name by JSON_DATA
         font_path = None
@@ -100,7 +211,7 @@ class MainWindow(QMainWindow, mp):
             # Set font as Noto Sans KR Semi Bold if error happened
             font_path = "resource/src/font/NotoSansKR-SemiBold.ttf"
             font_name = "Noto Sans KR SemiBold"
-            print(f"  [Error] Changed Failed:{e}")
+            print(f"  [Error] Changed Failed: {e}")
 
         fontDB.addApplicationFont(os.path.abspath(font_path))
 
@@ -110,10 +221,10 @@ class MainWindow(QMainWindow, mp):
         self.setStyleSheet(custom_stylesheet)
 
     def set_variable(self):
-
         # Configuration Variables
+        self.PLATFORM = platform.system()
         self.FIRSTRUN = True
-        self.auto_scroll_toggle = QCheckBox()
+        self.auto_scroll_toggle = QtWidgets.QCheckBox()
         self.auto_slide = True
 
         # Voca Variables
@@ -123,13 +234,14 @@ class MainWindow(QMainWindow, mp):
         self.focused_listwidget = None
 
         # Image Variables
+        self.is_pause_clicked = False
         self.file_type = ('*.jpg', '*.gif', '*.jpeg', '*.bmp')
         self.pics = None
         self.is_voca_changed = False
         self.image_idx = 0
 
         # Audion Variables
-        self.player = QMediaPlayer()
+        self.player = QtMultimedia.QMediaPlayer()
         self.lang = ['en', 'ko']
         self.is_playing = False
         self.is_finished = False
@@ -137,22 +249,21 @@ class MainWindow(QMainWindow, mp):
         self.tts_repeat = 3
 
         # ETC
-        self.timer = QTimer(self)
+        self.timer = QtCore.QTimer(self)
 
     def set_signal(self, *args):
         def insert_total_signal():
             # Mainwindow buttons
             self.mb_voca_open.clicked.connect(self.open_folder)
             self.mb_voca_refresh.clicked.connect(self.refresh_all_component)
+            self.auto_scroll_toggle.stateChanged.connect(lambda state, key="AutoScroll": self.change_json_file(key=key))
 
-            self.pause.clicked.connect(self.stop_player)
-            self.pause.clicked.connect(self.mb_show_btns_adj.show)
-
-            self.mb_show_top_bar_repeat_TextEdit.textEdited.connect(lambda: self.change_json_file(key="ImageDownCount"))
-
+            # mb_show part
+            self.pause.clicked.connect(self.is_clicked_pause)
             for btn in [self.forward, self.back]:
                 btn.clicked.connect(self.player.stop)
-                btn.clicked.connect(self.change_current_row)
+                btn.clicked.connect(self.is_clicked_back_forward)
+            self.mb_show_top_bar_repeat_TextEdit.textEdited.connect(lambda: self.change_json_file(key="ImageDownCount"))
 
             # window resized event
             self.resized.connect(self.resize_widget)
@@ -164,12 +275,11 @@ class MainWindow(QMainWindow, mp):
             insert_QListWidget_item_signal()
 
         def insert_pushbutton_signal():
-            print(self.voca_widget_button)
             for btn in self.voca_widget_button:
                 btn.clicked.connect(self.voca_widget_button_event)
 
         def insert_QListWidget_item_signal():
-            self.list_widgets = self.findChildren(QListWidget)
+            self.list_widgets = self.findChildren(QtWidgets.QListWidget)
 
             self.list_widgets = [wdg for wdg in self.list_widgets if not wdg.isVisible()]
 
@@ -193,34 +303,10 @@ class MainWindow(QMainWindow, mp):
     def setup_window_graphic(self):
         def make_voca_groups():
             def find_mb_voca_widgets():
-                voca_widgets = self.findChildren(QWidget)
+                voca_widgets = self.findChildren(QtWidgets.QWidget)
                 voca_widgets = [widget for widget in voca_widgets if "mb_voca_widget" in widget.objectName()]
 
                 return voca_widgets
-
-            def delete_mb_voca_widget():
-                if not self.spacer == None:
-                    del self.spacer
-
-                widgets = self.mb_voca_scroll_widget.findChildren(QWidget)
-                for widget in reversed(widgets):
-                    if 'mb_voca_widget' in widget.objectName() and widget.objectName() != 'mb_voca_widget_0':
-                        self.remove_item_from_VBox(self.mb_voca_scroll_widget_verticalLayout, widget)
-                        widget.setParent(None)
-
-                        # Remove QWidgets
-                        for item in (widget.findChildren(QWidget)):
-                            if 'mb_voca_button_adj' in item.objectName():
-                                self.remove_item_from_VBox(widget, item)
-                                item.setParent(None)
-                                item.deleteLater()
-
-                        # Remove QListWidget
-                        for item in (widget.findChildren(QListWidget)):
-                            if 'mb_voca_word_adj' in item.objectName():
-                                self.remove_item_from_VBox(widget, item)
-                                item.setParent(None)
-                        widget.deleteLater()
 
             def make_mb_voca_widget():
                 group_name = self.CSV_DATA["unique_name"]
@@ -257,8 +343,8 @@ class MainWindow(QMainWindow, mp):
                     return NEW_WIDGET_WRAPPER
 
                 def setup_QWidget_wrapper(parent=None):
-                    obj = QWidget(parent)
-                    sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+                    obj = QtWidgets.QWidget(parent)
+                    sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
                     sizePolicy.setHorizontalStretch(0)
                     sizePolicy.setVerticalStretch(0)
                     sizePolicy.setHeightForWidth(obj.sizePolicy().hasHeightForWidth())
@@ -299,7 +385,7 @@ class MainWindow(QMainWindow, mp):
                     sizePolicy.setHeightForWidth(obj.sizePolicy().hasHeightForWidth())
 
                     obj.setSizePolicy(sizePolicy)
-                    obj.setMaximumSize(QSize(16777215, 20))
+                    obj.setMaximumSize(QtCore.QSize(16777215, 20))
                     obj.setStyleSheet("")
                     obj.setText("")
                     obj.setObjectName(f"mb_voca_button_icon_adj_{index}")
@@ -312,6 +398,7 @@ class MainWindow(QMainWindow, mp):
                     sizePolicy.setHorizontalStretch(0)
                     sizePolicy.setVerticalStretch(0)
                     sizePolicy.setHeightForWidth(obj.sizePolicy().hasHeightForWidth())
+                    obj.setFocusPolicy(QtCore.Qt.NoFocus)
                     obj.setSizePolicy(sizePolicy)
                     obj.setMaximumSize(QtCore.QSize(16777215, 16777215))
                     obj.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
@@ -329,7 +416,8 @@ class MainWindow(QMainWindow, mp):
                     sizePolicy.setVerticalStretch(0)
                     sizePolicy.setHeightForWidth(obj.sizePolicy().hasHeightForWidth())
                     obj.setSizePolicy(sizePolicy)
-                    obj.setMaximumSize(QtCore.QSize(16777215, 16777215))
+                    obj.setMinimumSize(QtCore.QSize(184, 0))
+                    obj.setMaximumSize(QtCore.QSize(184, 16777215))
                     obj.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.PointingHandCursor))
                     obj.setFocusPolicy(QtCore.Qt.NoFocus)
                     obj.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
@@ -376,12 +464,11 @@ class MainWindow(QMainWindow, mp):
                         self.q_list_widget.addItem(item)
                         self.q_list_widget.item(w_idx).setText(word)
 
-            # delete_mb_voca_widget()
             voca_widgets = find_mb_voca_widgets()
             make_mb_voca_widget()
 
             # find PushButton
-            self.voca_widget_button = [btn for btn in self.findChildren(QPushButton) if
+            self.voca_widget_button = [btn for btn in self.findChildren(QtWidgets.QPushButton) if
                                        'mb_voca_button_group_title_adj' in btn.objectName()]
             self.voca_widget_button = [btn for btn in self.voca_widget_button if not btn.isVisible()]
 
@@ -394,18 +481,28 @@ class MainWindow(QMainWindow, mp):
 
                 self.auto_scroll_toggle.setStyleSheet("margin: 6px 0px 6px 0px\n")
                 self.auto_scroll_toggle.setMaximumHeight(self.mb_top_bar_auto_scroll_title.height())
-                self.auto_scroll_toggle.setChecked(bool(self.JSON_DATA["AutoScroll"]))
-                self.auto_scroll_toggle.stateChanged.connect(lambda state, key="AutoScroll": self.change_json_file(key=key))
+                self.auto_scroll_toggle.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+
+
+                _bool = True if self.JSON_DATA["AutoScroll"] == 'True' else False
+                self.auto_scroll_toggle.setChecked(_bool)
+
+        def make_black_vail():
+            self.BLACK = QtWidgets.QLabel(self.mb_show_adj)
+            self.BLACK.setObjectName("BLACK")
+            self.BLACK.setStyleSheet("background-color: rgba(0, 0, 0, 200);\n")
+            self.BLACK.setGeometry(-1, -1, 772, 702)
+            self.BLACK.hide()
 
         def insert_folder_image():
             # Get Folder Image Path
             base_path = os.path.abspath("./resource/src/img")
-            self.folder_icon = QPixmap(os.path.join(base_path, "Folder.svg"))
-            self.folder_open_icon = QPixmap(os.path.join(base_path, "FolderOpen.svg"))
+            self.folder_icon = Qt.QPixmap(os.path.join(base_path, "Folder.svg"))
+            self.folder_open_icon = Qt.QPixmap(os.path.join(base_path, "FolderOpen.svg"))
 
             # Find Voca Button Object from parent
-            voca_btns = [label for label in self.findChildren(QLabel) if 'mb_voca_button_icon_adj' in label.objectName()]
-            push_btns = [push for push in self.findChildren(QPushButton) if 'mb_voca_button_group_title_adj' in push.objectName()]
+            voca_btns = [label for label in self.findChildren(QtWidgets.QLabel) if 'mb_voca_button_icon_adj' in label.objectName()]
+            push_btns = [push for push in self.findChildren(QtWidgets.QPushButton) if 'mb_voca_button_group_title_adj' in push.objectName()]
 
             # Setup Pixmap
             max_size = int(voca_btns[0].maximumHeight() * 0.8)
@@ -456,7 +553,6 @@ class MainWindow(QMainWindow, mp):
             self.mb_voca_refresh.setStyleSheet("QPushButton {margin: 5px;\n"
                                                "padding: 0px;\n"
                                                f"background-image: url({refresh});\n"
-                                               "background-size: cover;\n"
                                                "background-repeat: none;\n"
                                                "background-position: center;\n"
                                                "}\n"
@@ -481,11 +577,15 @@ class MainWindow(QMainWindow, mp):
         # Do Something...
         make_voca_groups()
         make_toggle_button()
+        make_black_vail()
+        
         insert_folder_image()
         insert_refresh_icon()
-        self.voca_widget_button_event()
-        calculate_ratio()
         insert_FrontImage()
+        
+        self.voca_widget_button_event()
+        
+        calculate_ratio()
 
     def refresh_all_component(self):
 
@@ -496,12 +596,17 @@ class MainWindow(QMainWindow, mp):
 
         self.close()
 
-        self.__init__()
+        geometry = self.geometry()
+        self.__init__(geometry=geometry)
         self.mb_show_image_adj.setMovie(self.movie)
 
     def open_folder(self):
-        base_path = os.path.abspath("./resource/voca/Word_List.csv")
-        os.startfile(base_path)
+        base_path = os.path.abspath("./resource/voca/WordList.csv")
+
+        if self.PLATFORM == "Windows":
+            os.startfile(base_path)
+        elif self.PLATFORM == 'Drawin':
+            os.system(f"open {base_path}")
 
     def remove_item_from_VBox(self, parent, obj):
         _type = str(type(parent))
@@ -519,7 +624,6 @@ class MainWindow(QMainWindow, mp):
             save_json_file(key, value)
 
         elif key == "ImageDownCount":
-            print("ddddddddddddd")
             value = self.mb_show_top_bar_repeat_TextEdit.text()
             value = int(value) if value.isdigit() else 3
             value = 10 if (value > 10) else value
@@ -543,8 +647,10 @@ class MainWindow(QMainWindow, mp):
             self.get_audio_tts(obj=self.sending_from_widget)
 
     def change_mb_voca_widget(self, obj):
-
+        self.mb_show_eng_adj.setStyleSheet("color: black;\n")
+        self.mb_show_kor_adj.setStyleSheet("color: black;\n")
         self.mb_show_btns_adj.show()
+        self.BLACK.hide()
         self.player.stop()
 
         # Get currentItem Text
@@ -557,18 +663,18 @@ class MainWindow(QMainWindow, mp):
             self.is_finished = False
             self.tts_idx = 0
             self.image_idx = 0
-            self.group_name = obj.parent().findChild(QPushButton).text()
+            self.group_name = obj.parent().findChild(QtWidgets.QPushButton).text()
 
             # Change image
             self.pics = list()
             status = get_images.get_images_from_word(self.word, self.JSON_DATA["ImageDownCount"], self.JSON_DATA, self.file_type)
             file_types = tuple(f"./resource/voca/img/{self.word}/{extention}" for extention in self.file_type)
             for file_type in file_types:
-                self.pics.extend([QPixmap(item) for item in glob(file_type)])
+                self.pics.extend([Qt.QPixmap(item) for item in glob(file_type)])
 
             # When Image Files are not downloaded enough
             if len(self.pics) < self.JSON_DATA["ImageDownCount"]:
-                no_image = QPixmap(os.path.abspath("./resource/src/img/NoImage.svg"))
+                no_image = Qt.QPixmap(os.path.abspath("./resource/src/img/NoImage.svg"))
                 count = self.JSON_DATA["ImageDownCount"] - len(self.pics)
                 for time in range(count):
                     self.pics.append(no_image)
@@ -599,9 +705,9 @@ class MainWindow(QMainWindow, mp):
 
             self.mb_show_image_adj.clear()
             # self.mb_show_image_adj.setPixmap(pic)
-            self.mb_show_image_adj.setPixmap(pic.scaled(QSize(self.mb_show_image_adj.width(),self.mb_show_image_adj.height()),
-                                                        aspectRatioMode=Qt.KeepAspectRatio,
-                                                        transformMode =Qt.SmoothTransformation
+            self.mb_show_image_adj.setPixmap(pic.scaled(QtCore.QSize(self.mb_show_image_adj.width(),self.mb_show_image_adj.height()),
+                                                        aspectRatioMode=QtCore.Qt.KeepAspectRatio,
+                                                        transformMode =QtCore.Qt.SmoothTransformation
                                                         )
                                              )
             self.mb_show_image_adj.repaint()
@@ -623,29 +729,15 @@ class MainWindow(QMainWindow, mp):
             print("  [Info] <-- Auto scroll is not clicked -->")
 
     def stop_player(self):
-        self.player.stop()
-        self.mb_show_btns_adj.hide()
-        self.is_playing = False
         self.is_finished = True
+        self.is_playing = False
 
-    def change_current_row(self):
-        # Stop Player and reset setting
-        self.stop_player()
+        self.BLACK.show()
         self.player.stop()
 
-        # Get obj from sender
-        obj = self.sender()
-        name = obj.objectName()
-
-        # Change current index
-        if name == "back":
-            idx = self.sending_from_widget.currentRow()
-            print(idx)
-            self.sending_from_widget.setCurrentRow(idx - 1)
-        elif name == "forward":
-            idx = self.sending_from_widget.currentRow()
-            print(idx)
-            self.sending_from_widget.setCurrentRow(idx + 1)
+        self.mb_show_btns_adj.raise_()
+        self.pause.setText("▶")
+        # self.mb_show_btns_adj.hide()
 
     def voca_widget_button_event(self):
         self.is_playing = False
@@ -653,8 +745,8 @@ class MainWindow(QMainWindow, mp):
         clicked_btn = self.sender()
 
         for btn in self.voca_widget_button:
-            append_list_widget = btn.parent().parent().findChild(QListWidget)
-            append_label = btn.parent().findChild(QLabel)
+            append_list_widget = btn.parent().parent().findChild(QtWidgets.QListWidget)
+            append_label = btn.parent().findChild(QtWidgets.QLabel)
 
             if btn == clicked_btn:
                 if btn.isChecked():
@@ -663,6 +755,7 @@ class MainWindow(QMainWindow, mp):
                     append_list_widget.setHidden(False)
 
                     w = append_list_widget.width()
+                    # w를 아이템 크기에 맞출 때 사용할 수 있음
                     # w = append_list_widget.sizeHintForColumn(0) + append_list_widget.frameWidth() * 2
                     h = append_list_widget.sizeHintForRow(0) * append_list_widget.count() + 2 * append_list_widget.frameWidth()
                     append_list_widget.setFixedSize(w, h)
@@ -682,9 +775,76 @@ class MainWindow(QMainWindow, mp):
             self.spacer = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
             self.mb_voca_scroll_widget_verticalLayout.addItem(self.spacer)
 
+    # <-- Top/Bottom Bar Button Event ------------------------------------------------------>
+    def is_clicked_pause(self):
+        if not self.is_pause_clicked:
+            # stop player
+            self.stop_player()
+
+            # change setting
+            self.is_finished = True
+            self.is_playing = False
+            self.is_pause_clicked = True
+
+            # show black
+            self.BLACK.show()
+
+            for item in [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_btns_adj]:
+                item.raise_()
+                item.show()
+                item.setStyleSheet("color: white;\n")
+
+            self.mb_show_btns_adj.setStyleSheet("color: black;\n")
+            self.pause.setText("▶")
+        else:
+            # play player
+            self.change_mb_voca_widget(obj=self.sending_from_widget)
+            self.get_audio_tts(obj=self.sending_from_widget)
+
+            # change setting
+            self.is_pause_clicked = False
+
+            # hide black
+            self.BLACK.hide()
+
+            for item in [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_btns_adj]:
+                item.raise_()
+                item.show()
+                item.setStyleSheet("color: black;\n")
+
+            self.pause.setText("■")
+
+    def is_clicked_back_forward(self):
+        # Stop Player and reset setting
+        self.stop_player()
+
+        # Get obj from sender
+        obj = self.sender()
+        name = obj.objectName()
+
+        # Change current index
+        if name == "back":
+            idx = self.sending_from_widget.currentRow()
+            self.sending_from_widget.setCurrentRow(idx - 1)
+        elif name == "forward":
+            idx = self.sending_from_widget.currentRow()
+            self.sending_from_widget.setCurrentRow(idx + 1)
+
+        self.is_pause_clicked = False
+
+        for item in [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_btns_adj]:
+            item.raise_()
+            item.show()
+            item.setStyleSheet("color: black")
+
+        self.pause.setText("■")
+
+
+
     # <-- Play audio TTS ------------------------------------------------------------------->
     def play_tts_audio(self):
-        if self.player.state() == 0 and not self.is_finished:
+        if self.player.state() == 0 and \
+                not self.is_finished:
             # Todo 마지막에 한번 더 나오는거 어떻게 처리할지 고민해보기
 
             # Play ALL TTS Audio in language list
@@ -717,8 +877,8 @@ class MainWindow(QMainWindow, mp):
                 self.word = self.mb_show_eng_adj.text()
 
             audio_path = get_tts_audio.get_tts(word=self.word, lang=audio_lang)
-            url = QUrl.fromLocalFile(audio_path)
-            content = QMediaContent(url)
+            url = QtCore.QUrl.fromLocalFile(audio_path)
+            content = QtMultimedia.QMediaContent(url)
 
             self.player.setMedia(content)
             self.player.play()
@@ -736,6 +896,7 @@ class MainWindow(QMainWindow, mp):
             if not self.is_playing:
                 self.play_tts_audio()
                 self.is_playing = True
+
 
     # <-- Resize Event Handler ------------------------------------------------------------->
     def resize_widget(self):
@@ -790,7 +951,11 @@ class MainWindow(QMainWindow, mp):
                         _y = h - _h
                         _w -= 10
 
-            obj.setGeometry(QRect(_x, _y, _w, _h))
+            elif 'BLACK' in obj.objectName():
+                _w = w + 2
+                _h = h + 2
+
+            obj.setGeometry(QtCore.QRect(_x, _y, _w, _h))
 
         def change_stylesheet(parent, obj, **kwargs):
             """
@@ -848,6 +1013,7 @@ class MainWindow(QMainWindow, mp):
         resize_widget_setting(self, self.mb_show_kor_adj, w=w, h=h)
         resize_widget_setting(self, self.mb_show_btns_adj, w=w, h=h)
         resize_widget_setting(self, self.mb_show_dev, w=w, h=h)
+        resize_widget_setting(self, self.BLACK, w=w, h=h)
 
         # Right - Main Font Resize Section
         change_stylesheet(self, self.mb_show_eng_adj, font=calculate_font_ratio(self.mb_show_eng_adj, self.mb_show_eng_h))
@@ -858,8 +1024,56 @@ class MainWindow(QMainWindow, mp):
         return super(MainWindow, self).resizeEvent(event)
 
 
+
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
+    def get_ui_python_file():
+        try:
+            os.system("pyuic5 resource/src/ui/main.ui -o resource/src/ui/main_ui.py")
+            print("  [Info] pyuic5 has done...")
+            # os.system("pyrcc5 main.qrc -o main_rc.py")
+        except FileNotFoundError:
+            print("  [Error] Error happened from 'pyuic5 or pyrcc5' ")
+
+    def make_dir():
+        # Make root directory
+        for dir in ["resource", "resource/py",
+                    "resource/src", "resource/src/font", "resource/src/img", "resource/src/ui",
+                    "resource/voca", "resource/voca/img", "resource/voca/tts"]:
+            _dir = os.path.abspath(dir)
+            if not os.path.isdir(_dir):
+                os.mkdir(_dir)
+
+        # Make json file
+        path = os.path.abspath("resource/src/config.json")
+        if not os.path.isfile(path):
+            generate_init(path)
+
+        # Make CSV file
+        path = os.path.abspath("resource/voca/WordList.csv")
+        if not os.path.isfile(path):
+            with open(path, 'w') as f:
+                f.writelines(
+                    ["그룹,단어,뜻\n",
+                     "Fruit,apple,사과\n",
+                     "Fruit,avocado,아보카도\n",
+                     "Fruit,banana,바나나\n",
+                     "Fruit,blackberry,블랙베리\n",
+                     "Animals,Polar bear,북극곰\n",
+                     "Animals,dog,개\n",
+                     "Animals,Turtle,거북이\n",
+                     "Transportation,bicycle,자전거\n",
+                     "Transportation,bus,버스\n",
+                     "Transportation,car,자동차\n",
+                     ]
+                )
+
+
+    # Convert .ui to .py
+    make_dir()
+    get_ui_python_file()
+
+    # Run main app
+    app = QtWidgets.QApplication(sys.argv)
     main_win = MainWindow()
     main_win.show()
     sys.exit(app.exec_())
@@ -871,4 +1085,7 @@ pyinstaller -w -F --log-level=WARN --hidden-import ./AutoSigner/main_ui.py --hid
 pyinstaller -w -F --log-level=WARN --hidden-import AutoSigner/main_ui.py --hidden-import AutoSigner/main_rc.py --icon=./AutoSigner/icon.ico main.py
 pyinstaller -w -F --log-level=WARN --hidden-import AutoSigner/main_ui.py --icon=./AutoSigner/icon.ico main.py
 pyinstaller -w -F --log-level=WARN --hidden-import ./AutoSigner/main_ui --icon=./AutoSigner/icon.ico main.py
+
+pyinstaller -w -F --log-level=WARN --icon=./resource/src/img/Appicon.ico app.py
+pyinstaller -F --log-level=WARN --icon=./resource/src/img/Appicon.ico app.py
 """

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6f391428-5e23-4fd8-b8bb-00df0fd98648" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/resource/py/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/src/img/AppIcon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/src/ui/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/VisualVocaApp.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/resource/src/ui/main.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource/src/ui/main_ui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/py/get_images.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource/py/get_images.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/py/get_tts_audio.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource/py/get_tts_audio.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/py/load_main_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource/py/load_main_csv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/py/open_json.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource/py/open_json.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/py/toggle.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource/py/toggle.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/src/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/resource/src/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/Word_List.csv" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/WordList.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/dog_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/dog_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/museum_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/museum_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/rock_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/rock_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/watch_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/watch_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/wonder_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/wonder_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/과학_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/과학_ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/놀람, 이상하게 여기다_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/놀람, 이상하게 여기다_ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/무엇 일 것이다.  shall과거 _ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/무엇 일 것이다.  shall과거 _ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/음식, 식품_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/음식, 식품_ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/이유, 이성_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/이유, 이성_ko.wav" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2VZVQ0W1XpT4LBChz3QBM3FI73O" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/py",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Gonyo\Documents\GitHub\VisualVocaApp\resource\py" />
+      <recent name="C:\Users\Gonyo\Documents\GitHub\VisualVocaApp\resource\src\ui" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Gonyo\Documents\GitHub\VisualVocaApp\resource\src\img" />
+      <recent name="C:\Users\Gonyo\Documents\GitHub\VisualVocaApp\resource\src\ui" />
+      <recent name="C:\Users\Gonyo\Documents\GitHub\VisualVocaApp\resource\src" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.app">
+    <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="VisualVocaApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="get_images" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="VisualVocaApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/resource/py" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/resource/py/get_images.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="get_tts_audio" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="VisualVocaApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/resource/py" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\Gonyo\Documents\GitHub\VisualVocaApp\resource\py\get_tts_audio.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="load_main_csv" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="VisualVocaApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/resource/py" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/resource/py/load_main_csv.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="toggle" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="VisualVocaApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/resource/py" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/resource/py/toggle.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.app" />
+        <item itemvalue="Python.get_images" />
+        <item itemvalue="Python.toggle" />
+        <item itemvalue="Python.load_main_csv" />
+        <item itemvalue="Python.get_tts_audio" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6f391428-5e23-4fd8-b8bb-00df0fd98648" name="Changes" comment="" />
+      <created>1695043569522</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1695043569522</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/resource/py/load_main_csv.py</url>
+          <line>7</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app.py</url>
+          <line>720</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app.py</url>
+          <line>404</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/resource/py/get_images.py</url>
+          <line>18</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+      </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

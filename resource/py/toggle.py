@@ -1,12 +1,12 @@
 import sys
 
-from qtpy.QtCore import (
+from PyQt5.QtCore import (
     Qt, QSize, QPoint, QPointF, QRectF,
     QEasingCurve, QPropertyAnimation, QSequentialAnimationGroup,
-    Slot, Property)
+    pyqtSlot, pyqtProperty)
 
-from qtpy.QtWidgets import QCheckBox
-from qtpy.QtGui import QColor, QBrush, QPaintEvent, QPen, QPainter
+from PyQt5.QtWidgets import QCheckBox
+from PyQt5.QtGui import QColor, QBrush, QPaintEvent, QPen, QPainter
 
 class Toggle(QCheckBox):
 
@@ -78,11 +78,11 @@ class Toggle(QCheckBox):
 
         p.end()
 
-    @Slot(int)
+    @pyqtSlot(int)
     def handle_state_change(self, value):
         self._handle_position = 1 if value else 0
 
-    @Property(float)
+    @pyqtProperty(float)
     def handle_position(self):
         return self._handle_position
 
@@ -113,7 +113,7 @@ class AnimatedToggle(Toggle):
         self.animations_group = QSequentialAnimationGroup()
         self.animations_group.addAnimation(self.animation)
 
-    @Slot(int)
+    @pyqtSlot(int)
     def handle_state_change(self, value):
         self.animations_group.stop()
         if value:

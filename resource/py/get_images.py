@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import cssselect
 
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -42,7 +43,7 @@ def get_images_from_word(word: str = None, count: int = 4, *args) -> str:
                 base_url = f"{base_url}{word}"
                 print(base_url)
 
-                res = requests.get(base_url, verify=False, timeout=5)
+                res = requests.get(base_url, verify=False, timeout=10)
 
                 if res.status_code == 200:
 
@@ -66,6 +67,7 @@ def get_images_from_word(word: str = None, count: int = 4, *args) -> str:
                 if not os.path.isfile(f"{base_dir}\\{word}({idx}){extension}"):
                     os.system(f"curl -k {url} > {base_dir}\\{word}({idx}){extension}")
         except Exception as e:
+            print(e)
             print("  [WebError] Please Check Internet Network ...")
 
     def is_image_downloaded(path: str = None, word: str = None) -> str:

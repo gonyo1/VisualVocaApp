@@ -1176,7 +1176,7 @@ font: 10px;
       <string notr="true"/>
      </property>
      <property name="text">
-      <string>Visual Vocaa</string>
+      <string>Visual Voca</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignBottom|Qt::AlignHCenter</set>
