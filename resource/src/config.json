@@ -14,8 +14,7 @@
 	},
 	"LanguagesSpeech": {
 		"First": "en",
-		"Second": "ko",
-		"Third": "ru"
+		"Second": "ko"
 	},
 	"APIKeys": {
 		"NaverPapago": "<YOUR_SECRET_API_KEY>",
