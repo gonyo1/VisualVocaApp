@@ -55,7 +55,8 @@ def translate(word: str = None, langs: dict = None, key: str = None):
     request = requests.post(constructed_url, params=params, headers=headers, json=body)
     response = request.json()
 
-    if
+    if type(response) != list:
+        print(langs)
 
 
     print("  [Info] MS Azure token subtracted... Please note this info...")
@@ -65,9 +66,10 @@ def translate(word: str = None, langs: dict = None, key: str = None):
     # print(json.dumps(response, sort_keys=True, ensure_ascii=False, indent=4, separators=(',', ': ')))
 
 def search_text_by_lang(json, lang) -> str:
-    print(json)
+    print(json, lang, 'ddddddddddddddddddddddddd')
     results = json[0]["translations"]
     word = [result["text"] for result in results if lang == result["to"]][0]
+    print(word)
 
     # for result in results:
     #     if lang == result["to"]:

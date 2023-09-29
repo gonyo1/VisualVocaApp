@@ -1,10 +1,10 @@
 import os
 
 try:
-    from gtts import gTTS
+    import gtts
 except (FileNotFoundError, ImportError):
     os.system("pip install gtts")
-    from gtts import gTTS
+    import gtts
 
 
 def get_tts(word: str = None, lang: str = None):
@@ -24,8 +24,10 @@ def get_tts(word: str = None, lang: str = None):
     is_directory(output_path)
     output_file = os.path.join(output_path, f'{word}_{lang}.wav')
 
+    print(lang)
+
     if not os.path.isfile(output_path):
-        tts = gTTS(
+        tts = gtts.gTTS(
             text=word,
             lang=lang,
             slow=False
@@ -34,5 +36,6 @@ def get_tts(word: str = None, lang: str = None):
             tts.save(output_file)
         except PermissionError:
             print(f"  [Error] PermissionError happened when downloading {word}({lang}) tts.")
+    print(gtts.lang.tts_langs())
 
     return os.path.realpath(output_file)

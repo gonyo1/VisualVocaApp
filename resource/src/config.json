@@ -10,11 +10,11 @@
 	"ImageDownCount": 2,
 	"LanguagesShow": {
 		"UpperPart": "en",
-		"LowerPart": "ko"
+		"LowerPart": "zh-Hans"
 	},
 	"LanguagesSpeech": {
 		"First": "en",
-		"Second": "ko"
+		"Second": "zh-CN"
 	},
 	"APIKeys": {
 		"NaverPapago": "<YOUR_SECRET_API_KEY>",
