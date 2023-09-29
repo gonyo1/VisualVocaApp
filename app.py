@@ -256,6 +256,10 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         def insert_total_signal():
             # Mainwindow buttons
             self.mb_voca_open.clicked.connect(self.open_folder)
+            self.mb_show_top_both.clicked.connect(self.eng_kor_all)
+            self.mb_show_top_bar_only_eng.clicked.connect(self.english_only)
+            self.mb_show_top_bar_only_kor.clicked.connect(self.korea_only)
+
             self.mb_voca_refresh.clicked.connect(self.refresh_all_component)
             self.auto_scroll_toggle.stateChanged.connect(lambda state, key="AutoScroll": self.change_json_file(key=key))
 
@@ -611,6 +615,26 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             os.startfile(base_path)
         elif self.PLATFORM == 'drawin':
             os.system(f"open {base_path}")
+
+    def eng_kor_all(self):
+        if (self.mb_show_top_both.isChecked()):
+            self.mb_show_kor_adj.show()
+            self.mb_show_eng_adj.show()
+        else:
+            self.mb_show_kor_adj.hide()
+            self.mb_show_eng_adj.hide()
+
+    def english_only(self):
+        if self.mb_show_top_bar_only_eng.isChecked():
+            self.mb_show_kor_adj.hide()
+        else:
+            self.mb_show_kor_adj.show()
+
+    def korea_only(self):
+        if self.mb_show_top_bar_only_kor.isChecked():
+            self.mb_show_eng_adj.hide()
+        else:
+            self.mb_show_eng_adj.show()
 
     def remove_item_from_VBox(self, parent, obj):
         _type = str(type(parent))
