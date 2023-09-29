@@ -8,33 +8,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui, Qt, QtMultimedia
 # Import Local Python Files
 from resource.py import GetImages
 from resource.py import GetAudio
-from resource.py.Toggle import AnimatedToggle
-from resource.py.Json import load_json_file, save_json_file, generate_init
-from resource.py.CSVData import get_main_csv
-from resource.src.ui.main_ui import Ui_MainApp as mp
-
-# <-- Import App Update modules --------------------------------------------------------------->
-import logging
-import shutil
-import stat
-import tempfile
-import traceback
-
-REPO_DIR = os.path.expanduser('~' + os.sep + '.myrepo')
-URL = 'https://MYPROJECT.googlecode.com/hg/'
-MYAPPLOGGER = 'WHATEVER'
-
-# <-- Import main pyqt app modules ----------------------------------------------------------->
-import sys
-import os.path
-from glob import glob
-from fontTools import ttLib
-from PyQt5 import QtWidgets, QtCore, QtGui, Qt, QtMultimedia
-
-# Import Local Python Files
-from resource.py import GetImages
-from resource.py import GetAudio
-from resource.py.SpecialLanguageTranslator import translate, search_text_by_lang
+from resource.py.Translator import translate, search_text_by_lang
 from resource.py.Toggle import AnimatedToggle
 from resource.py.Json import load_json_file, save_json_file, generate_init
 from resource.py.CSVData import get_main_csv
@@ -716,9 +690,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.mb_show_eng_adj.setText(self.word)
 
             # Todo:finish // FOR TEST MS AZURE TRANSLATOR
-            self.translated_result = translate(word=self.word,
-                                               langs=self.JSON_DATA["LanguagesSpeech"],
-                                               key=self.JSON_DATA["APIKeys"]["MSAzureTranslator"])
+
 
             # Change meaning(under_text) title
             lower_text_language = self.JSON_DATA["LanguagesShow"]["LowerPart"]
@@ -729,9 +701,16 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
                 # iloc 에 해당하는 값이 None (비어있음)이면 자동번역기 실행
                 if type(lower_text) is float:
+                    self.translated_result = translate(word=self.word,
+                                                       langs=self.JSON_DATA["LanguagesSpeech"],
+                                                       key=self.JSON_DATA["APIKeys"]["MSAzureTranslator"])
                     lower_text = search_text_by_lang(self.translated_result, lower_text_language)
+
+            # CSV 파일에 LanguageShow 언어가 없다면 자동번역기 실행하기
             except KeyError:
-                # CSV 파일에 LanguageShow 언어가 없다면 자동번역기 실행하기
+                self.translated_result = translate(word=self.word,
+                                                   langs=self.JSON_DATA["LanguagesSpeech"],
+                                                   key=self.JSON_DATA["APIKeys"]["MSAzureTranslator"])
                 lower_text = search_text_by_lang(self.translated_result, lower_text_language)
 
             self.mb_show_kor_adj.setText(lower_text)

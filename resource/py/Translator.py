@@ -44,18 +44,22 @@ def translate(word: str = None, langs: dict = None, key: str = None):
     request = requests.post(constructed_url, params=params, headers=headers, json=body)
     response = request.json()
 
-    print(params)
-    print(headers)
-    print(body)
-    print(request)
 
-    # response look like below
-    # >> type:list
-    # >> [{'translations': [{'text': '시계', 'to': 'ko'}, {'text': 'часы', 'to': 'ru'}]}]
+
+    """
+    Translate를 사용하면 아래와 같은 데이터 타입을 전송 받을 수 있습니다.
+    >> type:list
+    >> [{'translations': [{'text': '시계', 'to': 'ko'}, {'text': 'часы', 'to': 'ru'}]}]
+    만약 Error 가 발생한다면 아래와 같은 데이터 타입을 전송 받습니다.
+    >> {'error': {'code': 401000, 'message': 'The request is not authorized because credentials are missing or invalid.'}}
+    """
+
+
+    print("  [Info] MS Azure token subtracted... Please note this info...")
+    print(response)
     return response
 
     # print(json.dumps(response, sort_keys=True, ensure_ascii=False, indent=4, separators=(',', ': ')))
-
 
 def search_text_by_lang(json, lang) -> str:
     print(json)
