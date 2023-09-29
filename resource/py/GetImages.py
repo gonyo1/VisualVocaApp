@@ -4,6 +4,7 @@ import json
 import cssselect
 
 import urllib3
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # <--- Import or Install Packages --->
@@ -17,6 +18,7 @@ except ModuleNotFoundError:
 # <--- Get Main Image src url from "GettyImage Web Site" --->
 
 def get_images_from_word(word: str = None, count: int = 4, *args) -> str:
+    # args는 파일타입(이미지 파일 타입)
     def is_main_app(word: str = None) -> str:
         base_dir = str()
 
@@ -24,7 +26,7 @@ def get_images_from_word(word: str = None, count: int = 4, *args) -> str:
             base_dir = os.path.abspath(f"./resource/voca/img/{word}")
         else:
             base_dir = os.path.abspath(f"../voca/img/{word}")
-            
+
         return base_dir
 
     def is_directory(path: str = None):

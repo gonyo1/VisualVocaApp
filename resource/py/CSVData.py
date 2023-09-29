@@ -14,7 +14,7 @@ def get_main_csv() -> dict:
         return base_dir
 
     def get_unique_group_name(dataframe):
-        return dataframe["그룹"].unique()
+        return dataframe["GroupName"].unique()
 
     base_path = is_main_app()
     csv_file = os.path.join(base_path, 'WordList.csv')

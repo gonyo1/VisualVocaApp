@@ -30,10 +30,9 @@ def get_tts(word: str = None, lang: str = None):
             lang=lang,
             slow=False
         )
-        # try:
-        #     tts.save(output_file)
-        # except PermissionError:
-        #     print(f"  [Error] PermissionError happened when downloading {word}({lang}) tts.")
+        try:
+            tts.save(output_file)
+        except PermissionError:
+            print(f"  [Error] PermissionError happened when downloading {word}({lang}) tts.")
 
-    return tts
-    # os.path.realpath(output_file)
+    return os.path.realpath(output_file)

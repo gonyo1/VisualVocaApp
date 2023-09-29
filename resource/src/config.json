@@ -7,7 +7,20 @@
 	"FontFamily": "Noto Sans KR SemiBold",
 	"BookmarkIndex": 0,
 	"AutoScroll": "True",
-	"ImageDownCount": 3,
+	"ImageDownCount": 2,
+	"LanguagesShow": {
+		"UpperPart": "en",
+		"LowerPart": "ko"
+	},
+	"LanguagesSpeech": {
+		"First": "en",
+		"Second": "ko",
+		"Third": "ru"
+	},
+	"APIKeys": {
+		"NaverPapago": "<YOUR_SECRET_API_KEY>",
+		"MSAzureTranslator": "d6b7496c3f714146867f5042c0782126"
+	},
 	"GetImageFromURL": [
 		{
 			"URL": "https://www.gettyimagesbank.com/s/?q=",
