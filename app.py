@@ -626,14 +626,18 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
     def english_only(self):
         if self.mb_show_top_bar_only_eng.isChecked():
+            self.mb_show_eng_adj.show()
             self.mb_show_kor_adj.hide()
         else:
             self.mb_show_kor_adj.show()
+            self.mb_show_eng_adj.show()
 
     def korea_only(self):
         if self.mb_show_top_bar_only_kor.isChecked():
+            self.mb_show_kor_adj.show()
             self.mb_show_eng_adj.hide()
         else:
+            self.mb_show_kor_adj.show()
             self.mb_show_eng_adj.show()
 
     def remove_item_from_VBox(self, parent, obj):

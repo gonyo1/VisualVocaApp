@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f391428-5e23-4fd8-b8bb-00df0fd98648" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/.idea/VisualVocaApp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/VisualVocaApp.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resource/src/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/resource/src/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource/src/ui/main_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource/src/ui/main_ui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/airport_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/airport_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/science_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/science_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/바위_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/바위_ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/시계_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/시계_ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/이유, 이성_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/이유, 이성_ko.wav" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -227,13 +229,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/app.py</url>
-          <line>711</line>
+          <line>715</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/resource/py/get_images.py</url>
           <line>18</line>
           <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app.py</url>
+          <line>634</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
