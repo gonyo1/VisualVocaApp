@@ -35,7 +35,8 @@ def get_tts(word: str = None, lang: str = None, main_word: str = None, main_lang
             )
             try:
                 tts.save(output_file)
-            except PermissionError:
+            except PermissionError as e:
+                print(e)
                 print(f"  [Error] PermissionError happened when downloading {word}({lang}) tts.")
         except ValueError:
             print("  [Info] >> Not Speechable language... ")

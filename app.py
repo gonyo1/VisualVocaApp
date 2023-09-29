@@ -257,6 +257,34 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.timer = QtCore.QTimer(self)
         
     def setup_window_graphic(self):
+        def calculate_ratio():
+            init_x, init_y, init_w, init_h = self.geometry().getRect()
+            mbs_x, mbs_y, mbs_w, mbs_h = self.mb_show_adj.geometry().getRect()
+
+            # <--- mb_1 영역의 widget 절대값 기록 --->
+            self.mb_show_x = self.mb_show_adj.geometry().getRect()[0]
+            self.mb_voca_open_y = self.mb_voca_open.geometry().getRect()[1]
+            self.mb_voca_open_h = self.mb_voca_open.geometry().getRect()[3]
+            self.mb_show_eng_h = self.mb_show_eng_adj.geometry().getRect()[3]
+            self.mb_show_kor_h = self.mb_show_kor_adj.geometry().getRect()[3]
+            self.mb_voca_open_bottom = init_h - (self.mb_voca_open_y + self.mb_voca_open_h)
+
+            # <--- mb_show_adj 영역의 y 비율 계산 --->
+            self.mb_show_eng_adj_ratio_y = self.mb_show_eng_adj.geometry().getRect()[1] / mbs_h
+            self.mb_show_eng_adj_ratio_h = self.mb_show_eng_adj.geometry().getRect()[3] / mbs_h
+
+            self.mb_show_image_adj_ratio_y = self.mb_show_image_adj.geometry().getRect()[1] / mbs_h
+            self.mb_show_image_adj_ratio_h = self.mb_show_image_adj.geometry().getRect()[3] / mbs_h
+
+            self.mb_show_kor_adj_ratio_y = self.mb_show_kor_adj.geometry().getRect()[1] / mbs_h
+            self.mb_show_kor_adj_ratio_h = self.mb_show_kor_adj.geometry().getRect()[3] / mbs_h
+
+            self.mb_show_special_case_adj_ratio_y = self.mb_show_special_case_adj.geometry().getRect()[1] / mbs_h
+            self.mb_show_special_case_adj_ratio_h = self.mb_show_special_case_adj.geometry().getRect()[3] / mbs_h
+
+            self.mb_show_btns_adj_ratio_y = self.mb_show_btns_adj.geometry().getRect()[1] / mbs_h
+            self.mb_show_btns_adj_ratio_h = self.mb_show_btns_adj.geometry().getRect()[3] / mbs_h
+
         def make_voca_groups():
             def find_mb_voca_widgets():
                 voca_widgets = self.findChildren(QtWidgets.QWidget)
@@ -449,7 +477,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         def make_black_vail():
             self.BLACK = QtWidgets.QLabel(self.mb_show_adj)
             self.BLACK.setObjectName("BLACK")
-            self.BLACK.setStyleSheet("background-color: rgba(0, 0, 0, 200);\n")
+            self.BLACK.setStyleSheet("background-color: rgba(0, 0, 0, 240);\n")
             self.BLACK.setGeometry(-1, -1, 772, 702)
             self.BLACK.hide()
 
@@ -476,31 +504,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 else:
                     btn.setPixmap(self.folder_icon)
 
-        def calculate_ratio():
-            init_x, init_y, init_w, init_h = self.geometry().getRect()
-            mbs_x, mbs_y, mbs_w, mbs_h = self.mb_show_adj.geometry().getRect()
-
-            # <--- mb_1 영역의 widget 절대값 기록 --->
-            self.mb_show_x = self.mb_show_adj.geometry().getRect()[0]
-            self.mb_voca_open_y = self.mb_voca_open.geometry().getRect()[1]
-            self.mb_voca_open_h = self.mb_voca_open.geometry().getRect()[3]
-            self.mb_show_eng_h = self.mb_show_eng_adj.geometry().getRect()[3]
-            self.mb_show_kor_h = self.mb_show_kor_adj.geometry().getRect()[3]
-            self.mb_voca_open_bottom = init_h - (self.mb_voca_open_y + self.mb_voca_open_h)
-
-            # <--- mb_show_adj 영역의 y 비율 계산 --->
-            self.mb_show_eng_adj_ratio_y = self.mb_show_eng_adj.geometry().getRect()[1] / mbs_h
-            self.mb_show_eng_adj_ratio_h = self.mb_show_eng_adj.geometry().getRect()[3] / mbs_h
-
-            self.mb_show_image_adj_ratio_y = self.mb_show_image_adj.geometry().getRect()[1] / mbs_h
-            self.mb_show_image_adj_ratio_h = self.mb_show_image_adj.geometry().getRect()[3] / mbs_h
-
-            self.mb_show_kor_adj_ratio_y = self.mb_show_kor_adj.geometry().getRect()[1] / mbs_h
-            self.mb_show_kor_adj_ratio_h = self.mb_show_kor_adj.geometry().getRect()[3] / mbs_h
-
-            self.mb_show_btns_adj_ratio_y = self.mb_show_btns_adj.geometry().getRect()[1] / mbs_h
-            self.mb_show_btns_adj_ratio_h = self.mb_show_btns_adj.geometry().getRect()[3] / mbs_h
-
         def insert_refresh_icon():
             # Get Folder Image Path
             base_path = os.path.abspath("./resource/src/img")
@@ -523,18 +526,33 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                                                )
 
         def insert_FrontImage():
-            self.movie = QtGui.QMovie(os.path.abspath("./resource/src/img/FrontAnimation.gif"), QtCore.QByteArray(),
-                                      self)
+            gif_path = os.path.abspath("./resource/src/img/FrontAnimation.gif")
+            self.movie = QtGui.QMovie(gif_path, QtCore.QByteArray(), self)
+            self.movie.setObjectName("movie")
             self.movie.setCacheMode(QtGui.QMovie.CacheAll)
 
-            self.mb_show_image_adj.setMovie(self.movie)
+            h = self.mb_show_special_case_adj.height() + 10
+
+            self.movie.setScaledSize(QtCore.QSize(int(800 * h / 600), h))
             self.movie.start()
+
+            self.mb_show_special_case_adj.setMovie(self.movie)
+            # self.mb_show_special_case_adj.setScaledContents(True)
+            self.mb_show_image_adj.setText("")
+            self.change_stylesheet(self.mb_show_eng_adj, color="white")
+            self.change_stylesheet(self.mb_show_dev, color="white")
+
+        def insert_player_button_image():
+            for button in [self.back, self.forward, self.pause]:
+                button_name = button.objectName().capitalize()
+                button.setText("")
+                button.setStyleSheet(f"background-image: url({self.pyqt_image_url(f'{button_name}.svg')})")
 
         # UI 에서 샘플로 만들었던 위젯 지우기
         self.mb_voca_widget_0.hide()
         self.mb_voca_refresh.setEnabled(True)
         self.mb_show_btns_adj.hide()
-        self.mb_show_top_bar_repeat_TextEdit.setText(str(self.JSON_DATA["ImageDownCount"]))
+        self.mb_top_bar_repeat_spinbox.setValue(int(self.JSON_DATA["ImageDownCount"]))
 
         # Do Something...
         make_voca_groups()
@@ -544,6 +562,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         insert_folder_image()
         insert_refresh_icon()
         insert_FrontImage()
+        insert_player_button_image()
 
         self.voca_widget_button_event()
 
@@ -553,9 +572,10 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         def insert_total_signal():
             # Mainwindow buttons
             self.mb_voca_open.clicked.connect(is_open_folder_clicked)
-            self.mb_show_top_both.clicked.connect(is_option_button_clicked)
-            self.mb_show_top_bar_only_eng.clicked.connect(is_option_button_clicked)
-            self.mb_show_top_bar_only_kor.clicked.connect(is_option_button_clicked)
+            self.mb_top_bar_all.clicked.connect(is_option_button_clicked)
+            self.mb_top_bar_only_eng.clicked.connect(is_option_button_clicked)
+            self.mb_top_bar_only_kor.clicked.connect(is_option_button_clicked)
+            self.mb_top_bar_only_img.clicked.connect(is_option_button_clicked)
 
             self.mb_voca_refresh.clicked.connect(is_refresh_clicked)
             self.auto_scroll_toggle.stateChanged.connect(lambda state, key="AutoScroll": self.change_json_file(key=key))
@@ -564,7 +584,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.pause.clicked.connect(is_pause_button_clicked)
             self.back.clicked.connect(is_direction_button_clicked)
             self.forward.clicked.connect(is_direction_button_clicked)
-            self.mb_show_top_bar_repeat_TextEdit.textEdited.connect(lambda: self.change_json_file(key="ImageDownCount"))
+            self.mb_top_bar_repeat_spinbox.valueChanged.connect(lambda: self.change_json_file(key="ImageDownCount"))
             self.player.stateChanged.connect(self.start_player)
 
             # window resized event
@@ -623,7 +643,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     item.setStyleSheet("color: white;\n")
 
                 self.mb_show_btns_adj.setStyleSheet("color: black;\n")
-                self.pause.setText("▶")
             else:
                 # play player
                 self.change_mb_voca_widget(obj=self.sending_from_widget)
@@ -640,7 +659,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     item.show()
                     item.setStyleSheet("color: black;\n")
 
-                self.pause.setText("■")
+                self.pause.setStyleSheet(f"background-image: url({self.pyqt_image_url(f'Pause.svg')})")
 
         def is_direction_button_clicked():
             # Stop Player and reset setting
@@ -665,7 +684,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 item.show()
                 item.setStyleSheet("color: black")
 
-            self.pause.setText("■")
+            self.pause.setStyleSheet(f"background-image: url({self.pyqt_image_url(f'Pause.svg')})")
 
         def is_refresh_clicked():
 
@@ -689,27 +708,38 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 os.system(f"open {base_path}")
 
         def is_option_button_clicked():
-            # BOTH, KOR, ENG, etc.. 클릭되면 무엇이 나오게 할지
+            # ALL, KOR, ENG, etc.. 클릭되면 무엇이 나오게 할지
             btn = self.sender()
 
             # 본인을 제외한 다른 옵션 버튼을 unchecked 로 변경하기
-            for item in [self.mb_show_top_both,
-                         self.mb_show_top_bar_only_eng,
-                         self.mb_show_top_bar_only_kor]:
+            for item in [self.mb_top_bar_all,
+                         self.mb_top_bar_only_eng,
+                         self.mb_top_bar_only_kor,
+                         self.mb_top_bar_only_img]:
                 item.setChecked(False)
             btn.setChecked(True)
 
             # <-- Dev. AhnJH part 간소화
             self.mb_show_kor_adj.hide()
             self.mb_show_eng_adj.hide()
+            self.mb_show_image_adj.hide()
+            self.mb_show_special_case_adj.hide()
+            self.mb_show_special_case_adj.setText("")
 
-            if btn == self.mb_show_top_both:
+            if btn == self.mb_top_bar_all:
                 self.mb_show_kor_adj.show()
                 self.mb_show_eng_adj.show()
-            elif btn == self.mb_show_top_bar_only_eng:
-                self.mb_show_eng_adj.show()
-            elif btn == self.mb_show_top_bar_only_kor:
-                self.mb_show_kor_adj.show()
+                self.mb_show_image_adj.show()
+            elif btn == self.mb_top_bar_only_eng:
+                self.change_stylesheet(self.mb_show_special_case_adj, color="black")
+                self.mb_show_special_case_adj.setText(self.mb_show_eng_adj.text())
+                self.mb_show_special_case_adj.show()
+            elif btn == self.mb_top_bar_only_kor:
+                self.change_stylesheet(self.mb_show_special_case_adj, color="black")
+                self.mb_show_special_case_adj.setText(self.mb_show_kor_adj.text())
+                self.mb_show_special_case_adj.show()
+            elif btn == self.mb_top_bar_only_img:
+                self.mb_show_image_adj.show()
 
         # Insert Signal to main window
         if self.FIRSTRUN:
@@ -720,6 +750,8 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             elif args[0] == 'qlistwidget':
                 insert_QListWidget_item_signal()
 
+
+
     # <-- Main Window Section -------------------------------------------------------------->
     def change_json_file(self, key=None, value=None):
         if key == "AutoScroll":
@@ -727,20 +759,28 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             save_json_file(key, value)
 
         elif key == "ImageDownCount":
-            value = self.mb_show_top_bar_repeat_TextEdit.text()
-            value = int(value) if value.isdigit() else 3
-            value = 10 if (value > 10) else value
-            self.mb_show_top_bar_repeat_TextEdit.setText(str(value))
+            value = self.mb_top_bar_repeat_spinbox.value()
             self.JSON_DATA["ImageDownCount"] = value
             save_json_file(key, value)
 
+    @staticmethod
+    def pyqt_image_url(filename):
+        base_path = os.path.abspath("./resource/src/img")
+        return os.path.join(base_path, filename).replace("\\", "/")
+
+
+
     # <-- New Voca Clicked Event Handler --------------------------------------------------->
     def change_mb_voca_widget(self, obj):
-        self.mb_show_eng_adj.setStyleSheet("color: black;\n")
-        self.mb_show_kor_adj.setStyleSheet("color: black;\n")
+        self.change_stylesheet(self.mb_show_eng_adj, color="black")
+        self.change_stylesheet(self.mb_show_kor_adj, color="black")
+        self.change_stylesheet(self.mb_show_special_case_adj, color="black")
+        self.change_stylesheet(self.mb_show_dev, color="white")
         self.mb_show_btns_adj.show()
-        self.BLACK.hide()
+        self.mb_show_special_case_adj.hide()
+        self.mb_show_special_case_adj.clear()
         self.player.stop()
+        self.BLACK.hide()
 
         # Get currentItem Text
         if (self.sending_from_widget != None):
@@ -776,7 +816,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.mb_show_eng_adj.setText(self.word)
 
             # Todo:finish // FOR TEST MS AZURE TRANSLATOR
-
+            pass
 
             # Change meaning(under_text) title
             lower_text_language = self.JSON_DATA["LanguagesShow"]["LowerPart"]
@@ -805,6 +845,15 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
             # Change image when voca has been changed
             self.change_mb_voca_image(self.image_idx)
+
+
+            # Check if special case clicked
+            if self.mb_top_bar_only_eng.isChecked():
+                self.mb_show_special_case_adj.setText(self.word)
+                self.mb_show_special_case_adj.show()
+            elif self.mb_top_bar_only_kor.isChecked():
+                self.mb_show_special_case_adj.setText(lower_text)
+                self.mb_show_special_case_adj.show()
 
     def change_mb_voca_image(self, idx):
         def move_to_next_voca_image():
@@ -846,7 +895,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
     def voca_widget_button_event(self):
         self.stop_player()
         self.BLACK.hide()
-        self.pause.setText("■")
+        self.pause.setStyleSheet(f"background-image: url({self.pyqt_image_url(f'Pause.svg')})")
 
         clicked_btn = self.sender()
 
@@ -976,9 +1025,8 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.BLACK.show()
         self.player.stop()
 
+        self.pause.setStyleSheet(f"background-image: url({self.pyqt_image_url('Play.svg')})")
         self.mb_show_btns_adj.raise_()
-        self.pause.setText("▶")
-        # self.mb_show_btns_adj.hide()
 
     def get_tts_audio(self, obj: str = None):
         # Get currentItem Text
@@ -993,6 +1041,57 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
 
     # <-- Resize Event Handler ------------------------------------------------------------->
+    def change_stylesheet(self, obj, **kwargs):
+        """
+        대부분 폰트 사이즈를 윈도우 창 크기에 맞추어 바꾸도록 제작됨
+        kwargs는 font=14px 와 같이 stylesheet에 즉시 적용될 수 있을 수준으로 작성 되어야 함
+        """
+
+        # Get Object name
+        parent_widget = None
+        obj_name = obj.objectName()
+
+        if 'mb_show' in obj_name:
+            parent_widget = self.mb_show_adj
+        elif 'mb_voca' in obj_name:
+            parent_widget = self.mb_voca_adj
+        elif 'MainAPP' in obj_name:
+            parent_widget = self
+
+        # Find target selector and Crop Stylesheet
+        stylesheet = parent_widget.styleSheet()
+        start = stylesheet.find("".join(["#", obj_name, " ", "{"]))
+        end = start + stylesheet[start:].find("}")
+        crop_stylesheet = stylesheet[start:end]
+
+        # Change stylesheet by kwargs
+        for key, value in kwargs.items():
+            new_start = crop_stylesheet.find(str(key + ":"))
+            new_end = new_start + crop_stylesheet[new_start:].find(";") + 1
+
+            new_css = "".join([key, ": ", value, ";\n"])
+
+            if new_start != 0:
+                # print(f"  [Info] {obj_name}'s css has changed from:{crop_stylesheet[new_start:new_end]} -> to:{new_css})")
+
+                stylesheet = "".join([stylesheet[:start],
+                                      crop_stylesheet[:new_start],
+                                      new_css,
+                                      crop_stylesheet[new_end:],
+                                      stylesheet[end:]])
+            else:
+                stylesheet = "".join([stylesheet[:start],
+                                      crop_stylesheet,
+                                      new_css,
+                                      crop_stylesheet[new_end:],
+                                      stylesheet[end:]])
+                print("dddddddddddddddddddddddddddddddddddddddddddddddddd")
+                print(stylesheet)
+
+            stylesheet = stylesheet.replace("\n\n", "\n")
+        # Set StyleSheet
+        parent_widget.setStyleSheet(stylesheet)
+
     def resize_widget(self):
         def calculate_font_ratio(obj, origin) -> int:
             font_size = None
@@ -1009,111 +1108,85 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
             return font_size
 
-        def resize_widget_setting(parent, obj, w: int = None, h: int = None):
-            # print("  [Info] Resize Event emitted")
+        def resize_widget_setting(obj, w: int = None, h: int = None):
             # get parent geometry
+            obj_name = obj.objectName()
             _x, _y, _w, _h = obj.geometry().getRect()
 
-            if 'mb_voca' in obj.objectName():
+            if 'mb_voca' in obj_name:
                 _h = h - _y
-                if 'mb_voca_scroll' in obj.objectName():
-                    _h = _h - parent.mb_voca_open_h - parent.mb_voca_open_bottom
-                elif 'mb_voca_open' in obj.objectName():
-                    _y = h - parent.mb_voca_open_h - parent.mb_voca_open_bottom
-                    _h = parent.mb_voca_open_h
+                if 'mb_voca_scroll' in obj_name:
+                    _h = _h - self.mb_voca_open_h - self.mb_voca_open_bottom
+                elif 'mb_voca_open' in obj_name:
+                    _y = h - self.mb_voca_open_h - self.mb_voca_open_bottom
+                    _h = self.mb_voca_open_h
 
-            elif 'mb_show' in obj.objectName():
+            elif 'mb_show' in obj_name:
                 if w is not None:
-                    _w = (w - parent.mb_show_x)
+                    _w = (w - self.mb_show_x)
 
                 if h is not None:
-                    if 'mb_show_adj' in obj.objectName():
+                    if 'mb_show_adj' in obj_name:
                         _h = h
-                    elif 'mb_show_eng_adj' in obj.objectName():
-                        _y = int(h * parent.mb_show_eng_adj_ratio_y)
-                        _h = int(h * parent.mb_show_eng_adj_ratio_h)
-                    elif 'mb_show_image_adj' in obj.objectName():
-                        _y = int(h * parent.mb_show_image_adj_ratio_y)
-                        _h = int(h * parent.mb_show_image_adj_ratio_h)
-                    elif 'mb_show_kor_adj' in obj.objectName():
-                        _y = int(h * parent.mb_show_kor_adj_ratio_y)
-                        _h = int(h * parent.mb_show_kor_adj_ratio_h)
-                    elif 'mb_show_btns_adj' in obj.objectName():
-                        _y = int(h * parent.mb_show_btns_adj_ratio_y)
-                        _h = int(h * parent.mb_show_btns_adj_ratio_h)
-                    elif 'mb_show_dev' in obj.objectName():
+                    elif 'mb_show_eng_adj' in obj_name:
+                        _y = int(h * self.mb_show_eng_adj_ratio_y)
+                        _h = int(h * self.mb_show_eng_adj_ratio_h)
+                    elif 'mb_show_image_adj' in obj_name:
+                        _y = int(h * self.mb_show_image_adj_ratio_y)
+                        _h = int(h * self.mb_show_image_adj_ratio_h)
+                    elif 'mb_show_kor_adj' in obj_name:
+                        _y = int(h * self.mb_show_kor_adj_ratio_y)
+                        _h = int(h * self.mb_show_kor_adj_ratio_h)
+                    elif 'mb_show_special_case_adj' in obj_name:
+                        _y = int(h * self.mb_show_special_case_adj_ratio_y)
+                        _h = int(h * self.mb_show_special_case_adj_ratio_h)
+
+                        if (w / _h) > (800 / 600):
+                            self.movie.setScaledSize(QtCore.QSize(w, int(600 * w / 800)))
+
+                        else:
+                            self.movie.setScaledSize(QtCore.QSize(int(800 * _h / 600), _h))
+                    elif 'mb_show_btns_adj' in obj_name:
+                        _y = int(h * self.mb_show_btns_adj_ratio_y)
+                        _h = int(h * self.mb_show_btns_adj_ratio_h)
+                    elif 'mb_show_dev' in obj_name:
                         _y = h - _h
                         _w -= 10
 
-            elif 'BLACK' in obj.objectName():
+            elif 'BLACK' in obj_name:
                 _w = w + 2
                 _h = h + 2
 
+            elif 'movie' in obj_name:
+                _h = h + 10
+
             obj.setGeometry(QtCore.QRect(_x, _y, _w, _h))
-
-        def change_stylesheet(parent, obj, **kwargs):
-            """
-            대부분 폰트 사이즈를 윈도우 창 크기에 맞추어 바꾸도록 제작됨
-            kwargs는 font=14px 와 같이 stylesheet에 즉시 적용될 수 있을 수준으로 작성 되어야 함
-            """
-
-            # Get Object name
-            parent_widget = None
-            obj_name = obj.objectName()
-
-            if 'mb_show' in obj_name:
-                parent_widget = parent.mb_show_adj
-            elif 'mb_voca' in obj_name:
-                parent_widget = parent.mb_voca_adj
-
-            # Find target selector
-            stylesheet = parent_widget.styleSheet()
-            start = stylesheet.find("".join(["#", obj_name, " ", "{"]))
-            end = start + stylesheet[start:].find("}")
-
-            crop_stylesheet = stylesheet[start:end]
-
-            # Change stylesheet by kwargs
-            for key, value in kwargs.items():
-                new_start = crop_stylesheet.find(str(key + ":"))
-                new_end = crop_stylesheet.find(";")
-
-                new_css = "".join([key, ": ", value, ";\n"])
-                stylesheet = "".join([stylesheet[:start],
-                                      crop_stylesheet[:new_start],
-                                      new_css,
-                                      crop_stylesheet[new_end:],
-                                      stylesheet[end:]])
-
-            # Set StyleSheet
-            parent_widget.setStyleSheet(stylesheet)
 
         # Change widget size when window resized event emitted
         x, y, w, h = self.geometry().getRect()
 
         # Window Section
-        resize_widget_setting(self, self.mb_1, w=w, h=h)
+        resize_widget_setting(self.mb_1, w=w, h=h)
 
         # Left - Side Bar Section
-        resize_widget_setting(self, self.mb_voca_adj, h=h)
-        resize_widget_setting(self, self.mb_voca_scroll, h=h)
-        resize_widget_setting(self, self.mb_voca_open, h=h)
+        resize_widget_setting(self.mb_voca_adj, h=h)
+        resize_widget_setting(self.mb_voca_scroll, h=h)
+        resize_widget_setting(self.mb_voca_open, h=h)
 
         # Right - Main Showing Section
-        resize_widget_setting(self, self.mb_show_top_bar, w=w)
-        resize_widget_setting(self, self.mb_show_adj, w=w, h=h)
-        resize_widget_setting(self, self.mb_show_eng_adj, w=w, h=h)
-        resize_widget_setting(self, self.mb_show_image_adj, w=w, h=h)
-        resize_widget_setting(self, self.mb_show_kor_adj, w=w, h=h)
-        resize_widget_setting(self, self.mb_show_btns_adj, w=w, h=h)
-        resize_widget_setting(self, self.mb_show_dev, w=w, h=h)
-        resize_widget_setting(self, self.BLACK, w=w, h=h)
+        resize_widget_setting(self.mb_show_adj, w=w, h=h)
+        resize_widget_setting(self.mb_show_eng_adj, w=w, h=h)
+        resize_widget_setting(self.mb_show_image_adj, w=w, h=h)
+        resize_widget_setting(self.mb_show_kor_adj, w=w, h=h)
+        resize_widget_setting(self.mb_show_special_case_adj, w=w, h=h)
+        resize_widget_setting(self.mb_show_btns_adj, w=w, h=h)
+        resize_widget_setting(self.mb_show_dev, w=w, h=h)
+        resize_widget_setting(self.BLACK, w=w, h=h)
 
         # Right - Main Font Resize Section
-        change_stylesheet(self, self.mb_show_eng_adj,
-                          font=calculate_font_ratio(self.mb_show_eng_adj, self.mb_show_eng_h))
-        change_stylesheet(self, self.mb_show_kor_adj,
-                          font=calculate_font_ratio(self.mb_show_kor_adj, self.mb_show_kor_h))
+        self.change_stylesheet(self.mb_show_eng_adj, font=calculate_font_ratio(self.mb_show_eng_adj, self.mb_show_eng_h))
+        self.change_stylesheet(self.mb_show_kor_adj, font=calculate_font_ratio(self.mb_show_kor_adj, self.mb_show_kor_h))
+        self.change_stylesheet(self.mb_show_special_case_adj, font=calculate_font_ratio(self.mb_show_eng_adj, self.mb_show_eng_h))
 
     def resizeEvent(self, event):
         self.resized.emit()

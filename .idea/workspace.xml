@@ -5,101 +5,53 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f391428-5e23-4fd8-b8bb-00df0fd98648" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/resource/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/England/England(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/England/England(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/ago/ago(1).gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/ago/ago(2).gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/another/another(1).gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/another/another(2).gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/bedroom/bedroom(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/bedroom/bedroom(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/class/class(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/class/class(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/dog/dog(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/dog/dog(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/feel/feel(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/feel/feel(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/fish/fish(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/fish/fish(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/food/food(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/food/food(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/great/great(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/great/great(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/hand/hand(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/hand/hand(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/later/later(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/later/later(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/letter/letter(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/letter/letter(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/move/move(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/move/move(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/same/same(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/same/same(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/still/still(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/still/still(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/town/town(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/town/town(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/wait/wait(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/wait/wait(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/미소짓다, 미소/미소짓다, 미소(1).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/img/미소짓다, 미소/미소짓다, 미소(2).jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/England_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/ago_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/another_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/bedroom_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/class_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/dog_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/feel_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/fish_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/food_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/great_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/hand_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/later_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/letter_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/move_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/same_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/still_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/town_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/wait_en.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/应该_zh-CN.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/看_zh-CN.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/개_ko.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/기다리다_ko.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/느끼다_ko.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/또하나의, 다른_ko.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/무엇 전에_ko.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/미소짓다, 미소_zh-CN.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/손, 바늘, 넘겨주다_ko.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/아직, 고요한_ko.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/영국_ko.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/움직이다, 이사하다_ko.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/위대한, 큰 _ko.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/음식, 식품_ko.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/읍, 도시_ko.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/침실_ko.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/편지_ko.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/학급, 수업_ko.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/voca/tts/후에, 나중에, 더 늦은_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/src/img/Back.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/src/img/Forward.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/src/img/Pause.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/src/img/Play.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/cry/cry(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/cry/cry(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/love/love(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/love/love(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/cry_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/love_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/물고기, 낚시하다_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/사랑하다, 사랑 _ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/시계, 바라보다_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/외치다, 울부짖다, 부르짖음_ko.wav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/VisualVocaApp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/VisualVocaApp.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resource/py/GetAudio.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource/py/GetAudio.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource/py/Json.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource/py/Json.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource/py/Translator.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource/py/Translator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource/src/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/resource/src/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/src/img/RefreshHover.svg" beforeDir="false" afterPath="$PROJECT_DIR$/resource/src/img/RefreshHover.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/src/img/refresh.svg" beforeDir="false" afterPath="$PROJECT_DIR$/resource/src/img/refresh.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resource/src/ui/main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/resource/src/ui/main.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resource/src/ui/main_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource/src/ui/main_ui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource/voca/tts/crowd_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/crowd_en.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource/voca/tts/should_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/should_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/WordList.csv" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/WordList.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/England_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/England_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/ago_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/ago_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/airport_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/airport_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/class_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/class_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/dog_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/dog_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/feel_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/feel_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/food_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/food_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/glass_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/glass_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/hand_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/hand_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/move_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/move_en.wav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resource/voca/tts/smile_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/smile_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/town_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/town_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/wait_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/wait_en.wav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resource/voca/tts/watch_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/watch_en.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource/voca/tts/微笑_zh-CN.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/微笑_zh-CN.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource/voca/tts/무엇 일 것이다.  shall과거 _ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/무엇 일 것이다.  shall과거 _ko.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource/voca/tts/미소짓다, 미소_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/미소짓다, 미소_ko.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource/voca/tts/바위_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/바위_ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/개_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/개_ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/경기자, 선수_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/경기자, 선수_ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/느끼다_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/느끼다_ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/손, 바늘, 넘겨주다_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/손, 바늘, 넘겨주다_ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/시계_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/시계_ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/아직, 고요한_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/아직, 고요한_ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/영국_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/영국_ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/유리, 컵, 안경_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/유리, 컵, 안경_ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/학급, 수업_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/학급, 수업_ko.wav" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,8 +90,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/py",
-    "settings.editor.selected.configurable": "preferences.general"
+    "last_opened_file_path": "C:/Users/Gonyo/Downloads/video2x-4.8.1",
+    "settings.editor.selected.configurable": "preferences.fileTypes"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -154,6 +106,27 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.app">
+    <configuration name="GetAudio" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="VisualVocaApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/resource/py" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/resource/py/GetAudio.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="VisualVocaApp" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -199,6 +172,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.app" />
+        <item itemvalue="Python.GetAudio" />
         <item itemvalue="Python.__init__" />
       </list>
     </recent_temporary>
@@ -233,8 +207,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/app.py</url>
-          <line>735</line>
-          <option name="timeStamp" value="19" />
+          <line>506</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

@@ -70,42 +70,91 @@ class Ui_MainApp(object):
 "background-color: rgb(234, 234, 240);\n"
 "}\n"
 "QWidget {\n"
-"margin: 0px;\n"
+"padding: 10px;\n"
 "padding: 0px;\n"
 "background-color: transparent;\n"
 "}\n"
-"\n"
-"/* Left - Setting --------------------------------- */\n"
+".Line {\n"
+"background-color: rgb(234, 234, 240);\n"
+"margin: 0px 10px 0px 50px;\n"
+"}\n"
+"/* Left - White Grouped Section --------------------------------- */\n"
 "#mb_setting_widget,\n"
 "#mb_voca_scroll {\n"
 "background-color: white;\n"
 "border-radius: 10px;\n"
-"margin: 10px;\n"
+"margin: 10px 10px 0px 10px;\n"
 "}\n"
-"\n"
-"/* Left - Setting detail name:Auto Scroll */\n"
-"#mb_top_bar_auto_scroll {\n"
-"margin: 0px 20px 0px 20px;\n"
-"}\n"
-"#mb_top_bar_auto_scroll_title {\n"
-"font: 14px;\n"
-"margin: 0px 0px 0px 10px;\n"
-"color: black;\n"
-"}\n"
-"\n"
-"/* Left - Title Part:Gray title */\n"
 "#mb_setting_title,\n"
 "#mb_voca_total_title {\n"
-"margin: 0px;\n"
+"margin: 0px 0px 4px 0px;\n"
 "color: rgb(170, 170, 170);\n"
-"font: 13px;\n"
+"font: 11px;\n"
 "font-weight: bold;\n"
 "text-align: Left;\n"
 "}\n"
 "#mb_setting_title {\n"
-"margin: 20px 20px 0px 20px;\n"
+"margin: 20px 20px 4px 20px;\n"
 "}\n"
+"\n"
+"/* Left - Setting detail name(ex: Auto Scroll ....) ------------------------------------- */\n"
+"#mb_top_bar_repeat,\n"
+"#mb_top_bar_play_type,\n"
+"#mb_top_bar_auto_scroll {\n"
+"margin: 0px 0px 0px 20px;\n"
+"}\n"
+"#mb_top_bar_repeat_title,\n"
+"#mb_top_bar_play_type_title,\n"
+"#mb_top_bar_auto_scroll_title {\n"
+"font: 13px;\n"
+"margin: 0px 0px 0px 20px;\n"
+"color: black;\n"
+"}\n"
+"\n"
+"/* SpinBox Setting ------------------------------------- */\n"
+"#mb_top_bar_repeat_spinbox {\n"
+"color: rgb(170, 170, 170);\n"
+"}\n"
+"#mb_top_bar_repeat_spinbox:hover {\n"
+"color: black;\n"
+"}\n"
+"#mb_top_bar_repeat_spinbox:up-arrow:hover,\n"
+"#mb_top_bar_repeat_spinbox:down-arrow:hover  {\n"
+"color: rgb(0, 155, 255);\n"
+"}\n"
+"\n"
+"#mb_show_setting_button {\n"
+"color: rgb(170, 170, 170);\n"
+"}\n"
+"#mb_show_setting_button:hover {\n"
+"color: rgb(0, 155, 255);\n"
+"}\n"
+"\n"
+"\n"
+"/* Type PushButton Setting ------------------------------------- */\n"
+"#mb_top_bar_play_type .QPushButton {\n"
+"font: 11px;\n"
+"background-color: rgb(234, 234, 240);\n"
+"border-radius: 8px;\n"
+"text-align: center;\n"
+"color: black;\n"
+"}\n"
+"#mb_top_bar_play_type .QPushButton:hover {\n"
+"background-color: rgba(78, 209, 100, 80);\n"
+"}\n"
+"#mb_top_bar_play_type .QPushButton:checked {\n"
+"color: white;\n"
+"background-color: rgb(78, 209, 100);\n"
+"}\n"
+"#mb_top_bar_only_img {\n"
+"margin-right: 10px;\n"
+"}\n"
+"\n"
+"\n"
 "/* QScrollWidget PushButton part ------------------ */\n"
+"QScrollArea {\n"
+"margin-bottom: 0px;\n"
+"}\n"
 "QScrollArea .QLabel {\n"
 "padding-left: 10px;\n"
 "}\n"
@@ -122,6 +171,7 @@ class Ui_MainApp(object):
 "margin: 5px -8px 5px -4px;\n"
 "}\n"
 "QListWidget {\n"
+"font: 13px;\n"
 "font-weight: light;\n"
 "padding-right: 4px;\n"
 "}\n"
@@ -160,25 +210,24 @@ class Ui_MainApp(object):
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setSpacing(1)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.mb_top_bar = QtWidgets.QWidget(self.mb_voca_adj)
+        self.mb_icon_widget = QtWidgets.QWidget(self.mb_voca_adj)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.mb_top_bar.sizePolicy().hasHeightForWidth())
-        self.mb_top_bar.setSizePolicy(sizePolicy)
-        self.mb_top_bar.setMinimumSize(QtCore.QSize(200, 50))
-        self.mb_top_bar.setMaximumSize(QtCore.QSize(200, 50))
-        self.mb_top_bar.setObjectName("mb_top_bar")
-        self.mb_icon = QtWidgets.QLabel(self.mb_top_bar)
+        sizePolicy.setHeightForWidth(self.mb_icon_widget.sizePolicy().hasHeightForWidth())
+        self.mb_icon_widget.setSizePolicy(sizePolicy)
+        self.mb_icon_widget.setMinimumSize(QtCore.QSize(200, 50))
+        self.mb_icon_widget.setMaximumSize(QtCore.QSize(200, 50))
+        self.mb_icon_widget.setObjectName("mb_icon_widget")
+        self.mb_icon = QtWidgets.QLabel(self.mb_icon_widget)
         self.mb_icon.setGeometry(QtCore.QRect(0, 0, 200, 50))
         self.mb_icon.setMinimumSize(QtCore.QSize(0, 50))
         self.mb_icon.setMaximumSize(QtCore.QSize(16777215, 50))
-        self.mb_icon.setStyleSheet("")
         self.mb_icon.setLineWidth(0)
         self.mb_icon.setText("")
         self.mb_icon.setIndent(0)
         self.mb_icon.setObjectName("mb_icon")
-        self.verticalLayout.addWidget(self.mb_top_bar)
+        self.verticalLayout.addWidget(self.mb_icon_widget)
         self.mb_h_line_1 = QtWidgets.QFrame(self.mb_voca_adj)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -187,8 +236,6 @@ class Ui_MainApp(object):
         self.mb_h_line_1.setSizePolicy(sizePolicy)
         self.mb_h_line_1.setMinimumSize(QtCore.QSize(0, 1))
         self.mb_h_line_1.setMaximumSize(QtCore.QSize(16777215, 1))
-        self.mb_h_line_1.setStyleSheet("background-color: rgb(160, 160, 160);\n"
-"margin: 0px 10px 0px 10px;")
         self.mb_h_line_1.setLineWidth(1)
         self.mb_h_line_1.setFrameShape(QtWidgets.QFrame.HLine)
         self.mb_h_line_1.setFrameShadow(QtWidgets.QFrame.Sunken)
@@ -200,7 +247,11 @@ class Ui_MainApp(object):
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 10)
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.mb_setting_title = QtWidgets.QLabel(self.mb_setting_widget)
+        self.widget = QtWidgets.QWidget(self.mb_setting_widget)
+        self.widget.setMinimumSize(QtCore.QSize(200, 40))
+        self.widget.setObjectName("widget")
+        self.mb_setting_title = QtWidgets.QLabel(self.widget)
+        self.mb_setting_title.setGeometry(QtCore.QRect(0, 0, 200, 40))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -208,11 +259,70 @@ class Ui_MainApp(object):
         self.mb_setting_title.setSizePolicy(sizePolicy)
         self.mb_setting_title.setMinimumSize(QtCore.QSize(0, 20))
         self.mb_setting_title.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.mb_setting_title.setStyleSheet("")
         self.mb_setting_title.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.mb_setting_title.setIndent(0)
         self.mb_setting_title.setObjectName("mb_setting_title")
-        self.verticalLayout_2.addWidget(self.mb_setting_title)
+        self.mb_show_setting_button = QtWidgets.QPushButton(self.widget)
+        self.mb_show_setting_button.setGeometry(QtCore.QRect(160, 10, 30, 30))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.mb_show_setting_button.sizePolicy().hasHeightForWidth())
+        self.mb_show_setting_button.setSizePolicy(sizePolicy)
+        self.mb_show_setting_button.setMinimumSize(QtCore.QSize(30, 30))
+        self.mb_show_setting_button.setMaximumSize(QtCore.QSize(30, 30))
+        self.mb_show_setting_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.mb_show_setting_button.setObjectName("mb_show_setting_button")
+        self.verticalLayout_2.addWidget(self.widget)
+        self.mb_top_bar_play_type = QtWidgets.QWidget(self.mb_setting_widget)
+        self.mb_top_bar_play_type.setMinimumSize(QtCore.QSize(0, 32))
+        self.mb_top_bar_play_type.setMaximumSize(QtCore.QSize(190, 32))
+        self.mb_top_bar_play_type.setObjectName("mb_top_bar_play_type")
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.mb_top_bar_play_type)
+        self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_7.setSpacing(4)
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.mb_top_bar_play_type_title = QtWidgets.QLabel(self.mb_top_bar_play_type)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.mb_top_bar_play_type_title.sizePolicy().hasHeightForWidth())
+        self.mb_top_bar_play_type_title.setSizePolicy(sizePolicy)
+        self.mb_top_bar_play_type_title.setMaximumSize(QtCore.QSize(70, 16777215))
+        self.mb_top_bar_play_type_title.setObjectName("mb_top_bar_play_type_title")
+        self.horizontalLayout_7.addWidget(self.mb_top_bar_play_type_title)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem)
+        self.mb_top_bar_all = QtWidgets.QPushButton(self.mb_top_bar_play_type)
+        self.mb_top_bar_all.setMinimumSize(QtCore.QSize(26, 22))
+        self.mb_top_bar_all.setMaximumSize(QtCore.QSize(26, 22))
+        self.mb_top_bar_all.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.mb_top_bar_all.setCheckable(True)
+        self.mb_top_bar_all.setChecked(True)
+        self.mb_top_bar_all.setObjectName("mb_top_bar_all")
+        self.horizontalLayout_7.addWidget(self.mb_top_bar_all)
+        self.mb_top_bar_only_eng = QtWidgets.QPushButton(self.mb_top_bar_play_type)
+        self.mb_top_bar_only_eng.setMinimumSize(QtCore.QSize(22, 22))
+        self.mb_top_bar_only_eng.setMaximumSize(QtCore.QSize(22, 22))
+        self.mb_top_bar_only_eng.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.mb_top_bar_only_eng.setCheckable(True)
+        self.mb_top_bar_only_eng.setObjectName("mb_top_bar_only_eng")
+        self.horizontalLayout_7.addWidget(self.mb_top_bar_only_eng)
+        self.mb_top_bar_only_kor = QtWidgets.QPushButton(self.mb_top_bar_play_type)
+        self.mb_top_bar_only_kor.setMinimumSize(QtCore.QSize(22, 22))
+        self.mb_top_bar_only_kor.setMaximumSize(QtCore.QSize(22, 22))
+        self.mb_top_bar_only_kor.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.mb_top_bar_only_kor.setCheckable(True)
+        self.mb_top_bar_only_kor.setObjectName("mb_top_bar_only_kor")
+        self.horizontalLayout_7.addWidget(self.mb_top_bar_only_kor)
+        self.mb_top_bar_only_img = QtWidgets.QPushButton(self.mb_top_bar_play_type)
+        self.mb_top_bar_only_img.setMinimumSize(QtCore.QSize(36, 22))
+        self.mb_top_bar_only_img.setMaximumSize(QtCore.QSize(36, 22))
+        self.mb_top_bar_only_img.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.mb_top_bar_only_img.setCheckable(True)
+        self.mb_top_bar_only_img.setObjectName("mb_top_bar_only_img")
+        self.horizontalLayout_7.addWidget(self.mb_top_bar_only_img)
+        self.verticalLayout_2.addWidget(self.mb_top_bar_play_type)
         self.mb_top_bar_auto_scroll = QtWidgets.QWidget(self.mb_setting_widget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -220,7 +330,7 @@ class Ui_MainApp(object):
         sizePolicy.setHeightForWidth(self.mb_top_bar_auto_scroll.sizePolicy().hasHeightForWidth())
         self.mb_top_bar_auto_scroll.setSizePolicy(sizePolicy)
         self.mb_top_bar_auto_scroll.setMinimumSize(QtCore.QSize(190, 0))
-        self.mb_top_bar_auto_scroll.setMaximumSize(QtCore.QSize(190, 16777215))
+        self.mb_top_bar_auto_scroll.setMaximumSize(QtCore.QSize(190, 30))
         self.mb_top_bar_auto_scroll.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.mb_top_bar_auto_scroll.setObjectName("mb_top_bar_auto_scroll")
         self.mb_top_bar_auto_scroll_verticalLayout = QtWidgets.QHBoxLayout(self.mb_top_bar_auto_scroll)
@@ -237,12 +347,39 @@ class Ui_MainApp(object):
         self.mb_top_bar_auto_scroll_title.setMinimumSize(QtCore.QSize(100, 30))
         self.mb_top_bar_auto_scroll_title.setMaximumSize(QtCore.QSize(100, 16777215))
         self.mb_top_bar_auto_scroll_title.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.mb_top_bar_auto_scroll_title.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.mb_top_bar_auto_scroll_title.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.mb_top_bar_auto_scroll_title.setObjectName("mb_top_bar_auto_scroll_title")
         self.mb_top_bar_auto_scroll_verticalLayout.addWidget(self.mb_top_bar_auto_scroll_title)
-        spacerItem = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Minimum)
-        self.mb_top_bar_auto_scroll_verticalLayout.addItem(spacerItem)
+        spacerItem1 = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Minimum)
+        self.mb_top_bar_auto_scroll_verticalLayout.addItem(spacerItem1)
         self.verticalLayout_2.addWidget(self.mb_top_bar_auto_scroll)
+        self.mb_top_bar_repeat = QtWidgets.QWidget(self.mb_setting_widget)
+        self.mb_top_bar_repeat.setMinimumSize(QtCore.QSize(190, 26))
+        self.mb_top_bar_repeat.setMaximumSize(QtCore.QSize(190, 26))
+        self.mb_top_bar_repeat.setObjectName("mb_top_bar_repeat")
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.mb_top_bar_repeat)
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_6.setSpacing(0)
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.mb_top_bar_repeat_title = QtWidgets.QLabel(self.mb_top_bar_repeat)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.mb_top_bar_repeat_title.sizePolicy().hasHeightForWidth())
+        self.mb_top_bar_repeat_title.setSizePolicy(sizePolicy)
+        self.mb_top_bar_repeat_title.setMinimumSize(QtCore.QSize(100, 30))
+        self.mb_top_bar_repeat_title.setObjectName("mb_top_bar_repeat_title")
+        self.horizontalLayout_6.addWidget(self.mb_top_bar_repeat_title)
+        self.mb_top_bar_repeat_spinbox = QtWidgets.QSpinBox(self.mb_top_bar_repeat)
+        self.mb_top_bar_repeat_spinbox.setMinimumSize(QtCore.QSize(53, 0))
+        self.mb_top_bar_repeat_spinbox.setMaximumSize(QtCore.QSize(53, 16777215))
+        self.mb_top_bar_repeat_spinbox.setAlignment(QtCore.Qt.AlignCenter)
+        self.mb_top_bar_repeat_spinbox.setPrefix("")
+        self.mb_top_bar_repeat_spinbox.setMinimum(1)
+        self.mb_top_bar_repeat_spinbox.setMaximum(10)
+        self.mb_top_bar_repeat_spinbox.setObjectName("mb_top_bar_repeat_spinbox")
+        self.horizontalLayout_6.addWidget(self.mb_top_bar_repeat_spinbox)
+        self.verticalLayout_2.addWidget(self.mb_top_bar_repeat)
         self.verticalLayout.addWidget(self.mb_setting_widget)
         self.mb_voca_scroll = QtWidgets.QScrollArea(self.mb_voca_adj)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
@@ -255,7 +392,7 @@ class Ui_MainApp(object):
         self.mb_voca_scroll.setWidgetResizable(True)
         self.mb_voca_scroll.setObjectName("mb_voca_scroll")
         self.mb_voca_scroll_widget = QtWidgets.QWidget()
-        self.mb_voca_scroll_widget.setGeometry(QtCore.QRect(0, 0, 180, 486))
+        self.mb_voca_scroll_widget.setGeometry(QtCore.QRect(0, 0, 180, 427))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -279,7 +416,6 @@ class Ui_MainApp(object):
         self.mb_voca_total_title.setSizePolicy(sizePolicy)
         self.mb_voca_total_title.setMinimumSize(QtCore.QSize(75, 31))
         self.mb_voca_total_title.setMaximumSize(QtCore.QSize(110, 16777215))
-        self.mb_voca_total_title.setStyleSheet("")
         self.mb_voca_total_title.setLineWidth(0)
         self.mb_voca_total_title.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.mb_voca_total_title.setIndent(0)
@@ -328,7 +464,6 @@ class Ui_MainApp(object):
         sizePolicy.setHeightForWidth(self.mb_voca_button_icon_adj_0.sizePolicy().hasHeightForWidth())
         self.mb_voca_button_icon_adj_0.setSizePolicy(sizePolicy)
         self.mb_voca_button_icon_adj_0.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.mb_voca_button_icon_adj_0.setStyleSheet("")
         self.mb_voca_button_icon_adj_0.setText("")
         self.mb_voca_button_icon_adj_0.setObjectName("mb_voca_button_icon_adj_0")
         self.horizontalLayout_5.addWidget(self.mb_voca_button_icon_adj_0)
@@ -414,7 +549,7 @@ class Ui_MainApp(object):
         self.mb_show_adj = QtWidgets.QWidget(self.mb_1)
         self.mb_show_adj.setGeometry(QtCore.QRect(200, 0, 771, 700))
         self.mb_show_adj.setStyleSheet("#mb_show_adj {\n"
-"background: white;\n"
+"background-color: white;\n"
 "}\n"
 "QWidget {\n"
 "padding: 0px;\n"
@@ -423,7 +558,6 @@ class Ui_MainApp(object):
 "}\n"
 "\n"
 "/* Top/Bottom button PushButton Part*/\n"
-"#mb_show_top_bar_play_type .QPushButton,\n"
 "#mb_show_btns_adj .QPushButton {\n"
 "font: 11px;\n"
 "padding: 0px;\n"
@@ -432,31 +566,11 @@ class Ui_MainApp(object):
 "text-align: center;\n"
 "color: black;\n"
 "}\n"
-"#mb_show_top_bar .QPushButton:hover {\n"
-"background-color: rgba(78, 209, 100, 80);\n"
-"}\n"
 "#mb_show_btns_adj .QPushButton:hover {\n"
 "color: white;\n"
 "background-color: rgb(0, 155, 255);\n"
 "}\n"
 "\n"
-"/* Top Button Part*/\n"
-"#mb_show_top_bar .QPushButton:checked {\n"
-"color: white;\n"
-"background-color: rgb(78, 209, 100);\n"
-"}\n"
-"#mb_show_top_bar_btns .QWidget {\n"
-"margin: 4px 10px 4px 0px;\n"
-"background-color: rgb(234, 234, 240);\n"
-"border-radius: 10px;\n"
-"}\n"
-"#mb_show_top_bar_btns .QWidget .QLabel {\n"
-"background-color: transparent;\n"
-"}\n"
-"#mb_show_top_bar_repeat_TextEdit {\n"
-"background-color: white;\n"
-"border-radius: 8px;\n"
-"}\n"
 "\n"
 "/* Bottom Button Part */\n"
 "#mb_show_btns_adj,\n"
@@ -468,16 +582,25 @@ class Ui_MainApp(object):
 "/* Main Show Word Part*/\n"
 "#mb_show_eng_adj {\n"
 "font: 100px;\n"
+"color: black;\n"
 "font-weight: bold;\n"
 "}\n"
 "#mb_show_kor_adj {\n"
+"color: black;\n"
 "font: 50px;\n"
 "font-weight: bold;\n"
 "}\n"
 "#mb_show_image_adj {\n"
+"color: black;\n"
 "font: 20px;\n"
 "}\n"
+"#mb_show_special_case_adj {\n"
+"font: 100px;\n"
+"font-weight: bold;\n"
+"color: transparent;\n"
+"}\n"
 "#mb_show_dev {\n"
+"color: black;\n"
 "background-color: transparent;\n"
 "font: 10px;\n"
 "}")
@@ -489,8 +612,8 @@ class Ui_MainApp(object):
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem1)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem2)
         self.mb_show_btn_widget = QtWidgets.QWidget(self.mb_show_btns_adj)
         self.mb_show_btn_widget.setMinimumSize(QtCore.QSize(0, 0))
         self.mb_show_btn_widget.setMaximumSize(QtCore.QSize(16777215, 16777215))
@@ -503,7 +626,6 @@ class Ui_MainApp(object):
         self.back.setMinimumSize(QtCore.QSize(26, 26))
         self.back.setMaximumSize(QtCore.QSize(26, 26))
         self.back.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.back.setStyleSheet("")
         self.back.setObjectName("back")
         self.horizontalLayout_2.addWidget(self.back)
         self.dummy = QtWidgets.QLabel(self.mb_show_btn_widget)
@@ -516,7 +638,6 @@ class Ui_MainApp(object):
         self.pause.setMinimumSize(QtCore.QSize(26, 26))
         self.pause.setMaximumSize(QtCore.QSize(26, 26))
         self.pause.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pause.setStyleSheet("")
         self.pause.setObjectName("pause")
         self.horizontalLayout_2.addWidget(self.pause)
         self.dummy_2 = QtWidgets.QLabel(self.mb_show_btn_widget)
@@ -529,105 +650,37 @@ class Ui_MainApp(object):
         self.forward.setMinimumSize(QtCore.QSize(26, 26))
         self.forward.setMaximumSize(QtCore.QSize(26, 26))
         self.forward.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.forward.setStyleSheet("")
         self.forward.setObjectName("forward")
         self.horizontalLayout_2.addWidget(self.forward)
         self.horizontalLayout.addWidget(self.mb_show_btn_widget)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem2)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem3)
         self.mb_show_eng_adj = QtWidgets.QLabel(self.mb_show_adj)
-        self.mb_show_eng_adj.setGeometry(QtCore.QRect(0, 30, 771, 140))
-        self.mb_show_eng_adj.setStyleSheet("")
+        self.mb_show_eng_adj.setGeometry(QtCore.QRect(0, 0, 771, 140))
         self.mb_show_eng_adj.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignHCenter)
         self.mb_show_eng_adj.setObjectName("mb_show_eng_adj")
         self.mb_show_image_adj = QtWidgets.QLabel(self.mb_show_adj)
-        self.mb_show_image_adj.setGeometry(QtCore.QRect(0, 190, 771, 361))
-        self.mb_show_image_adj.setStyleSheet("")
+        self.mb_show_image_adj.setGeometry(QtCore.QRect(0, 160, 771, 381))
         self.mb_show_image_adj.setAlignment(QtCore.Qt.AlignCenter)
         self.mb_show_image_adj.setObjectName("mb_show_image_adj")
         self.mb_show_kor_adj = QtWidgets.QLabel(self.mb_show_adj)
-        self.mb_show_kor_adj.setGeometry(QtCore.QRect(0, 560, 771, 81))
+        self.mb_show_kor_adj.setGeometry(QtCore.QRect(0, 540, 771, 81))
         self.mb_show_kor_adj.setText("")
         self.mb_show_kor_adj.setAlignment(QtCore.Qt.AlignCenter)
         self.mb_show_kor_adj.setObjectName("mb_show_kor_adj")
-        self.mb_show_top_bar = QtWidgets.QWidget(self.mb_show_adj)
-        self.mb_show_top_bar.setGeometry(QtCore.QRect(0, 0, 771, 32))
-        self.mb_show_top_bar.setObjectName("mb_show_top_bar")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.mb_show_top_bar)
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_3.setSpacing(0)
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.mb_show_top_bar_btns = QtWidgets.QWidget(self.mb_show_top_bar)
-        self.mb_show_top_bar_btns.setMinimumSize(QtCore.QSize(100, 35))
-        self.mb_show_top_bar_btns.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.mb_show_top_bar_btns.setObjectName("mb_show_top_bar_btns")
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.mb_show_top_bar_btns)
-        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_4.setSpacing(0)
-        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_4.addItem(spacerItem3)
-        self.mb_show_top_bar_repeat = QtWidgets.QWidget(self.mb_show_top_bar_btns)
-        self.mb_show_top_bar_repeat.setMinimumSize(QtCore.QSize(90, 36))
-        self.mb_show_top_bar_repeat.setMaximumSize(QtCore.QSize(90, 36))
-        self.mb_show_top_bar_repeat.setObjectName("mb_show_top_bar_repeat")
-        self.mb_show_top_bar_repeat_title = QtWidgets.QLabel(self.mb_show_top_bar_repeat)
-        self.mb_show_top_bar_repeat_title.setGeometry(QtCore.QRect(9, 10, 31, 16))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.mb_show_top_bar_repeat_title.sizePolicy().hasHeightForWidth())
-        self.mb_show_top_bar_repeat_title.setSizePolicy(sizePolicy)
-        self.mb_show_top_bar_repeat_title.setObjectName("mb_show_top_bar_repeat_title")
-        self.mb_show_top_bar_repeat_TextEdit = QtWidgets.QLineEdit(self.mb_show_top_bar_repeat)
-        self.mb_show_top_bar_repeat_TextEdit.setGeometry(QtCore.QRect(44, 8, 31, 20))
-        self.mb_show_top_bar_repeat_TextEdit.setAlignment(QtCore.Qt.AlignCenter)
-        self.mb_show_top_bar_repeat_TextEdit.setObjectName("mb_show_top_bar_repeat_TextEdit")
-        self.horizontalLayout_4.addWidget(self.mb_show_top_bar_repeat)
-        self.mb_show_top_bar_play_type = QtWidgets.QWidget(self.mb_show_top_bar_btns)
-        self.mb_show_top_bar_play_type.setMinimumSize(QtCore.QSize(150, 36))
-        self.mb_show_top_bar_play_type.setMaximumSize(QtCore.QSize(150, 36))
-        self.mb_show_top_bar_play_type.setObjectName("mb_show_top_bar_play_type")
-        self.mb_show_top_bar_play_type_title = QtWidgets.QLabel(self.mb_show_top_bar_play_type)
-        self.mb_show_top_bar_play_type_title.setGeometry(QtCore.QRect(11, 10, 31, 16))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.mb_show_top_bar_play_type_title.sizePolicy().hasHeightForWidth())
-        self.mb_show_top_bar_play_type_title.setSizePolicy(sizePolicy)
-        self.mb_show_top_bar_play_type_title.setObjectName("mb_show_top_bar_play_type_title")
-        self.mb_show_top_both = QtWidgets.QPushButton(self.mb_show_top_bar_play_type)
-        self.mb_show_top_both.setGeometry(QtCore.QRect(51, 7, 28, 22))
-        self.mb_show_top_both.setMinimumSize(QtCore.QSize(28, 22))
-        self.mb_show_top_both.setMaximumSize(QtCore.QSize(28, 22))
-        self.mb_show_top_both.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.mb_show_top_both.setCheckable(True)
-        self.mb_show_top_both.setChecked(True)
-        self.mb_show_top_both.setObjectName("mb_show_top_both")
-        self.mb_show_top_bar_only_kor = QtWidgets.QPushButton(self.mb_show_top_bar_play_type)
-        self.mb_show_top_bar_only_kor.setGeometry(QtCore.QRect(113, 7, 22, 22))
-        self.mb_show_top_bar_only_kor.setMinimumSize(QtCore.QSize(22, 22))
-        self.mb_show_top_bar_only_kor.setMaximumSize(QtCore.QSize(22, 22))
-        self.mb_show_top_bar_only_kor.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.mb_show_top_bar_only_kor.setCheckable(True)
-        self.mb_show_top_bar_only_kor.setObjectName("mb_show_top_bar_only_kor")
-        self.mb_show_top_bar_only_eng = QtWidgets.QPushButton(self.mb_show_top_bar_play_type)
-        self.mb_show_top_bar_only_eng.setGeometry(QtCore.QRect(85, 7, 22, 22))
-        self.mb_show_top_bar_only_eng.setMinimumSize(QtCore.QSize(22, 22))
-        self.mb_show_top_bar_only_eng.setMaximumSize(QtCore.QSize(22, 22))
-        self.mb_show_top_bar_only_eng.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.mb_show_top_bar_only_eng.setCheckable(True)
-        self.mb_show_top_bar_only_eng.setObjectName("mb_show_top_bar_only_eng")
-        self.horizontalLayout_4.addWidget(self.mb_show_top_bar_play_type)
-        self.horizontalLayout_3.addWidget(self.mb_show_top_bar_btns)
         self.mb_show_dev = QtWidgets.QLabel(self.mb_show_adj)
         self.mb_show_dev.setGeometry(QtCore.QRect(1, 680, 761, 20))
         self.mb_show_dev.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.mb_show_dev.setObjectName("mb_show_dev")
+        self.mb_show_special_case_adj = QtWidgets.QLabel(self.mb_show_adj)
+        self.mb_show_special_case_adj.setGeometry(QtCore.QRect(0, 0, 771, 700))
+        self.mb_show_special_case_adj.setAlignment(QtCore.Qt.AlignCenter)
+        self.mb_show_special_case_adj.setWordWrap(True)
+        self.mb_show_special_case_adj.setObjectName("mb_show_special_case_adj")
+        self.mb_show_special_case_adj.raise_()
         self.mb_show_eng_adj.raise_()
         self.mb_show_image_adj.raise_()
         self.mb_show_kor_adj.raise_()
-        self.mb_show_top_bar.raise_()
         self.mb_show_dev.raise_()
         self.mb_show_btns_adj.raise_()
         self.mb_show_adj.raise_()
@@ -640,11 +693,10 @@ class Ui_MainApp(object):
         MainApp.setTabOrder(self.mb_voca_scroll, self.mb_voca_refresh)
         MainApp.setTabOrder(self.mb_voca_refresh, self.mb_voca_button_group_title_adj_0)
         MainApp.setTabOrder(self.mb_voca_button_group_title_adj_0, self.mb_voca_open)
-        MainApp.setTabOrder(self.mb_voca_open, self.mb_show_top_bar_repeat_TextEdit)
-        MainApp.setTabOrder(self.mb_show_top_bar_repeat_TextEdit, self.mb_show_top_both)
-        MainApp.setTabOrder(self.mb_show_top_both, self.mb_show_top_bar_only_eng)
-        MainApp.setTabOrder(self.mb_show_top_bar_only_eng, self.mb_show_top_bar_only_kor)
-        MainApp.setTabOrder(self.mb_show_top_bar_only_kor, self.back)
+        MainApp.setTabOrder(self.mb_voca_open, self.mb_top_bar_all)
+        MainApp.setTabOrder(self.mb_top_bar_all, self.mb_top_bar_only_eng)
+        MainApp.setTabOrder(self.mb_top_bar_only_eng, self.mb_top_bar_only_kor)
+        MainApp.setTabOrder(self.mb_top_bar_only_kor, self.back)
         MainApp.setTabOrder(self.back, self.pause)
         MainApp.setTabOrder(self.pause, self.forward)
 
@@ -652,7 +704,15 @@ class Ui_MainApp(object):
         _translate = QtCore.QCoreApplication.translate
         MainApp.setWindowTitle(_translate("MainApp", "MainWindow"))
         self.mb_setting_title.setText(_translate("MainApp", "Setting"))
+        self.mb_show_setting_button.setText(_translate("MainApp", "≡"))
+        self.mb_top_bar_play_type_title.setText(_translate("MainApp", "Type"))
+        self.mb_top_bar_all.setText(_translate("MainApp", "All"))
+        self.mb_top_bar_only_eng.setText(_translate("MainApp", "En"))
+        self.mb_top_bar_only_kor.setText(_translate("MainApp", "Ko"))
+        self.mb_top_bar_only_img.setText(_translate("MainApp", "Img"))
         self.mb_top_bar_auto_scroll_title.setText(_translate("MainApp", "Auto Scroll"))
+        self.mb_top_bar_repeat_title.setText(_translate("MainApp", "Repeat"))
+        self.mb_top_bar_repeat_spinbox.setSuffix(_translate("MainApp", " 번"))
         self.mb_voca_total_title.setText(_translate("MainApp", "Word List"))
         self.mb_voca_button_group_title_adj_0.setText(_translate("MainApp", "Lesson 1"))
         self.mb_voca_word_adj_0.setSortingEnabled(False)
@@ -689,10 +749,5 @@ class Ui_MainApp(object):
         self.forward.setText(_translate("MainApp", ">>"))
         self.mb_show_eng_adj.setText(_translate("MainApp", "Visual Voca"))
         self.mb_show_image_adj.setText(_translate("MainApp", "⭐ Waiting for Click Event ..."))
-        self.mb_show_top_bar_repeat_title.setText(_translate("MainApp", "반복"))
-        self.mb_show_top_bar_repeat_TextEdit.setText(_translate("MainApp", "2"))
-        self.mb_show_top_bar_play_type_title.setText(_translate("MainApp", "유형"))
-        self.mb_show_top_both.setText(_translate("MainApp", "All"))
-        self.mb_show_top_bar_only_kor.setText(_translate("MainApp", "Ko"))
-        self.mb_show_top_bar_only_eng.setText(_translate("MainApp", "En"))
         self.mb_show_dev.setText(_translate("MainApp", "Developed by Gonyo & AhnJH"))
+        self.mb_show_special_case_adj.setText(_translate("MainApp", "[SPECIAL CASE]"))
