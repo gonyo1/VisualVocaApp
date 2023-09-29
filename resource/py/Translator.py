@@ -31,6 +31,17 @@ def translate(word: str = None, langs: dict = None, key: str = None):
     def get_language_from_dict():
         return list(langs.values())
 
+
+    """
+    Translate를 사용하면 아래와 같은 데이터 타입을 전송 받을 수 있습니다.
+    >> type:list
+    >> [{'translations': [{'text': '시계', 'to': 'ko'}, {'text': 'часы', 'to': 'ru'}]}]
+    
+    만약 Error 가 발생한다면 아래와 같은 데이터 타입을 전송 받습니다.
+    >> type:dict
+    >> {'error': {'code': 401000, 'message': 'The request is not authorized because credentials are missing or invalid.'}}
+    """
+
     lang_list = get_language_from_dict()
     constructed_url = set_base_url()
     headers = set_headers(key)
@@ -44,15 +55,7 @@ def translate(word: str = None, langs: dict = None, key: str = None):
     request = requests.post(constructed_url, params=params, headers=headers, json=body)
     response = request.json()
 
-
-
-    """
-    Translate를 사용하면 아래와 같은 데이터 타입을 전송 받을 수 있습니다.
-    >> type:list
-    >> [{'translations': [{'text': '시계', 'to': 'ko'}, {'text': 'часы', 'to': 'ru'}]}]
-    만약 Error 가 발생한다면 아래와 같은 데이터 타입을 전송 받습니다.
-    >> {'error': {'code': 401000, 'message': 'The request is not authorized because credentials are missing or invalid.'}}
-    """
+    if
 
 
     print("  [Info] MS Azure token subtracted... Please note this info...")

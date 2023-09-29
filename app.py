@@ -9,7 +9,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui, Qt, QtMultimedia
 from resource.py import GetImages
 from resource.py import GetAudio
 from resource.py.Translator import translate, search_text_by_lang
-from resource.py.Toggle import AnimatedToggle
+from resource.py.ToggleButton import AnimatedToggle
 from resource.py.Json import load_json_file, save_json_file, generate_init
 from resource.py.CSVData import get_main_csv
 from resource.src.ui.main_ui import Ui_MainApp as mp
