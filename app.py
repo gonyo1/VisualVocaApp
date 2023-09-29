@@ -228,6 +228,8 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.auto_scroll_toggle = QtWidgets.QCheckBox()
         self.auto_slide = True
         self.show_langs = list(self.JSON_DATA["LanguagesShow"].values())
+
+        del self.JSON_DATA["LanguagesSpeech"]["Reference"]
         self.speech_langs = list(self.JSON_DATA["LanguagesSpeech"].values())
 
         # Voca Variables
@@ -253,60 +255,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
         # ETC
         self.timer = QtCore.QTimer(self)
-
-    def set_signal(self, *args):
-        def insert_total_signal():
-            # Mainwindow buttons
-            self.mb_voca_open.clicked.connect(self.open_folder)
-            self.mb_show_top_both.clicked.connect(self.eng_kor_all)
-            self.mb_show_top_bar_only_eng.clicked.connect(self.english_only)
-            self.mb_show_top_bar_only_kor.clicked.connect(self.korea_only)
-
-            self.mb_voca_refresh.clicked.connect(self.refresh_all_component)
-            self.auto_scroll_toggle.stateChanged.connect(lambda state, key="AutoScroll": self.change_json_file(key=key))
-
-            # mb_show part
-            self.pause.clicked.connect(self.is_clicked_pause)
-            for btn in [self.forward, self.back]:
-                btn.clicked.connect(self.player.stop)
-                btn.clicked.connect(self.is_clicked_back_forward)
-            self.mb_show_top_bar_repeat_TextEdit.textEdited.connect(lambda: self.change_json_file(key="ImageDownCount"))
-
-            # window resized event
-            self.resized.connect(self.resize_widget)
-
-            # pushbutton clicked event on QListWidget
-            insert_pushbutton_signal()
-
-            # voca word clicked event on QListWidget
-            insert_QListWidget_item_signal()
-
-        def insert_pushbutton_signal():
-            for btn in self.voca_widget_button:
-                btn.clicked.connect(self.voca_widget_button_event)
-
-        def insert_QListWidget_item_signal():
-            self.list_widgets = self.findChildren(QtWidgets.QListWidget)
-
-            self.list_widgets = [wdg for wdg in self.list_widgets if not wdg.isVisible()]
-
-            for idx, widget in enumerate(self.list_widgets):
-                if widget.objectName() != "mb_voca_word_adj_0":
-                    widget.itemClicked.connect(self.change_current_widget)
-                    widget.currentRowChanged.connect(lambda: self.change_mb_voca_widget(obj=self.sending_from_widget))
-                    widget.currentRowChanged.connect(lambda: self.get_audio_tts(obj=self.sending_from_widget))
-
-        self.player.stateChanged.connect(self.play_tts_audio)
-
-        if self.FIRSTRUN:
-            insert_total_signal()
-        if len(args) > 0:
-            if args[0] == 'pushbutton':
-                insert_pushbutton_signal()
-            elif args[0] == 'qlistwidget':
-                insert_QListWidget_item_signal()
-
-    # <-- Main Window Section -------------------------------------------------------------->
+        
     def setup_window_graphic(self):
         def make_voca_groups():
             def find_mb_voca_widgets():
@@ -469,8 +418,11 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     # Set QListWidgetItem text as voca
                     for w_idx, word in enumerate(words_in_group):
                         item = QtWidgets.QListWidgetItem()
+
+                        # 빈칸이면 빈 셀로 변환하기
+
                         self.q_list_widget.addItem(item)
-                        self.q_list_widget.item(w_idx).setText(word)
+                        self.q_list_widget.item(w_idx).setText(str(word))
 
             voca_widgets = find_mb_voca_widgets()
             make_mb_voca_widget()
@@ -597,61 +549,178 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
         calculate_ratio()
 
-    def refresh_all_component(self):
+    def set_signal(self, *args):
+        def insert_total_signal():
+            # Mainwindow buttons
+            self.mb_voca_open.clicked.connect(is_open_folder_clicked)
+            self.mb_show_top_both.clicked.connect(is_option_button_clicked)
+            self.mb_show_top_bar_only_eng.clicked.connect(is_option_button_clicked)
+            self.mb_show_top_bar_only_kor.clicked.connect(is_option_button_clicked)
 
-        # Setup GUI Widget
-        # self.set_font_family()
-        self.JSON_DATA = load_json_file()
-        self.CSV_DATA = get_main_csv()
+            self.mb_voca_refresh.clicked.connect(is_refresh_clicked)
+            self.auto_scroll_toggle.stateChanged.connect(lambda state, key="AutoScroll": self.change_json_file(key=key))
 
-        self.close()
+            # mb_show part
+            self.pause.clicked.connect(is_pause_button_clicked)
+            self.back.clicked.connect(is_direction_button_clicked)
+            self.forward.clicked.connect(is_direction_button_clicked)
+            self.mb_show_top_bar_repeat_TextEdit.textEdited.connect(lambda: self.change_json_file(key="ImageDownCount"))
+            self.player.stateChanged.connect(self.start_player)
 
-        geometry = self.geometry()
-        self.__init__(geometry=geometry)
-        self.mb_show_image_adj.setMovie(self.movie)
+            # window resized event
+            self.resized.connect(self.resize_widget)
 
-    def open_folder(self):
-        base_path = os.path.abspath("./resource/voca/WordList.csv")
+            # pushbutton clicked event on QListWidget
+            insert_pushbutton_signal()
 
-        if self.PLATFORM == "win32":
-            os.startfile(base_path)
-        elif self.PLATFORM == 'drawin':
-            os.system(f"open {base_path}")
+            # voca word clicked event on QListWidget
+            insert_QListWidget_item_signal()
 
-    def eng_kor_all(self):
-        if (self.mb_show_top_both.isChecked()):
-            self.mb_show_kor_adj.show()
-            self.mb_show_eng_adj.show()
-        else:
+        def insert_pushbutton_signal():
+            for btn in self.voca_widget_button:
+                btn.clicked.connect(self.voca_widget_button_event)
+
+        def insert_QListWidget_item_signal():
+            self.list_widgets = self.findChildren(QtWidgets.QListWidget)
+
+            self.list_widgets = [wdg for wdg in self.list_widgets if not wdg.isVisible()]
+
+            for idx, widget in enumerate(self.list_widgets):
+                if widget.objectName() != "mb_voca_word_adj_0":
+                    widget.itemClicked.connect(is_voca_button_clicked)
+                    widget.currentRowChanged.connect(lambda: self.change_mb_voca_widget(obj=self.sending_from_widget))
+                    widget.currentRowChanged.connect(lambda: self.get_tts_audio(obj=self.sending_from_widget))
+
+        # Event Slots
+        def is_voca_button_clicked():
+            self.player.stop()
+            self.sending_from_widget = self.sender()
+
+            if (self.sending_from_widget != None):
+                idx = self.sending_from_widget.currentRow()
+
+                # 첫번째는 어쩔 수 없이 직접 실행해야하나 봄...
+                self.sending_from_widget.setCurrentRow(idx)
+                self.change_mb_voca_widget(obj=self.sending_from_widget)
+                self.get_tts_audio(obj=self.sending_from_widget)
+
+        def is_pause_button_clicked():
+            if not self.is_pause_clicked:
+                # stop player
+                self.stop_player()
+
+                # change setting
+                self.is_finished = True
+                self.is_playing = False
+                self.is_pause_clicked = True
+
+                # show black
+                self.BLACK.show()
+
+                for item in [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_btns_adj]:
+                    item.raise_()
+                    item.show()
+                    item.setStyleSheet("color: white;\n")
+
+                self.mb_show_btns_adj.setStyleSheet("color: black;\n")
+                self.pause.setText("▶")
+            else:
+                # play player
+                self.change_mb_voca_widget(obj=self.sending_from_widget)
+                self.get_tts_audio(obj=self.sending_from_widget)
+
+                # change setting
+                self.is_pause_clicked = False
+
+                # hide black
+                self.BLACK.hide()
+
+                for item in [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_btns_adj]:
+                    item.raise_()
+                    item.show()
+                    item.setStyleSheet("color: black;\n")
+
+                self.pause.setText("■")
+
+        def is_direction_button_clicked():
+            # Stop Player and reset setting
+            self.stop_player()
+
+            # Get obj from sender
+            obj = self.sender()
+            name = obj.objectName()
+
+            # Change current index
+            if name == "back":
+                idx = self.sending_from_widget.currentRow()
+                self.sending_from_widget.setCurrentRow(idx - 1)
+            elif name == "forward":
+                idx = self.sending_from_widget.currentRow()
+                self.sending_from_widget.setCurrentRow(idx + 1)
+
+            self.is_pause_clicked = False
+
+            for item in [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_btns_adj]:
+                item.raise_()
+                item.show()
+                item.setStyleSheet("color: black")
+
+            self.pause.setText("■")
+
+        def is_refresh_clicked():
+
+            # Setup GUI Widget
+            # self.set_font_family()
+            self.JSON_DATA = load_json_file()
+            self.CSV_DATA = get_main_csv()
+
+            self.close()
+
+            geometry = self.geometry()
+            self.__init__(geometry=geometry)
+            self.mb_show_image_adj.setMovie(self.movie)
+
+        def is_open_folder_clicked():
+            base_path = os.path.abspath("./resource/voca/WordList.csv")
+
+            if self.PLATFORM == "win32":
+                os.startfile(base_path)
+            elif self.PLATFORM == 'drawin':
+                os.system(f"open {base_path}")
+
+        def is_option_button_clicked():
+            # BOTH, KOR, ENG, etc.. 클릭되면 무엇이 나오게 할지
+            btn = self.sender()
+
+            # 본인을 제외한 다른 옵션 버튼을 unchecked 로 변경하기
+            for item in [self.mb_show_top_both,
+                         self.mb_show_top_bar_only_eng,
+                         self.mb_show_top_bar_only_kor]:
+                item.setChecked(False)
+            btn.setChecked(True)
+
+            # <-- Dev. AhnJH part 간소화
             self.mb_show_kor_adj.hide()
             self.mb_show_eng_adj.hide()
 
-    def english_only(self):
-        if self.mb_show_top_bar_only_eng.isChecked():
-            self.mb_show_eng_adj.show()
-            self.mb_show_kor_adj.hide()
-        else:
-            self.mb_show_kor_adj.show()
-            self.mb_show_eng_adj.show()
+            if btn == self.mb_show_top_both:
+                self.mb_show_kor_adj.show()
+                self.mb_show_eng_adj.show()
+            elif btn == self.mb_show_top_bar_only_eng:
+                self.mb_show_eng_adj.show()
+            elif btn == self.mb_show_top_bar_only_kor:
+                self.mb_show_kor_adj.show()
 
-    def korea_only(self):
-        if self.mb_show_top_bar_only_kor.isChecked():
-            self.mb_show_kor_adj.show()
-            self.mb_show_eng_adj.hide()
-        else:
-            self.mb_show_kor_adj.show()
-            self.mb_show_eng_adj.show()
+        # Insert Signal to main window
+        if self.FIRSTRUN:
+            insert_total_signal()
+        if len(args) > 0:
+            if args[0] == 'pushbutton':
+                insert_pushbutton_signal()
+            elif args[0] == 'qlistwidget':
+                insert_QListWidget_item_signal()
 
-    def remove_item_from_VBox(self, parent, obj):
-        _type = str(type(parent))
-        if _type in ("PyQt5.QtWidgets.QVBoxLayout"):
-            idx = parent.indexOf(obj)
-            item = parent.itemAt(idx)
-            parent.removeItem(item)
-        elif _type == ("<class 'PyQt5.QtWidgets.QWidget'>",
-                       "<class 'PyQt5.QtWidgets.QListWidget'>"):
-            obj.deleteLater()
-
+    # <-- Main Window Section -------------------------------------------------------------->
     def change_json_file(self, key=None, value=None):
         if key == "AutoScroll":
             value = str(self.auto_scroll_toggle.isChecked())
@@ -666,19 +735,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             save_json_file(key, value)
 
     # <-- New Voca Clicked Event Handler --------------------------------------------------->
-    def change_current_widget(self):
-        self.player.stop()
-
-        self.sending_from_widget = self.sender()
-
-        if (self.sending_from_widget != None):
-            idx = self.sending_from_widget.currentRow()
-
-            # 첫번째는 어쩔 수 없이 직접 실행해야하나 봄...
-            self.sending_from_widget.setCurrentRow(idx)
-            self.change_mb_voca_widget(obj=self.sending_from_widget)
-            self.get_audio_tts(obj=self.sending_from_widget)
-
     def change_mb_voca_widget(self, obj):
         self.mb_show_eng_adj.setStyleSheet("color: black;\n")
         self.mb_show_kor_adj.setStyleSheet("color: black;\n")
@@ -738,9 +794,11 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
             # CSV 파일에 LanguageShow 언어가 없다면 자동번역기 실행하기
             except KeyError:
+                print("  [Info] No Column found in CSV file. Do Auto Translate... ")
                 self.translated_result = translate(word=self.word,
                                                    langs=self.JSON_DATA["LanguagesSpeech"],
                                                    key=self.JSON_DATA["APIKeys"]["MSAzureTranslator"])
+                print(self.translated_result, 'd')
                 lower_text = search_text_by_lang(self.translated_result, lower_text_language)
 
             self.mb_show_kor_adj.setText(lower_text)
@@ -749,49 +807,41 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.change_mb_voca_image(self.image_idx)
 
     def change_mb_voca_image(self, idx):
-        # Add image_idx
-        if idx >= len(self.pics):
-            self.move_next_voca()
-        else:
-            # Get image and change pixmap
-            pic = self.pics[idx]
+        def move_to_next_voca_image():
+            if self.auto_scroll_toggle.isChecked():
+                idx = self.sending_from_widget.currentRow()
 
-            self.mb_show_image_adj.clear()
-            # self.mb_show_image_adj.setPixmap(pic)
-            self.mb_show_image_adj.setPixmap(
-                pic.scaled(QtCore.QSize(self.mb_show_image_adj.width(), self.mb_show_image_adj.height()),
-                           aspectRatioMode=QtCore.Qt.KeepAspectRatio,
-                           transformMode=QtCore.Qt.SmoothTransformation
-                           )
-                )
-            self.mb_show_image_adj.repaint()
-
-            self.image_idx += 1
-
-    def move_next_voca(self):
-        if self.auto_scroll_toggle.isChecked():
-            idx = self.sending_from_widget.currentRow()
-
-            if idx < self.sending_from_widget.count() - 1:
-                idx = idx + 1
-                self.sending_from_widget.setCurrentRow(idx)
+                if idx < self.sending_from_widget.count() - 1:
+                    idx = idx + 1
+                    self.sending_from_widget.setCurrentRow(idx)
+                else:
+                    self.stop_player()
+                    print("  [Info] <-- No more images left to show -->")
             else:
                 self.stop_player()
-                print("  [Info] <-- No more images left to show -->")
+                print("  [Info] <-- Auto scroll is not clicked -->")
+
+        def move_to_next_image():
+            pic = self.pics[idx]
+            self.mb_show_image_adj.clear()
+            self.mb_show_image_adj.setPixmap(
+                pic.scaled(
+                    QtCore.QSize(self.mb_show_image_adj.width(),
+                                 self.mb_show_image_adj.height()),
+                    aspectRatioMode=QtCore.Qt.KeepAspectRatio,
+                    transformMode=QtCore.Qt.SmoothTransformation
+                )
+            )
+            self.mb_show_image_adj.repaint()
+            self.image_idx += 1
+
+        # Add image_idx
+        if idx >= len(self.pics):
+            # Get image and change pixmap in NEXT WORD
+            move_to_next_voca_image()
         else:
-            self.stop_player()
-            print("  [Info] <-- Auto scroll is not clicked -->")
-
-    def stop_player(self):
-        self.is_finished = True
-        self.is_playing = False
-
-        self.BLACK.show()
-        self.player.stop()
-
-        self.mb_show_btns_adj.raise_()
-        self.pause.setText("▶")
-        # self.mb_show_btns_adj.hide()
+            # Get image and change pixmap in ONE WORD
+            move_to_next_image()
 
     def voca_widget_button_event(self):
         self.stop_player()
@@ -831,72 +881,10 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.spacer = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
             self.mb_voca_scroll_widget_verticalLayout.addItem(self.spacer)
 
-    # <-- Top/Bottom Bar Button Event ------------------------------------------------------>
-    def is_clicked_pause(self):
-        if not self.is_pause_clicked:
-            # stop player
-            self.stop_player()
 
-            # change setting
-            self.is_finished = True
-            self.is_playing = False
-            self.is_pause_clicked = True
-
-            # show black
-            self.BLACK.show()
-
-            for item in [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_btns_adj]:
-                item.raise_()
-                item.show()
-                item.setStyleSheet("color: white;\n")
-
-            self.mb_show_btns_adj.setStyleSheet("color: black;\n")
-            self.pause.setText("▶")
-        else:
-            # play player
-            self.change_mb_voca_widget(obj=self.sending_from_widget)
-            self.get_audio_tts(obj=self.sending_from_widget)
-
-            # change setting
-            self.is_pause_clicked = False
-
-            # hide black
-            self.BLACK.hide()
-
-            for item in [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_btns_adj]:
-                item.raise_()
-                item.show()
-                item.setStyleSheet("color: black;\n")
-
-            self.pause.setText("■")
-
-    def is_clicked_back_forward(self):
-        # Stop Player and reset setting
-        self.stop_player()
-
-        # Get obj from sender
-        obj = self.sender()
-        name = obj.objectName()
-
-        # Change current index
-        if name == "back":
-            idx = self.sending_from_widget.currentRow()
-            self.sending_from_widget.setCurrentRow(idx - 1)
-        elif name == "forward":
-            idx = self.sending_from_widget.currentRow()
-            self.sending_from_widget.setCurrentRow(idx + 1)
-
-        self.is_pause_clicked = False
-
-        for item in [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_btns_adj]:
-            item.raise_()
-            item.show()
-            item.setStyleSheet("color: black")
-
-        self.pause.setText("■")
 
     # <-- Play audio TTS ------------------------------------------------------------------->
-    def play_tts_audio(self):
+    def start_player(self):
         def replace_korean(word):
             word = word.replace("~", "무엇 ")
             word = word.replace("～", "무엇 ")
@@ -966,7 +954,9 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             if audio_lang == 'ko':
                 self.word = replace_korean(self.word)
 
-            audio_path = GetAudio.get_tts(word=self.word, lang=audio_lang)
+            audio_path = GetAudio.get_tts(word=self.word, lang=audio_lang,
+                                          main_word=self.mb_show_eng_adj.text(),
+                                          main_lang=self.JSON_DATA["LanguagesSpeech"]["First"])
 
             url = QtCore.QUrl.fromLocalFile(audio_path)
             content = QtMultimedia.QMediaContent(url)
@@ -979,15 +969,28 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.tts_idx += 1
             self.is_voca_changed = False
 
-    def get_audio_tts(self, obj: str = None):
+    def stop_player(self):
+        self.is_finished = True
+        self.is_playing = False
+
+        self.BLACK.show()
+        self.player.stop()
+
+        self.mb_show_btns_adj.raise_()
+        self.pause.setText("▶")
+        # self.mb_show_btns_adj.hide()
+
+    def get_tts_audio(self, obj: str = None):
         # Get currentItem Text
         if (self.sending_from_widget != None):
             self.word = obj.currentItem().text()
 
             # Play Audio when is not playing Visual Voca Sliding
             if not self.is_playing:
-                self.play_tts_audio()
+                self.start_player()
                 self.is_playing = True
+
+
 
     # <-- Resize Event Handler ------------------------------------------------------------->
     def resize_widget(self):

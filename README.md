@@ -30,4 +30,75 @@ Visual Voca는 깜빡이 형태로 단어 암기를 돕는 프로그램입니다
 <span>　   (예: Animal, Elephant, 코끼리)</span><br><br>
 <span>(4) CSV 파일을 저장 후 종료합니다.</span><br>
 <span>(5) VisualVoca.exe 파일(메인 실행 파일)을 열어줍니다.</span><br><br>
-<span>* 'resource > src > config.json' 파일에 접근하여 설정을 변경할 수 있습니다.</span><br>
+<span>* 'resource > src > config.json' 파일에 접근하여 설정을 변경할 수 있습니다.</span>
+<br>
+<br>
+
+
+### Translate Language - "Miscrosoft" Azure Translator
+> 
+ 
+
+<br>
+<br>
+
+### Speechable Language - "Google" Text to Speech
+> af : Afrikaans <br>
+> ar : Arabic <br>
+> bg : Bulgarian <br>
+> bn : Bengali <br>
+> bs : Bosnian <br>
+> ca : Catalan <br>
+> cs : Czech <br>
+> da : Danish <br>
+> de : German <br>
+> el : Greek <br>
+> en : English <br>
+> es : Spanish <br>
+> et : Estonian <br>
+> fi : Finnish <br>
+> fr : French <br>
+> gu : Gujarati <br>
+> hi : Hindi <br>
+> hr : Croatian <br>
+> hu : Hungarian <br>
+> id : Indonesian <br>
+> is : Icelandic <br>
+> it : Italian <br>
+> iw : Hebrew <br>
+> ja : Japanese <br>
+> jw : Javanese <br>
+> km : Khmer <br>
+> kn : Kannada <br>
+> ko : Korean <br>
+> la : Latin <br>
+> lv : Latvian <br>
+> ml : Malayalam <br>
+> mr : Marathi <br>
+> ms : Malay <br>
+> my : Myanmar (Burmese) <br>
+> ne : Nepali <br>
+> nl : Dutch <br>
+> no : Norwegian <br>
+> pl : Polish <br>
+> pt : Portuguese <br>
+> ro : Romanian <br>
+> ru : Russian <br>
+> si : Sinhala <br>
+> sk : Slovak <br>
+> sq : Albanian <br>
+> sr : Serbian <br>
+> su : Sundanese <br>
+> sv : Swedish <br>
+> sw : Swahili <br>
+> ta : Tamil <br>
+> te : Telugu <br>
+> th : Thai <br>
+> tl : Filipino <br>
+> tr : Turkish <br>
+> uk : Ukrainian <br>
+> ur : Urdu <br>
+> vi : Vietnamese <br>
+> zh-CN : Chinese (Simplified) <br>
+> zh-TW : Chinese (Mandarin/Taiwan) <br>
+> zh : Chinese (Mandarin) <br>

@@ -66,10 +66,9 @@ def translate(word: str = None, langs: dict = None, key: str = None):
     # print(json.dumps(response, sort_keys=True, ensure_ascii=False, indent=4, separators=(',', ': ')))
 
 def search_text_by_lang(json, lang) -> str:
-    print(json, lang, 'ddddddddddddddddddddddddd')
     results = json[0]["translations"]
     word = [result["text"] for result in results if lang == result["to"]][0]
-    print(word)
+    print(f"  [Info] >> Translated to this: {word}")
 
     # for result in results:
     #     if lang == result["to"]:

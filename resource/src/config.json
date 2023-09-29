@@ -10,12 +10,13 @@
 	"ImageDownCount": 2,
 	"LanguagesShow": {
 		"UpperPart": "en",
-		"LowerPart": "zh-Hans"
+		"LowerPart": "ko",
+		"Reference": "https://learn.microsoft.com/en-us/azure/ai-services/translator/language-support"
 	},
 	"LanguagesSpeech": {
 		"First": "en",
-		"Second": "zh-CN",
-		"Third": "ko"
+		"Second": "ko",
+		"Reference": "https://cloud.google.com/text-to-speech/docs/voices?hl=ko"
 	},
 	"APIKeys": {
 		"NaverPapago": "<YOUR_SECRET_API_KEY>",

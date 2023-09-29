@@ -24,7 +24,7 @@ def load_json_file() -> dict:
 def save_json_file(key, value):
     json_data = None
     base_path = is_main_app()
-    json_file = f'{base_path}\\config.json'
+    json_file = os.path.join(base_path, 'config.json')
 
     with open(json_file, 'r', encoding='utf-8') as f:
         json_data = json.load(f)

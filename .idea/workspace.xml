@@ -5,14 +5,101 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f391428-5e23-4fd8-b8bb-00df0fd98648" name="Changes" comment="Changes">
+      <change afterPath="$PROJECT_DIR$/resource/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/England/England(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/England/England(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/ago/ago(1).gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/ago/ago(2).gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/another/another(1).gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/another/another(2).gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/bedroom/bedroom(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/bedroom/bedroom(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/class/class(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/class/class(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/dog/dog(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/dog/dog(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/feel/feel(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/feel/feel(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/fish/fish(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/fish/fish(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/food/food(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/food/food(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/great/great(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/great/great(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/hand/hand(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/hand/hand(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/later/later(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/later/later(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/letter/letter(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/letter/letter(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/move/move(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/move/move(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/same/same(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/same/same(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/still/still(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/still/still(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/town/town(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/town/town(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/wait/wait(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/wait/wait(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/미소짓다, 미소/미소짓다, 미소(1).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/img/미소짓다, 미소/미소짓다, 미소(2).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/England_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/ago_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/another_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/bedroom_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/class_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/dog_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/feel_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/fish_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/food_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/great_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/hand_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/later_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/letter_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/move_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/same_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/still_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/town_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/wait_en.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/应该_zh-CN.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/看_zh-CN.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/개_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/기다리다_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/느끼다_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/또하나의, 다른_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/무엇 전에_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/미소짓다, 미소_zh-CN.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/손, 바늘, 넘겨주다_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/아직, 고요한_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/영국_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/움직이다, 이사하다_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/위대한, 큰 _ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/음식, 식품_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/읍, 도시_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/침실_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/편지_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/학급, 수업_ko.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resource/voca/tts/후에, 나중에, 더 늦은_ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/VisualVocaApp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/VisualVocaApp.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/py/GetAudio.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource/py/GetAudio.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/py/Json.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource/py/Json.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/py/Translator.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource/py/Translator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resource/src/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/resource/src/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource/voca/tts/airport_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/airport_en.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource/voca/tts/science_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/science_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/src/ui/main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/resource/src/ui/main.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/src/ui/main_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource/src/ui/main_ui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/crowd_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/crowd_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/should_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/should_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/smile_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/smile_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/watch_en.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/watch_en.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/微笑_zh-CN.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/微笑_zh-CN.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/무엇 일 것이다.  shall과거 _ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/무엇 일 것이다.  shall과거 _ko.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resource/voca/tts/미소짓다, 미소_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/미소짓다, 미소_ko.wav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resource/voca/tts/바위_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/바위_ko.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource/voca/tts/시계_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/시계_ko.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource/voca/tts/이유, 이성_ko.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resource/voca/tts/이유, 이성_ko.wav" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,17 +131,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/py&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/py",
+    "settings.editor.selected.configurable": "preferences.general"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Gonyo\Documents\GitHub\VisualVocaApp\resource\py" />
@@ -67,6 +154,27 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.app">
+    <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="VisualVocaApp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/resource" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/resource/__init__.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="VisualVocaApp" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -74,10 +182,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="$USER_HOME$/opt/anaconda3/bin/python" />
-      <option name="SDK_NAME" value="Python 3.11" />
+      <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
@@ -89,108 +196,10 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="get_images" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="VisualVocaApp" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.11" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/resource/py" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/resource/py/get_images.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="get_tts_audio" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="VisualVocaApp" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.11" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/resource/py" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../../../../Gonyo/Documents/GitHub/VisualVocaApp/resource/py/get_tts_audio.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="load_main_csv" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="VisualVocaApp" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.11" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/resource/py" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/resource/py/load_main_csv.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="toggle" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="VisualVocaApp" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.11" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/resource/py" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/resource/py/toggle.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <list>
-      <item itemvalue="Python.app" />
-      <item itemvalue="Python.get_images" />
-      <item itemvalue="Python.get_tts_audio" />
-      <item itemvalue="Python.load_main_csv" />
-      <item itemvalue="Python.toggle" />
-    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.app" />
-        <item itemvalue="Python.toggle" />
-        <item itemvalue="Python.get_images" />
-        <item itemvalue="Python.load_main_csv" />
-        <item itemvalue="Python.get_tts_audio" />
+        <item itemvalue="Python.__init__" />
       </list>
     </recent_temporary>
   </component>
@@ -223,23 +232,8 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/resource/py/load_main_csv.py</url>
-          <line>7</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/app.py</url>
-          <line>715</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/resource/py/get_images.py</url>
-          <line>18</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/app.py</url>
-          <line>634</line>
+          <line>735</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
