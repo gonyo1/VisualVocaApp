@@ -947,21 +947,20 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     print(f"  [info] Doesn't have Column:{audio_lang}")
                     # CSV 파일에 audio_lang 언어가 없다면 자동번역기 실행하기
 
-                    # try:
-                    # Check audio_lang in show_lang
-                    if not audio_lang in self.show_langs:
-                        short_langs = [lang[0:2] for lang in self.show_langs]
-                        print(short_langs)
-                        if audio_lang[0:2] in short_langs:
-                            # find audio_lang index in short lang index
-                            idx = short_langs.index(audio_lang[0:2])
-                            print(idx)
-                            modified_audio_lang = self.show_langs[idx]
-                            print(audio_lang)
-                    self.word = search_text_by_lang(self.translated_result, modified_audio_lang)
-                    print(self.word)
-                    # except KeyError:
-                    #     self.word = ""
+                    try:
+                        # Check audio_lang in show_lang
+                        if not audio_lang in self.show_langs:
+                            short_langs = [lang[0:2] for lang in self.show_langs]
+                            print(short_langs)
+                            if audio_lang[0:2] in short_langs:
+                                # find audio_lang index in short lang index
+                                idx = short_langs.index(audio_lang[0:2])
+                                print(idx)
+                                modified_audio_lang = self.show_langs[idx]
+                                print(audio_lang)
+                        self.word = search_text_by_lang(self.translated_result, modified_audio_lang)
+                    except KeyError:
+                        self.word = ""
 
             # Korean이면 특수문자 제거하기
             if audio_lang == 'ko':
