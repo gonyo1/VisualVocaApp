@@ -724,12 +724,16 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.mb_show_eng_adj.hide()
             self.mb_show_image_adj.hide()
             self.mb_show_special_case_adj.hide()
-            self.mb_show_special_case_adj.setText("")
+            # self.mb_show_special_case_adj.setText("")
 
             if btn == self.mb_top_bar_all:
                 self.mb_show_kor_adj.show()
                 self.mb_show_eng_adj.show()
                 self.mb_show_image_adj.show()
+                if self.is_voca_changed == False:
+                    self.mb_show_special_case_adj.setMovie(self.movie)
+                    self.mb_show_special_case_adj.show()
+                    self.mb_show_special_case_adj.raise_()
             elif btn == self.mb_top_bar_only_eng:
                 self.change_stylesheet(self.mb_show_special_case_adj, color="black")
                 self.mb_show_special_case_adj.setText(self.mb_show_eng_adj.text())
@@ -738,8 +742,12 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 self.change_stylesheet(self.mb_show_special_case_adj, color="black")
                 self.mb_show_special_case_adj.setText(self.mb_show_kor_adj.text())
                 self.mb_show_special_case_adj.show()
+                if self.is_voca_changed == False:
+                    self.mb_show_special_case_adj.setText("비쥬얼 보카")
             elif btn == self.mb_top_bar_only_img:
                 self.mb_show_image_adj.show()
+                if self.is_voca_changed == False:
+                    self.mb_show_image_adj.setPixmap(Qt.QPixmap('resource/src/img/logo.svg'))
 
         # Insert Signal to main window
         if self.FIRSTRUN:

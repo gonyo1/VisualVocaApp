@@ -83,7 +83,7 @@ class Ui_MainApp(object):
 "#mb_voca_scroll {\n"
 "background-color: white;\n"
 "border-radius: 10px;\n"
-"margin: 10px 10px 0px 10px;\n"
+"margin: 0px 10px 10px 10px;\n"
 "}\n"
 "#mb_setting_title,\n"
 "#mb_voca_total_title {\n"
@@ -94,7 +94,7 @@ class Ui_MainApp(object):
 "text-align: Left;\n"
 "}\n"
 "#mb_setting_title {\n"
-"margin: 20px 20px 4px 20px;\n"
+"margin: 0px 20px 4px 20px;\n"
 "}\n"
 "\n"
 "/* Left - Setting detail name(ex: Auto Scroll ....) ------------------------------------- */\n"
@@ -195,7 +195,7 @@ class Ui_MainApp(object):
 "\n"
 "/* Add Files Part */\n"
 "#mb_voca_open {\n"
-"margin: 10px;\n"
+"margin: 0px 10px 10px 10px;\n"
 "color: white;\n"
 "font: 16px;\n"
 "font-weight: bold;\n"
@@ -247,23 +247,24 @@ class Ui_MainApp(object):
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 10)
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.widget = QtWidgets.QWidget(self.mb_setting_widget)
-        self.widget.setMinimumSize(QtCore.QSize(200, 40))
-        self.widget.setObjectName("widget")
-        self.mb_setting_title = QtWidgets.QLabel(self.widget)
-        self.mb_setting_title.setGeometry(QtCore.QRect(0, 0, 200, 40))
+        self.mb_setting_hbox = QtWidgets.QWidget(self.mb_setting_widget)
+        self.mb_setting_hbox.setMinimumSize(QtCore.QSize(200, 20))
+        self.mb_setting_hbox.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.mb_setting_hbox.setObjectName("mb_setting_hbox")
+        self.mb_setting_title = QtWidgets.QLabel(self.mb_setting_hbox)
+        self.mb_setting_title.setGeometry(QtCore.QRect(0, 0, 200, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mb_setting_title.sizePolicy().hasHeightForWidth())
         self.mb_setting_title.setSizePolicy(sizePolicy)
-        self.mb_setting_title.setMinimumSize(QtCore.QSize(0, 20))
+        self.mb_setting_title.setMinimumSize(QtCore.QSize(0, 30))
         self.mb_setting_title.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.mb_setting_title.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.mb_setting_title.setIndent(0)
         self.mb_setting_title.setObjectName("mb_setting_title")
-        self.mb_show_setting_button = QtWidgets.QPushButton(self.widget)
-        self.mb_show_setting_button.setGeometry(QtCore.QRect(160, 10, 30, 30))
+        self.mb_show_setting_button = QtWidgets.QPushButton(self.mb_setting_hbox)
+        self.mb_show_setting_button.setGeometry(QtCore.QRect(160, 0, 30, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -273,7 +274,7 @@ class Ui_MainApp(object):
         self.mb_show_setting_button.setMaximumSize(QtCore.QSize(30, 30))
         self.mb_show_setting_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.mb_show_setting_button.setObjectName("mb_show_setting_button")
-        self.verticalLayout_2.addWidget(self.widget)
+        self.verticalLayout_2.addWidget(self.mb_setting_hbox)
         self.mb_top_bar_play_type = QtWidgets.QWidget(self.mb_setting_widget)
         self.mb_top_bar_play_type.setMinimumSize(QtCore.QSize(0, 32))
         self.mb_top_bar_play_type.setMaximumSize(QtCore.QSize(190, 32))
@@ -392,7 +393,7 @@ class Ui_MainApp(object):
         self.mb_voca_scroll.setWidgetResizable(True)
         self.mb_voca_scroll.setObjectName("mb_voca_scroll")
         self.mb_voca_scroll_widget = QtWidgets.QWidget()
-        self.mb_voca_scroll_widget.setGeometry(QtCore.QRect(0, 0, 180, 427))
+        self.mb_voca_scroll_widget.setGeometry(QtCore.QRect(0, 0, 180, 437))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -541,8 +542,8 @@ class Ui_MainApp(object):
         self.mb_voca_scroll.setWidget(self.mb_voca_scroll_widget)
         self.verticalLayout.addWidget(self.mb_voca_scroll)
         self.mb_voca_open = QtWidgets.QPushButton(self.mb_voca_adj)
-        self.mb_voca_open.setMinimumSize(QtCore.QSize(0, 60))
-        self.mb_voca_open.setMaximumSize(QtCore.QSize(16777215, 60))
+        self.mb_voca_open.setMinimumSize(QtCore.QSize(0, 50))
+        self.mb_voca_open.setMaximumSize(QtCore.QSize(16777215, 50))
         self.mb_voca_open.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.mb_voca_open.setObjectName("mb_voca_open")
         self.verticalLayout.addWidget(self.mb_voca_open)
