@@ -85,6 +85,12 @@ class Ui_MainApp(object):
 "border-radius: 10px;\n"
 "margin: 0px 10px 10px 10px;\n"
 "}\n"
+"#mb_setting_widget {\n"
+"margin-bottom: 5px;\n"
+"}\n"
+"#mb_voca_scroll {\n"
+"margin-top: 5px;\n"
+"}\n"
 "#mb_setting_title,\n"
 "#mb_voca_total_title {\n"
 "margin: 0px 0px 4px 0px;\n"
@@ -216,13 +222,13 @@ class Ui_MainApp(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mb_icon_widget.sizePolicy().hasHeightForWidth())
         self.mb_icon_widget.setSizePolicy(sizePolicy)
-        self.mb_icon_widget.setMinimumSize(QtCore.QSize(200, 50))
-        self.mb_icon_widget.setMaximumSize(QtCore.QSize(200, 50))
+        self.mb_icon_widget.setMinimumSize(QtCore.QSize(200, 40))
+        self.mb_icon_widget.setMaximumSize(QtCore.QSize(200, 40))
         self.mb_icon_widget.setObjectName("mb_icon_widget")
         self.mb_icon = QtWidgets.QLabel(self.mb_icon_widget)
-        self.mb_icon.setGeometry(QtCore.QRect(0, 0, 200, 50))
-        self.mb_icon.setMinimumSize(QtCore.QSize(0, 50))
-        self.mb_icon.setMaximumSize(QtCore.QSize(16777215, 50))
+        self.mb_icon.setGeometry(QtCore.QRect(0, 0, 200, 40))
+        self.mb_icon.setMinimumSize(QtCore.QSize(0, 40))
+        self.mb_icon.setMaximumSize(QtCore.QSize(16777215, 40))
         self.mb_icon.setLineWidth(0)
         self.mb_icon.setText("")
         self.mb_icon.setIndent(0)
@@ -248,7 +254,7 @@ class Ui_MainApp(object):
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.mb_setting_hbox = QtWidgets.QWidget(self.mb_setting_widget)
-        self.mb_setting_hbox.setMinimumSize(QtCore.QSize(200, 20))
+        self.mb_setting_hbox.setMinimumSize(QtCore.QSize(200, 30))
         self.mb_setting_hbox.setMaximumSize(QtCore.QSize(16777215, 30))
         self.mb_setting_hbox.setObjectName("mb_setting_hbox")
         self.mb_setting_title = QtWidgets.QLabel(self.mb_setting_hbox)
@@ -355,8 +361,8 @@ class Ui_MainApp(object):
         self.mb_top_bar_auto_scroll_verticalLayout.addItem(spacerItem1)
         self.verticalLayout_2.addWidget(self.mb_top_bar_auto_scroll)
         self.mb_top_bar_repeat = QtWidgets.QWidget(self.mb_setting_widget)
-        self.mb_top_bar_repeat.setMinimumSize(QtCore.QSize(190, 26))
-        self.mb_top_bar_repeat.setMaximumSize(QtCore.QSize(190, 26))
+        self.mb_top_bar_repeat.setMinimumSize(QtCore.QSize(190, 30))
+        self.mb_top_bar_repeat.setMaximumSize(QtCore.QSize(190, 30))
         self.mb_top_bar_repeat.setObjectName("mb_top_bar_repeat")
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.mb_top_bar_repeat)
         self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
@@ -393,7 +399,11 @@ class Ui_MainApp(object):
         self.mb_voca_scroll.setWidgetResizable(True)
         self.mb_voca_scroll.setObjectName("mb_voca_scroll")
         self.mb_voca_scroll_widget = QtWidgets.QWidget()
+<<<<<<< Updated upstream
         self.mb_voca_scroll_widget.setGeometry(QtCore.QRect(0, 0, 180, 416))
+=======
+        self.mb_voca_scroll_widget.setGeometry(QtCore.QRect(0, 0, 180, 453))
+>>>>>>> Stashed changes
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)

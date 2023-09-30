@@ -110,6 +110,12 @@ background-color: white;
 border-radius: 10px;
 margin: 0px 10px 10px 10px;
 }
+#mb_setting_widget {
+margin-bottom: 5px;
+}
+#mb_voca_scroll {
+margin-top: 5px;
+}
 #mb_setting_title,
 #mb_voca_total_title {
 margin: 0px 0px 4px 0px;
@@ -258,13 +264,13 @@ background-color: rgba(0, 155, 255, 80);
        <property name="minimumSize">
         <size>
          <width>200</width>
-         <height>50</height>
+         <height>40</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
          <width>200</width>
-         <height>50</height>
+         <height>40</height>
         </size>
        </property>
        <widget class="QLabel" name="mb_icon">
@@ -273,19 +279,19 @@ background-color: rgba(0, 155, 255, 80);
           <x>0</x>
           <y>0</y>
           <width>200</width>
-          <height>50</height>
+          <height>40</height>
          </rect>
         </property>
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>50</height>
+          <height>40</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>50</height>
+          <height>40</height>
          </size>
         </property>
         <property name="lineWidth">
@@ -351,7 +357,7 @@ background-color: rgba(0, 155, 255, 80);
           <property name="minimumSize">
            <size>
             <width>200</width>
-            <height>20</height>
+            <height>30</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -698,13 +704,13 @@ background-color: rgba(0, 155, 255, 80);
           <property name="minimumSize">
            <size>
             <width>190</width>
-            <height>26</height>
+            <height>30</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>190</width>
-            <height>26</height>
+            <height>30</height>
            </size>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -802,7 +808,11 @@ background-color: rgba(0, 155, 255, 80);
           <x>0</x>
           <y>0</y>
           <width>180</width>
+<<<<<<< Updated upstream
           <height>416</height>
+=======
+          <height>453</height>
+>>>>>>> Stashed changes
          </rect>
         </property>
         <property name="sizePolicy">

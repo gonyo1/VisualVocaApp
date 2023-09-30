@@ -225,9 +225,11 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         # Configuration Variables
         self.PLATFORM = sys.platform
         self.FIRSTRUN = True
+        self.FIRSTCHANGE = False
         self.auto_scroll_toggle = QtWidgets.QCheckBox()
         self.auto_slide = True
         self.show_langs = list(self.JSON_DATA["LanguagesShow"].values())
+        self.option_btns = [self.mb_top_bar_all, self.mb_top_bar_only_eng, self.mb_top_bar_only_kor, self.mb_top_bar_only_img]
 
         del self.JSON_DATA["LanguagesSpeech"]["Reference"]
         self.speech_langs = list(self.JSON_DATA["LanguagesSpeech"].values())
@@ -245,10 +247,11 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.is_voca_changed = False
         self.image_idx = 0
 
-        # Audion Variables
+        # Audio Variables
         self.player = QtMultimedia.QMediaPlayer()
         self.lang = list(self.JSON_DATA["LanguagesSpeech"].values())
         self.is_playing = False
+        self.is_playing_alarm = False
         self.is_finished = False
         self.tts_idx = 0
         self.tts_repeat = 3
@@ -462,9 +465,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
         def make_toggle_button():
             if self.FIRSTRUN:
-                self.auto_scroll_toggle = AnimatedToggle(
-                    checked_color="#4ed164"
-                )
+                self.auto_scroll_toggle = AnimatedToggle(checked_color="#4ed164")
                 self.mb_top_bar_auto_scroll_verticalLayout.addWidget(self.auto_scroll_toggle)
 
                 self.auto_scroll_toggle.setStyleSheet("margin: 6px 0px 6px 0px\n")
@@ -548,6 +549,14 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 button.setText("")
                 button.setStyleSheet(f"background-image: url({self.pyqt_image_url(f'{button_name}.svg')})")
 
+        def which_option_clicked():
+            idx = self.JSON_DATA["BookmarkIndex"]
+
+            for btn in self.option_btns:
+                btn.setChecked(False)
+
+            self.option_btns[idx].setChecked(True)
+
         # UI 에서 샘플로 만들었던 위젯 지우기
         self.mb_voca_widget_0.hide()
         self.mb_voca_refresh.setEnabled(True)
@@ -563,6 +572,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         insert_refresh_icon()
         insert_FrontImage()
         insert_player_button_image()
+        which_option_clicked()
 
         self.voca_widget_button_event()
 
@@ -742,7 +752,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 self.mb_show_kor_adj.show()
                 self.mb_show_eng_adj.show()
                 self.mb_show_image_adj.show()
-                if self.is_voca_changed == False:
+                if self.FIRSTCHANGE == False:
                     self.mb_show_special_case_adj.setMovie(self.movie)
                     self.mb_show_special_case_adj.show()
                     self.mb_show_special_case_adj.raise_()
@@ -754,12 +764,16 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 self.change_stylesheet(self.mb_show_special_case_adj, color="black")
                 self.mb_show_special_case_adj.setText(self.mb_show_kor_adj.text())
                 self.mb_show_special_case_adj.show()
-                if self.is_voca_changed == False:
+                if self.FIRSTCHANGE == False:
                     self.mb_show_special_case_adj.setText("비쥬얼 보카")
             elif btn == self.mb_top_bar_only_img:
                 self.mb_show_image_adj.show()
-                if self.is_voca_changed == False:
+                if self.FIRSTCHANGE == False:
                     self.mb_show_image_adj.setPixmap(Qt.QPixmap('resource/src/img/logo.svg'))
+
+            idx = self.option_btns.index(btn)
+            print(idx)
+            self.change_json_file(key="BookmarkIndex", value=idx)
 
         # Insert Signal to main window
         if self.FIRSTRUN:
@@ -783,6 +797,10 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.JSON_DATA["ImageDownCount"] = value
             save_json_file(key, value)
 
+        else:
+            self.JSON_DATA[key] = value
+            save_json_file(key, value)
+
     @staticmethod
     def pyqt_image_url(filename):
         base_path = os.path.abspath("./resource/src/img")
@@ -795,7 +813,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.change_stylesheet(self.mb_show_eng_adj, color="black")
         self.change_stylesheet(self.mb_show_kor_adj, color="black")
         self.change_stylesheet(self.mb_show_special_case_adj, color="black")
-        self.change_stylesheet(self.mb_show_dev, color="white")
+        self.change_stylesheet(self.mb_show_dev, color="black")
         self.mb_show_btns_adj.show()
         self.mb_show_special_case_adj.hide()
         self.mb_show_special_case_adj.clear()
@@ -805,6 +823,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         # Get currentItem Text
         if (self.sending_from_widget != None):
             self.is_voca_changed = True
+            self.FIRSTCHANGE = True
             self.word = obj.currentItem().text()  # Upper text 가 될 부분 (나중에 Ko -> ru(러시아어)로 변경가능)
             self.current_idx = obj.currentRow()
 
@@ -969,74 +988,105 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
             return word
 
-        if self.player.state() == 0 and \
-                not self.is_finished:
-            # Todo 마지막에 한번 더 나오는거 어떻게 처리할지 고민해보기
-
-            # Play ALL TTS Audio in language list
-            self.tts_idx = self.tts_idx % len(self.lang)
-
-            # If ALL TTS Files played, change images
-            if self.tts_idx == 0 and not self.is_voca_changed:
-                self.change_mb_voca_image(idx=self.image_idx)
-
-            audio_lang = self.lang[self.tts_idx]
-
-            # 뜻에 맞추어 소리 나도록 설정
-            if audio_lang == self.JSON_DATA["LanguagesShow"]["UpperPart"]:
-                self.word = self.mb_show_eng_adj.text()
-            elif audio_lang == self.JSON_DATA["LanguagesShow"]["LowerPart"]:
-                self.word = self.mb_show_kor_adj.text()
-            else:
-                try:
-                    csv_word = self.CSV_DATA["dataframe"][self.CSV_DATA["dataframe"]["GroupName"] == self.group_name][
-                        audio_lang]
-                    self.word = csv_word.iloc[self.current_idx]
-
-                    print(self.word)
-                    # iloc 에 해당하는 값이 None (비어있음)이면 자동번역기 실행
-                    if type(self.word) is float:
-                        print(f"  [Info] There is no word in CSV file. from:"
-                              f"{self.JSON_DATA['LanguagesShow']['UpperPart']}-{self.mb_show_eng_adj.text()} -> "
-                              f"to:{audio_lang}-???")
-                        self.word = search_text_by_lang(self.translated_result, audio_lang)
-                except KeyError:
-                    print(f"  [info] Doesn't have Column:{audio_lang}")
-                    # CSV 파일에 audio_lang 언어가 없다면 자동번역기 실행하기
-
-                    try:
-                        # Check audio_lang in show_lang
-                        if not audio_lang in self.show_langs:
-                            short_langs = [lang[0:2] for lang in self.show_langs]
-                            print(short_langs)
-                            if audio_lang[0:2] in short_langs:
-                                # find audio_lang index in short lang index
-                                idx = short_langs.index(audio_lang[0:2])
-                                print(idx)
-                                modified_audio_lang = self.show_langs[idx]
-                                print(audio_lang)
-                        self.word = search_text_by_lang(self.translated_result, modified_audio_lang)
-                    except KeyError:
-                        self.word = ""
-
-            # Korean이면 특수문자 제거하기
-            if audio_lang == 'ko':
-                self.word = replace_korean(self.word)
-
-            audio_path = GetAudio.get_tts(word=self.word, lang=audio_lang,
-                                          main_word=self.mb_show_eng_adj.text(),
-                                          main_lang=self.JSON_DATA["LanguagesSpeech"]["First"])
-
+        def play_alarm_sound():
+            audio_path = os.path.abspath("./resource/src/sound/chime.wav")
             url = QtCore.QUrl.fromLocalFile(audio_path)
             content = QtMultimedia.QMediaContent(url)
-            # content = QtMultimedia.QMediaContent()
+            self.player.setMedia(content)
+            self.player.play()
+            self.is_playing_alarm = True
+            print("play tts alarm done")
 
+        def play_tts_audio_file():
+            # content 가져오기
+            content = get_downloaded_tts_audio_file()
             self.player.setMedia(content)
             self.player.play()
 
             # Setup [tts_idx, is_voca_changed]
             self.tts_idx += 1
             self.is_voca_changed = False
+            self.is_playing_alarm = False
+
+        def get_detected_word(lang: str = None) -> str:
+            if lang == self.JSON_DATA["LanguagesShow"]["UpperPart"]:
+                word = self.mb_show_eng_adj.text()
+            elif lang == self.JSON_DATA["LanguagesShow"]["LowerPart"]:
+                word = self.mb_show_kor_adj.text()
+            else:
+                # 위 아래에 제시되는 언어가 아닐경우 (예: ru : 러시아어)
+                try:
+                    csv_word = self.CSV_DATA["dataframe"][self.CSV_DATA["dataframe"]["GroupName"] == self.group_name][lang]
+                    word = csv_word.iloc[self.current_idx]
+
+                    # iloc 에 해당하는 값이 None (비어있음)이면 자동번역기 실행
+                    if type(word) is float:
+                        print(f"  [Info] There is no word in CSV file. from:"
+                              f"{self.JSON_DATA['LanguagesShow']['UpperPart']}-{self.mb_show_eng_adj.text()} -> "
+                              f"to:{lang}-???")
+                        word = search_text_by_lang(self.translated_result, lang)
+
+                except KeyError:
+                    # CSV 파일에 열이 생성되지도 않았을 때
+                    print(f"  [info] Doesn't have Column:{lang}")
+                    try:
+                        # Check lang in show_lang // 혹시나 중국어와 같이 zh-Han / zh-CN 처럼 뒤 코드가 다를 경우 대비
+                        if not lang in self.show_langs:
+                            short_langs = [lang[0:2] for lang in self.show_langs]
+                            print(short_langs)
+                            if lang[0:2] in short_langs:
+                                # find lang index in short lang index
+                                idx = short_langs.index(lang[0:2])
+                                modified_lang = self.show_langs[idx]
+                            else:
+                                modified_lang = lang
+                        word = search_text_by_lang(self.translated_result, modified_lang)
+                    except KeyError:
+                        word = ""
+            return word
+        
+        def get_downloaded_tts_audio_file():
+            audio_path = GetAudio.get_tts(word=self.word, lang=audio_lang,
+                                          main_word=self.mb_show_eng_adj.text(),
+                                          main_lang=self.JSON_DATA["LanguagesSpeech"]["First"])
+
+            url = QtCore.QUrl.fromLocalFile(audio_path)
+            content = QtMultimedia.QMediaContent(url)
+            print(f"play tts :{self.word} - done")
+
+            return content
+
+
+        if self.player.state() == 0 and not self.is_finished and not self.is_playing_alarm:
+
+            # 소리 내야 하는 언어 개수(self.lang)가 몇번 반복 됐는지 확인
+            self.tts_idx = self.tts_idx % len(self.lang)
+
+            # 소리 내야 하는 언어를 모두 재생 했지만, 단어 반복 횟수(예: 2번)가 다 돌지 않았다면 사진 바꾸기
+            if self.tts_idx == 0:
+                if not self.mb_top_bar_all.isChecked():
+                    # Set practice time
+                    practice_time = 500
+                    self.timer.singleShot(practice_time, play_alarm_sound)
+                if not self.is_voca_changed:
+                    self.change_mb_voca_image(idx=self.image_idx)
+
+
+            # 언어에 해당하는 단어가 소리 나도록 설정
+            audio_lang = self.lang[self.tts_idx]
+            self.word = get_detected_word(audio_lang)            
+
+            # Korean이면 특수문자 제거하기
+            self.word = replace_korean(self.word) if audio_lang == 'ko' else self.word
+
+            # 아이들이 영어 따라 말할 수 있는 시간 주기
+            if not self.mb_top_bar_all.isChecked():
+                practice_time = 1500 if self.tts_idx == 0 else 0
+                self.timer.singleShot(practice_time, play_tts_audio_file)
+            else:
+                play_tts_audio_file()
+
+            print(f"play tts :: {self.word} done ---------------------------------- ")
 
     def stop_player(self):
         self.is_finished = True
@@ -1105,7 +1155,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                                       new_css,
                                       crop_stylesheet[new_end:],
                                       stylesheet[end:]])
-                print("dddddddddddddddddddddddddddddddddddddddddddddddddd")
                 print(stylesheet)
 
             stylesheet = stylesheet.replace("\n\n", "\n")

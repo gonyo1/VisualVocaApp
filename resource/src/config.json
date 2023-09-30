@@ -5,9 +5,9 @@
 		"Ahn"
 	],
 	"FontFamily": "Noto Sans KR SemiBold",
-	"BookmarkIndex": 0,
+	"BookmarkIndex": 3,
 	"AutoScroll": "True",
-	"ImageDownCount": 2,
+	"ImageDownCount": 1,
 	"LanguagesShow": {
 		"UpperPart": "en",
 		"LowerPart": "ko",
@@ -16,7 +16,7 @@
 	"LanguagesSpeech": {
 		"First": "en",
 		"Second": "ko",
-		"Reference": "https://cloud.google.com/text-to-speech/docs/voices?hl=ko"
+		"Reference": "https://cloud.google.com/translate/docs/languages?hl=ko"
 	},
 	"APIKeys": {
 		"NaverPapago": "<YOUR_SECRET_API_KEY>",
