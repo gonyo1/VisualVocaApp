@@ -448,7 +448,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                         item = QtWidgets.QListWidgetItem()
 
                         # 빈칸이면 빈 셀로 변환하기
-
+                        item.setCheckState(QtCore.Qt.Unchecked)
                         self.q_list_widget.addItem(item)
                         self.q_list_widget.item(w_idx).setText(str(word))
 
@@ -576,7 +576,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.mb_top_bar_only_eng.clicked.connect(is_option_button_clicked)
             self.mb_top_bar_only_kor.clicked.connect(is_option_button_clicked)
             self.mb_top_bar_only_img.clicked.connect(is_option_button_clicked)
-
+            self.bookmark_button.clicked.connect(is_bookmark_button_clicked)
             self.mb_voca_refresh.clicked.connect(is_refresh_clicked)
             self.auto_scroll_toggle.stateChanged.connect(lambda state, key="AutoScroll": self.change_json_file(key=key))
 
@@ -599,6 +599,18 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         def insert_pushbutton_signal():
             for btn in self.voca_widget_button:
                 btn.clicked.connect(self.voca_widget_button_event)
+
+        def is_bookmark_button_clicked():
+            listwidgets = self.findChildren(QtWidgets.QListWidget)
+            word_bookmark = list()
+            for listwidget in listwidgets:
+                count = listwidget.count()
+                for row in range(count):
+                    item_obj = listwidget.item(row)
+                    if item_obj.checkState() == 2:
+                        word_bookmark.append(item_obj)
+                        word_bookmark_adj
+
 
         def insert_QListWidget_item_signal():
             self.list_widgets = self.findChildren(QtWidgets.QListWidget)
