@@ -12,8 +12,17 @@ from resource.py.Translator import translate, search_text_by_lang
 from resource.py.ToggleButton import AnimatedToggle
 from resource.py.Json import load_json_file, save_json_file, generate_init
 from resource.py.CSVData import get_main_csv
-from resource.src.ui.main_ui import Ui_MainApp as mp
 
+def get_ui_python_file():
+    try:
+        os.system("pyuic5 resource/src/ui/main.ui -o resource/src/ui/main_ui.py")
+        print("  [Info] pyuic5 has done...")
+        # os.system("pyrcc5 main.qrc -o main_rc.py")
+    except FileNotFoundError:
+        print("  [Error] Error happened from 'pyuic5 or pyrcc5' ")
+get_ui_python_file()
+
+from resource.src.ui.main_ui import Ui_MainApp as mp
 # <-- Import App Update modules --------------------------------------------------------------->
 import logging
 import shutil
@@ -1263,14 +1272,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
 
 if __name__ == "__main__":
-    def get_ui_python_file():
-        try:
-            os.system("pyuic5 resource/src/ui/main.ui -o resource/src/ui/main_ui.py")
-            print("  [Info] pyuic5 has done...")
-            # os.system("pyrcc5 main.qrc -o main_rc.py")
-        except FileNotFoundError:
-            print("  [Error] Error happened from 'pyuic5 or pyrcc5' ")
-
 
     def make_dir():
         # Make root directory
@@ -1308,7 +1309,6 @@ if __name__ == "__main__":
 
     # Convert .ui to .py
     make_dir()
-    get_ui_python_file()
 
     # Run main app
     app = QtWidgets.QApplication(sys.argv)

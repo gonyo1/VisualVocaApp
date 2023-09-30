@@ -808,11 +808,7 @@ background-color: rgba(0, 155, 255, 80);
           <x>0</x>
           <y>0</y>
           <width>180</width>
-<<<<<<< Updated upstream
-          <height>416</height>
-=======
-          <height>453</height>
->>>>>>> Stashed changes
+          <height>412</height>
          </rect>
         </property>
         <property name="sizePolicy">
