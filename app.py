@@ -489,7 +489,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         def make_black_vail():
             self.BLACK = QtWidgets.QLabel(self.mb_show_adj)
             self.BLACK.setObjectName("BLACK")
-            self.BLACK.setStyleSheet("background-color: rgba(0, 0, 0, 240);\n")
+            self.BLACK.setStyleSheet("background-color: black;\n")
             self.BLACK.setGeometry(-1, -1, 772, 702)
             self.BLACK.hide()
 
@@ -584,7 +584,14 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             for button in [self.back, self.forward, self.pause]:
                 button_name = button.objectName().capitalize()
                 button.setText("")
-                button.setStyleSheet(f"background-image: url({self.pyqt_image_url(f'{button_name}.svg')})")
+                button.setStyleSheet("QPushButton {\n"
+                                     f"background-image: url({self.pyqt_image_url(f'{button_name}.svg')});\n"
+                                     "}\n"
+                                     "QPushButton:hover {\n"
+                                     f"background-image: url({self.pyqt_image_url(f'{button_name}Hover.svg')});"
+                                     "}"
+                                     )
+                print(button.styleSheet())
 
         def which_option_clicked():
             idx = self.JSON_DATA["BookmarkIndex"]
@@ -697,11 +704,11 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
                 # show black
                 self.BLACK.show()
-
-                for item in [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_btns_adj]:
-                    item.raise_()
-                    item.show()
-                    item.setStyleSheet("color: white;\n")
+                for item in [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_special_case_adj, self.mb_show_btns_adj]:
+                    if item.isVisible():
+                        item.raise_()
+                        item.show()
+                        item.setStyleSheet("color: white;\n")
 
                 self.mb_show_btns_adj.setStyleSheet("color: black;\n")
             else:
@@ -715,12 +722,19 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 # hide black
                 self.BLACK.hide()
 
-                for item in [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_btns_adj]:
-                    item.raise_()
-                    item.show()
-                    item.setStyleSheet("color: black;\n")
+                for item in [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_special_case_adj, self.mb_show_btns_adj]:
+                    if item.isVisible():
+                        item.raise_()
+                        item.show()
+                        item.setStyleSheet("color: black;\n")
 
-                self.pause.setStyleSheet(f"background-image: url({self.pyqt_image_url(f'Pause.svg')})")
+                self.pause.setStyleSheet("QPushButton {\n"
+                                         f"background-image: url({self.pyqt_image_url(f'Pause.svg')});\n"
+                                         "}\n"
+                                         "QPushButton:hover {\n"
+                                         f"background-image: url({self.pyqt_image_url(f'PauseHover.svg')});"
+                                         "}"
+                                         )
 
         def is_direction_button_clicked():
             # Stop Player and reset setting
@@ -745,7 +759,13 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 item.show()
                 item.setStyleSheet("color: black")
 
-            self.pause.setStyleSheet(f"background-image: url({self.pyqt_image_url(f'Pause.svg')})")
+            self.pause.setStyleSheet("QPushButton {\n"
+                                     f"background-image: url({self.pyqt_image_url(f'Pause.svg')});\n"
+                                     "}\n"
+                                     "QPushButton:hover {\n"
+                                     f"background-image: url({self.pyqt_image_url(f'PauseHover.svg')});"
+                                     "}"
+                                     )
 
         def is_refresh_clicked():
 
@@ -758,7 +778,8 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
             geometry = self.geometry()
             self.__init__(geometry=geometry)
-            self.mb_show_image_adj.setStyleSheet(f"background-image: url({self.VIVOIMAGE})")
+            self.mb_show_image_adj.setStyleSheet(f"background-image: url({self.VIVOCLEAR})")
+            # self.mb_show_special_case_adj.setStyleSheet(f"background-image: url({self.VIVOIMAGE})")
 
         def is_open_folder_clicked():
             base_path = os.path.abspath("./resource/voca/WordList.csv")
@@ -811,9 +832,9 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 if self.FIRSTCHANGE == False:
                     self.mb_show_special_case_adj.setText("비쥬얼 보카")
             elif btn == self.mb_top_bar_only_img:
+                self.mb_show_special_case_adj.setText("")
                 self.mb_show_image_adj.show()
                 if self.FIRSTCHANGE == False:
-                    self.mb_show_special_case_adj.setText("")
                     self.mb_show_special_case_adj.setStyleSheet(f"background-image: url({self.VIVOIMAGE})")
                     self.mb_show_special_case_adj.show()
                     self.mb_show_special_case_adj.raise_()
@@ -870,74 +891,78 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         if (self.sending_from_widget != None):
             self.is_voca_changed = True
             self.FIRSTCHANGE = True
-            self.word = obj.currentItem().text()  # Upper text 가 될 부분 (나중에 Ko -> ru(러시아어)로 변경가능)
-            self.current_idx = obj.currentRow()
 
-            # reset index of image
-            self.is_finished = False
-            self.tts_idx = 0
-            self.image_idx = 0
-            self.group_name = obj.parent().findChild(QtWidgets.QPushButton).text()
+            # 처음 실행 때 즐겨찾기만 할 경우 대비한 코드
+            if obj.currentRow() != -1:
 
-            # Change image
-            self.pics = list()
-            status = GetImages.get_images_from_word(self.word, self.JSON_DATA["ImageDownCount"], self.JSON_DATA,
-                                                    self.file_type)
-            file_types = tuple(f"./resource/voca/img/{self.word}/{extention}" for extention in self.file_type)
-            for file_type in file_types:
-                self.pics.extend([Qt.QPixmap(item) for item in glob(file_type)])
+                self.word = obj.currentItem().text()  # Upper text 가 될 부분 (나중에 Ko -> ru(러시아어)로 변경가능)
+                self.current_idx = obj.currentRow()
 
-            # When Image Files are not downloaded enough
-            if len(self.pics) < self.JSON_DATA["ImageDownCount"]:
-                no_image = Qt.QPixmap(os.path.abspath("./resource/src/img/NoImage.svg"))
-                count = self.JSON_DATA["ImageDownCount"] - len(self.pics)
-                for time in range(count):
-                    self.pics.append(no_image)
+                # reset index of image
+                self.is_finished = False
+                self.tts_idx = 0
+                self.image_idx = 0
+                self.group_name = obj.parent().findChild(QtWidgets.QPushButton).text()
 
-            # Slice pictures by "ImageDownCount"
-            self.pics = self.pics[:self.JSON_DATA["ImageDownCount"]]
+                # Change image
+                self.pics = list()
+                status = GetImages.get_images_from_word(self.word, self.JSON_DATA["ImageDownCount"], self.JSON_DATA,
+                                                        self.file_type)
+                file_types = tuple(f"./resource/voca/img/{self.word}/{extention}" for extention in self.file_type)
+                for file_type in file_types:
+                    self.pics.extend([Qt.QPixmap(item) for item in glob(file_type)])
 
-            # Change voca title
-            self.mb_show_eng_adj.setText(self.word)
+                # When Image Files are not downloaded enough
+                if len(self.pics) < self.JSON_DATA["ImageDownCount"]:
+                    no_image = Qt.QPixmap(os.path.abspath("./resource/src/img/NoImage.svg"))
+                    count = self.JSON_DATA["ImageDownCount"] - len(self.pics)
+                    for time in range(count):
+                        self.pics.append(no_image)
 
-            # Todo:finish // FOR TEST MS AZURE TRANSLATOR
-            pass
+                # Slice pictures by "ImageDownCount"
+                self.pics = self.pics[:self.JSON_DATA["ImageDownCount"]]
 
-            # Change meaning(under_text) title
-            lower_text_language = self.JSON_DATA["LanguagesShow"]["LowerPart"]
-            try:
-                lower_text = self.CSV_DATA["dataframe"][self.CSV_DATA["dataframe"]["GroupName"] == self.group_name][
-                    lower_text_language]
-                lower_text = lower_text.iloc[self.current_idx]
+                # Change voca title
+                self.mb_show_eng_adj.setText(self.word)
 
-                # iloc 에 해당하는 값이 None (비어있음)이면 자동번역기 실행
-                if type(lower_text) is float:
+                # Todo:finish // FOR TEST MS AZURE TRANSLATOR
+                pass
+
+                # Change meaning(under_text) title
+                lower_text_language = self.JSON_DATA["LanguagesShow"]["LowerPart"]
+                try:
+                    lower_text = self.CSV_DATA["dataframe"][self.CSV_DATA["dataframe"]["GroupName"] == self.group_name][
+                        lower_text_language]
+                    lower_text = lower_text.iloc[self.current_idx]
+
+                    # iloc 에 해당하는 값이 None (비어있음)이면 자동번역기 실행
+                    if type(lower_text) is float:
+                        self.translated_result = translate(word=self.word,
+                                                           langs=self.JSON_DATA["LanguagesSpeech"],
+                                                           key=self.JSON_DATA["APIKeys"]["MSAzureTranslator"])
+                        lower_text = search_text_by_lang(self.translated_result, lower_text_language)
+
+                # CSV 파일에 LanguageShow 언어가 없다면 자동번역기 실행하기
+                except KeyError:
+                    print("  [Info] No Column found in CSV file. Do Auto Translate... ")
                     self.translated_result = translate(word=self.word,
                                                        langs=self.JSON_DATA["LanguagesSpeech"],
                                                        key=self.JSON_DATA["APIKeys"]["MSAzureTranslator"])
                     lower_text = search_text_by_lang(self.translated_result, lower_text_language)
 
-            # CSV 파일에 LanguageShow 언어가 없다면 자동번역기 실행하기
-            except KeyError:
-                print("  [Info] No Column found in CSV file. Do Auto Translate... ")
-                self.translated_result = translate(word=self.word,
-                                                   langs=self.JSON_DATA["LanguagesSpeech"],
-                                                   key=self.JSON_DATA["APIKeys"]["MSAzureTranslator"])
-                lower_text = search_text_by_lang(self.translated_result, lower_text_language)
+                self.mb_show_kor_adj.setText(lower_text)
 
-            self.mb_show_kor_adj.setText(lower_text)
-
-            # Change image when voca has been changed
-            self.change_mb_voca_image(self.image_idx)
+                # Change image when voca has been changed
+                self.change_mb_voca_image(self.image_idx)
 
 
-            # Check if special case clicked
-            if self.mb_top_bar_only_eng.isChecked():
-                self.mb_show_special_case_adj.setText(self.word)
-                self.mb_show_special_case_adj.show()
-            elif self.mb_top_bar_only_kor.isChecked():
-                self.mb_show_special_case_adj.setText(lower_text)
-                self.mb_show_special_case_adj.show()
+                # Check if special case clicked
+                if self.mb_top_bar_only_eng.isChecked():
+                    self.mb_show_special_case_adj.setText(self.word)
+                    self.mb_show_special_case_adj.show()
+                elif self.mb_top_bar_only_kor.isChecked():
+                    self.mb_show_special_case_adj.setText(lower_text)
+                    self.mb_show_special_case_adj.show()
 
     def change_mb_voca_image(self, idx):
         def move_to_next_voca_image():
@@ -979,7 +1004,13 @@ class MainWindow(QtWidgets.QMainWindow, mp):
     def voca_widget_button_event(self):
         self.stop_player()
         self.BLACK.hide()
-        self.pause.setStyleSheet(f"background-image: url({self.pyqt_image_url(f'Pause.svg')})")
+        self.pause.setStyleSheet("QPushButton {\n"
+                                 f"background-image: url({self.pyqt_image_url(f'Pause.svg')});\n"
+                                 "}\n"
+                                 "QPushButton:hover {\n"
+                                 f"background-image: url({self.pyqt_image_url(f'PauseHover.svg')});"
+                                 "}"
+                                 )
 
         clicked_btn = self.sender()
 
@@ -997,9 +1028,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     # w = append_list_widget.sizeHintForColumn(0) + append_list_widget.frameWidth() * 2
                     h = append_list_widget.sizeHintForRow(0) * append_list_widget.count() + 2 * append_list_widget.frameWidth()
                     append_list_widget.setFixedSize(w, h)
-                    print(append_list_widget.objectName())
-                    print(append_list_widget.count())
-                    print(h)
 
                 else:
                     btn.setChecked(False)
@@ -1140,12 +1168,18 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.BLACK.show()
         self.player.stop()
 
-        self.pause.setStyleSheet(f"background-image: url({self.pyqt_image_url('Play.svg')})")
+        self.pause.setStyleSheet("QPushButton {\n"
+                                 f"background-image: url({self.pyqt_image_url(f'Play.svg')});\n"
+                                 "}\n"
+                                 "QPushButton:hover {\n"
+                                 f"background-image: url({self.pyqt_image_url(f'PlayHover.svg')});"
+                                 "}"
+                                 )
         self.mb_show_btns_adj.raise_()
 
     def get_tts_audio(self, obj: str = None):
         # Get currentItem Text
-        if (self.sending_from_widget != None):
+        if (self.sending_from_widget != None and obj.currentRow() != -1):
             self.word = obj.currentItem().text()
 
             # Play Audio when is not playing Visual Voca Sliding
@@ -1207,7 +1241,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                                       new_css,
                                       crop_stylesheet[new_end:],
                                       stylesheet[end:]])
-                print(stylesheet)
 
             stylesheet = stylesheet.replace("\n\n", "\n")
         # Set StyleSheet

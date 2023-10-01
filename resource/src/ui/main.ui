@@ -1321,7 +1321,7 @@ color: black;
 }
 #mb_show_btns_adj .QPushButton:hover {
 color: white;
-background-color: rgb(0, 155, 255);
+background-color: rgb(228, 175, 10);
 }
 
 
@@ -1665,12 +1665,12 @@ Gonyo, AhnJH</string>
       </property>
      </widget>
     </widget>
+    <zorder>mb_show_dev</zorder>
     <zorder>mb_show_special_case_adj</zorder>
     <zorder>mb_show_eng_adj</zorder>
     <zorder>mb_show_image_adj</zorder>
     <zorder>mb_show_kor_adj</zorder>
     <zorder>mb_show_btns_adj</zorder>
-    <zorder>mb_show_dev</zorder>
    </widget>
    <zorder>mb_show_adj</zorder>
    <zorder>mb_voca_adj</zorder>

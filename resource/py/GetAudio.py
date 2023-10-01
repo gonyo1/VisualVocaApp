@@ -28,12 +28,12 @@ def get_tts(word: str = None, lang: str = None, main_word: str = None, main_lang
 
     if not os.path.isfile(output_path):
         try:
-            tts = gtts.gTTS(
-                text=word,
-                lang=lang,
-                slow=False
-            )
             try:
+                tts = gtts.gTTS(
+                    text=word,
+                    lang=lang,
+                    slow=False
+                )
                 tts.save(output_file)
             except PermissionError as e:
                 print(e)

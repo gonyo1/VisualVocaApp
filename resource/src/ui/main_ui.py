@@ -616,7 +616,7 @@ class Ui_MainApp(object):
 "}\n"
 "#mb_show_btns_adj .QPushButton:hover {\n"
 "color: white;\n"
-"background-color: rgb(0, 155, 255);\n"
+"background-color: rgb(228, 175, 10);\n"
 "}\n"
 "\n"
 "\n"
@@ -738,12 +738,12 @@ class Ui_MainApp(object):
         self.mb_show_dev_detail.setGeometry(QtCore.QRect(577, 0, 171, 51))
         self.mb_show_dev_detail.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.mb_show_dev_detail.setObjectName("mb_show_dev_detail")
+        self.mb_show_dev.raise_()
         self.mb_show_special_case_adj.raise_()
         self.mb_show_eng_adj.raise_()
         self.mb_show_image_adj.raise_()
         self.mb_show_kor_adj.raise_()
         self.mb_show_btns_adj.raise_()
-        self.mb_show_dev.raise_()
         self.mb_show_adj.raise_()
         self.mb_voca_adj.raise_()
         MainApp.setCentralWidget(self.mb_1)
