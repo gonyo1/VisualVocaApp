@@ -12,15 +12,10 @@ from resource.py.Translator import translate, search_text_by_lang
 from resource.py.ToggleButton import AnimatedToggle
 from resource.py.Json import load_json_file, save_json_file, generate_init
 from resource.py.CSVData import get_main_csv
+from resource.py.ConvertUI import get_ui_python_file
 
-def get_ui_python_file():
-    try:
-        os.system("pyuic5 resource/src/ui/main.ui -o resource/src/ui/main_ui.py")
-        print("  [Info] pyuic5 has done...")
-        # os.system("pyrcc5 main.qrc -o main_rc.py")
-    except FileNotFoundError:
-        print("  [Error] Error happened from 'pyuic5 or pyrcc5' ")
-get_ui_python_file()
+# Set False when compile to exe file
+get_ui_python_file(True)
 
 from resource.src.ui.main_ui import Ui_MainApp as mp
 # <-- Import App Update modules --------------------------------------------------------------->
@@ -164,11 +159,12 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         # Setup Signal and Slots
         self.set_signal()
 
-        # Repostion of mainwidget
+        # Re-position MainWidget
         if geometry != None:
             self.setGeometry(geometry)
 
         # Broadcast FIRSTRUN Finished
+        self.init_show_option.click()
         self.FIRSTRUN = False
 
         # For updating software
@@ -233,6 +229,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
     def set_variable(self):
         # Configuration Variables
         self.PLATFORM = sys.platform
+        self.init_show_option = None
         self.FIRSTRUN = True
         self.FIRSTCHANGE = False
         self.auto_scroll_toggle = QtWidgets.QCheckBox()
@@ -564,7 +561,8 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             for btn in self.option_btns:
                 btn.setChecked(False)
 
-            self.option_btns[idx].setChecked(True)
+            self.init_show_option = self.option_btns[idx]
+
 
         # UI 에서 샘플로 만들었던 위젯 지우기
         self.mb_voca_widget_0.hide()
@@ -781,7 +779,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     self.mb_show_image_adj.setPixmap(Qt.QPixmap('resource/src/img/logo.svg'))
 
             idx = self.option_btns.index(btn)
-            print(idx)
             self.change_json_file(key="BookmarkIndex", value=idx)
 
         # Insert Signal to main window
@@ -1061,7 +1058,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
             url = QtCore.QUrl.fromLocalFile(audio_path)
             content = QtMultimedia.QMediaContent(url)
-            print(f"play tts :{self.word} - done")
 
             return content
 
@@ -1094,8 +1090,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 self.timer.singleShot(practice_time, play_tts_audio_file)
             else:
                 play_tts_audio_file()
-
-            print(f"play tts :: {self.word} done ---------------------------------- ")
 
     def stop_player(self):
         self.is_finished = True
