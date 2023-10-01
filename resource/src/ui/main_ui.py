@@ -220,7 +220,7 @@ class Ui_MainApp(object):
 "color: white;\n"
 "}\n"
 "QListWidget::indicator {\n"
-"border-radius: 6px;\n"
+"border-radius: 8px;\n"
 "border: 1px solid;\n"
 "border-color: rgb(141, 141, 147);\n"
 "background-color: transparent;\n"

@@ -245,7 +245,7 @@ background-color: rgb(228, 175, 10);
 color: white;
 }
 QListWidget::indicator {
-border-radius: 6px;
+border-radius: 8px;
 border: 1px solid;
 border-color: rgb(141, 141, 147);
 background-color: transparent;

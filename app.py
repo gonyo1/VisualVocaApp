@@ -20,119 +20,61 @@ from resource.py.ConvertUI import get_ui_python_file as convert
 convert = convert(True)
 
 from resource.src.ui.main_ui import Ui_MainApp as mp
-# <-- Import App Update modules --------------------------------------------------------------->
-import logging
-import shutil
-import stat
-import tempfile
-import traceback
+from resource.src.ui.updater_ui import Ui_Dialog as subp
 
-REPO_DIR = os.path.expanduser('~' + os.sep + '.myrepo')
-URL = 'https://MYPROJECT.googlecode.com/hg/'
-MYAPPLOGGER = 'WHATEVER'
 
 __author__ = 'https://www.github.com/gonyo1'
 __released_date__ = 'October 2023'
 __credits__ = ['Gonyo', 'AhnJH']
 __version__ = '1.0'
 
-class AppUpdator(QtCore.QThread):
+
+class AppUpdator(QtWidgets.QDialog, subp):
     """This class automatically updates a PyQt app from a remote
     Gonyo1's VisualVocaApp repository
     # Mercurial repository.
     """
-
     def __init__(self, parent=None):
-        QtCore.QThread.__init__(self, parent)
-        # self.ui = ui.ui()
-        self.logger = logging.getLogger(MYAPPLOGGER)
-        self.info = lambda msg: self.logger.info(msg)
-        self.debug = lambda msg: self.logger.debug(msg)
-        self.ui = ui.ui()
-        self.url = 'https://open-ihm.googlecode.com/hg/'
-        try:
-            self.repo = hg.repository(self.ui, REPO_DIR)
-        except Exception:
-            self.repo = hg.repository(self.ui, REPO_DIR, create=True)
-        return
+        # Overloading MainWindow
+        super(AppUpdator, self).__init__(parent)
+        self.setupUi(self)
+        self.show()
 
-    def run(self):
-        # Redirect stdin and stdout to tempfiles.
-        # This fixes a Windows bug which causes a Bad File Descriptor error.
-        sys.stdout = tempfile.TemporaryFile()
-        sys.stderr = tempfile.TemporaryFile()
-        try:
-            self.pullAndMerge()
-        except Exception:
-            self.fail()
-            return
-        try:
-            self.install()
-        except Exception:
-            self.fail()
-            return
-        self.emit(QtCore.SIGNAL("updateSuccess()"))
-        return
+        # Setup Graphic Part
+        self.setWindowTitle(f"  VisualVoca Launcher (Ver.{__version__})")
+        self.setWindowIcon(Qt.QIcon("resource/src/img/AppIcon.ico"))
 
-    def chmod(self):
-        """Fix a Windows bug which marks files / folders in REPO_DIR read-only.
-        """
-        if not (sys.platform == 'win32' or sys.platform == 'cygwin'):
-            return
-        for root, dirs, files in os.walk(REPO_DIR):
-            for name in files:
-                os.chmod(os.path.join(root, name), stat.S_IWRITE)
-            for name in dirs:
-                os.chmod(os.path.join(root, name), stat.S_IWRITE)
-        return
+        # Function Part
+        self.get_github_json()
+        self.check_version()
+        self.set_signal()
 
-    def fail(self):
-        """Called if an error occurs.
-        Take the traceback, log it and notify the MainWindow.
-        """
-        ty, value, tback = sys.exc_info()
-        msg = ''.join(traceback.format_exception(ty, value, tback))
-        self.debug(msg)
-        self.updateFail(msg)
-        return
+    def set_signal(self):
+        self.UpdateDo.clicked.connect(self.open_main_app)
+        self.UpdateSkip.clicked.connect(self.open_main_app)
 
-    def clone(self):
-        """If we don't have a copy of the open-ihm repository on disk
-        clone one now.
-        """
-        try:
-            self.chmod()
-            commands.clone(self.ui, self.url, dest=REPO_DIR, insecure=True)
-        except Exception:
-            self.fail()
-        return
+    def check_version(self):
+        if float(github_data["Version"]) != float(__version__):
+            self.UpdaterState.setText("Visual Voca 업데이트가 있습니다")
+        else:
+            self.UpdaterState.setText("Visual Voca가 최신 버전입니다")
+            self.UpdateSkip.deleteLater()
+            self.UpdateDo.setText("Start")
 
-    def pullAndMerge(self):
-        """Run an hg pull and update.
-        Overwrite all local changes by default.
-        If anything goes wrong with the pull or update, clone instead.
-        """
-        try:
-            self.chmod()
-            commands.pull(self.ui, self.repo, source=self.url)
-            self.chmod()
-            commands.update(self.ui, self.repo, clean=True)
-        except error.RepoError:
-            if os.path.exists(REPO_DIR):
-                shutil.rmtree(REPO_DIR)
-                self.clone()
-        return
+    def update(self):
+        url = "pass"
 
-    def install(self):
-        # Use distutils or whatever to install app.
-        return
+    def open_main_app(self):
+        main_app = MainWindow()
+        main_app.show()
+        self.close()
 
-    def updateFail(self, message):
-        """If checking for updates times out (for example, if there
-        is no current network connection) then fail silently.
-        """
-        self.emit(QtCore.SIGNAL("updateFailure(QString)"), QtCore.QString(message))
-        return
+    def get_github_json(self):
+        global github_data
+
+        url = 'https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/contributor.json'
+        resp = requests.get(url)
+        github_data = json.loads(resp.text)
 
 
 class MainWindow(QtWidgets.QMainWindow, mp):
@@ -149,12 +91,11 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.setupUi(self)
         self.show()
 
-
         # Setup Variable
         self.set_variable()
 
         # Setup Graphic Part
-        self.setWindowTitle(f"  VisualVoca(ver.{__version__})")
+        self.setWindowTitle(f"  VisualVoca (Ver.{__version__})")
         self.setWindowIcon(Qt.QIcon("resource/src/img/AppIcon.ico"))
         self.mb_icon.setPixmap(Qt.QPixmap('resource/src/img/Logo.svg'))
         self.get_github_json()
@@ -243,6 +184,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.auto_slide = True
         self.show_langs = list(self.JSON_DATA["LanguagesShow"].values())
         self.option_btns = [self.mb_top_bar_all, self.mb_top_bar_only_eng, self.mb_top_bar_only_kor, self.mb_top_bar_only_img]
+        self.show_labels = [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_special_case_adj, self.mb_show_btns_adj]
 
         del self.JSON_DATA["LanguagesSpeech"]["Reference"]
         self.speech_langs = list(self.JSON_DATA["LanguagesSpeech"].values())
@@ -688,8 +630,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     item_obj = listwidget.item(row)
                     if item_obj.checkState() == 2:
                         word_bookmark.append(item_obj)
-                        # word_bookmark_adj
-
+                        # word_bookmark_ad
 
         def insert_QListWidget_item_signal():
             self.list_widgets = self.findChildren(QtWidgets.QListWidget)
@@ -702,7 +643,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     widget.currentRowChanged.connect(lambda: self.change_mb_voca_widget(obj=self.sending_from_widget))
                     widget.currentRowChanged.connect(lambda: self.get_tts_audio(obj=self.sending_from_widget))
 
-        # Event Slots
+        # Event Slots ------------------------------------
         def is_voca_button_clicked():
             self.player.stop()
             self.sending_from_widget = self.sender()
@@ -727,7 +668,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
                 # show black
                 self.BLACK.show()
-                for item in [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_special_case_adj, self.mb_show_btns_adj]:
+                for item in self.show_labels:
                     if item.isVisible():
                         item.raise_()
                         item.show()
@@ -745,7 +686,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 # hide black
                 self.BLACK.hide()
 
-                for item in [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_special_case_adj, self.mb_show_btns_adj]:
+                for item in self.show_labels:
                     if item.isVisible():
                         item.raise_()
                         item.show()
@@ -777,7 +718,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
             self.is_pause_clicked = False
 
-            for item in [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_btns_adj]:
+            for item in self.show_labels:
                 item.raise_()
                 item.show()
                 item.setStyleSheet("color: black")
@@ -813,14 +754,22 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 os.system(f"open {base_path}")
 
         def is_option_button_clicked():
+            def clean_show_adj_btns():
+                for item in self.show_labels[:-1]:
+                    item.clear()
+
+            def raise_labels():
+                self.mb_show_special_case_adj.show()
+                self.mb_show_special_case_adj.raise_()
+                self.mb_show_btns_adj.hide()
+                self.mb_show_dev.show()
+                self.mb_show_dev.raise_()
+
             # ALL, KOR, ENG, etc.. 클릭되면 무엇이 나오게 할지
             btn = self.sender()
 
             # 본인을 제외한 다른 옵션 버튼을 unchecked 로 변경하기
-            for item in [self.mb_top_bar_all,
-                         self.mb_top_bar_only_eng,
-                         self.mb_top_bar_only_kor,
-                         self.mb_top_bar_only_img]:
+            for item in self.option_btns:
                 item.setChecked(False)
             btn.setChecked(True)
 
@@ -836,15 +785,18 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 self.mb_show_eng_adj.show()
                 self.mb_show_image_adj.show()
                 if self.FIRSTCHANGE == False:
+                    clean_show_adj_btns()
+                    raise_labels()
                     self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOIMAGE})")
-                    self.mb_show_special_case_adj.show()
-                    self.mb_show_special_case_adj.raise_()
+
             elif btn == self.mb_top_bar_only_eng:
                 self.change_stylesheet(self.mb_show_special_case_adj, color="black")
                 self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOCLEAR})")
                 self.mb_show_special_case_adj.setText(self.mb_show_eng_adj.text())
                 self.mb_show_special_case_adj.show()
                 if self.FIRSTCHANGE == False:
+                    clean_show_adj_btns()
+                    raise_labels()
                     self.mb_show_special_case_adj.setText("Visual Voca")
             elif btn == self.mb_top_bar_only_kor:
                 self.change_stylesheet(self.mb_show_special_case_adj, color="black")
@@ -852,14 +804,16 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 self.mb_show_special_case_adj.setText(self.mb_show_kor_adj.text())
                 self.mb_show_special_case_adj.show()
                 if self.FIRSTCHANGE == False:
+                    clean_show_adj_btns()
+                    raise_labels()
                     self.mb_show_special_case_adj.setText("비쥬얼 보카")
             elif btn == self.mb_top_bar_only_img:
                 self.mb_show_special_case_adj.setText("")
                 self.mb_show_image_adj.show()
                 if self.FIRSTCHANGE == False:
+                    clean_show_adj_btns()
+                    raise_labels()
                     self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOIMAGE})")
-                    self.mb_show_special_case_adj.show()
-                    self.mb_show_special_case_adj.raise_()
 
             idx = self.option_btns.index(btn)
             self.change_json_file(key="BookmarkIndex", value=idx)
@@ -874,11 +828,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 insert_QListWidget_item_signal()
 
     def get_github_json(self):
-        url = 'https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/contributor.json'
-        resp = requests.get(url)
-        self.github_data = json.loads(resp.text)
-        print(self.github_data)
-
+        self.github_data = github_data
 
 
     # <-- Main Window Section -------------------------------------------------------------->
@@ -889,7 +839,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
         elif key == "ImageDownCount":
             value = self.mb_top_bar_repeat_spinbox.value()
-            self.mb_top_bar_repeat_spinbox.setAttribute(Qt.WA_MacShowFocusRect, 0)
             self.JSON_DATA["ImageDownCount"] = value
             save_json_file(key, value)
 
@@ -1006,6 +955,9 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     print("  [Info] <-- No more images left to show -->")
             else:
                 self.stop_player()
+                self.BLACK.hide()
+                self.FIRSTCHANGE = False
+                [item.click() for item in self.option_btns if item.isChecked()]
                 print("  [Info] <-- Auto scroll is not clicked -->")
 
         def move_to_next_image():
@@ -1411,7 +1363,7 @@ if __name__ == "__main__":
 
     # Run main app
     app = QtWidgets.QApplication(sys.argv)
-    main_win = MainWindow()
+    main_win = AppUpdator()
     main_win.show()
     sys.exit(app.exec_())
 

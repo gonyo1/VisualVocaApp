@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>500</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>500</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>500</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* Pallete --------------------------------- 
+
+lightgray : rgb(242, 242, 247)
+gray : rgb(141, 141, 147)
+darkgray : rgb(122, 122, 128)
+
+grayorange : rgb(228, 175, 10)
+pointorange : rgb(250, 188, 1)
+
+blue : rgb(0, 155, 255)
+bluehover : rgba(0, 155, 255, 80)
+
+--------------------------------------- */
+QObject {
+font: 14px &quot;Noto Sans KR SemiBold&quot;;
+}
+QDialog {
+background-color: white;
+}
+#UpdaterBackground {
+background-image: url(&quot;C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/UpdateImage.svg&quot;);
+}
+QLabel#UpdaterState {
+qproperty-alignment: 'AlignVCenter | AlignHCenter';
+}
+#UpdaterBtns .QPushButton {
+border-radius: 5px;
+border: 0px solid;
+background-color: rgb(242, 242, 247);
+color: black;
+}
+#UpdaterBtns #UpdateSkip:hover {
+background-color: rgb(122, 122, 128);
+color: white;
+}
+#UpdaterBtns .QPushButton#UpdateDo {
+background-color: rgb(250, 188, 1);
+color: white;
+}
+#UpdaterBtns .QPushButton#UpdateDo:hover {
+background-color: rgba(250, 188, 1, 80);
+}</string>
+  </property>
+  <widget class="QLabel" name="UpdaterBackground">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>500</width>
+     <height>500</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>500</width>
+     <height>500</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>500</width>
+     <height>500</height>
+    </size>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="UpdaterState">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>280</y>
+     <width>501</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Downloading ...</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="UpdaterBtns" native="true">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>360</y>
+     <width>301</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>70</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>70</height>
+    </size>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QPushButton" name="UpdateSkip">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>50</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>50</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Skip</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="UpdateDo">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Update</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

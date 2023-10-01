@@ -38,8 +38,12 @@ def get_tts(word: str = None, lang: str = None, main_word: str = None, main_lang
             except PermissionError as e:
                 print(e)
                 print(f"  [Error] PermissionError happened when downloading {word}({lang}) tts.")
+            except AssertionError as e:
+                print(e)
+                print("  [Error] No text to speak... ")
+                output_file = os.path.join(output_path, f'{main_word}_{main_lang}.wav')
         except ValueError:
-            print("  [Info] >> Not Speechable language... ")
+            print("  [Error] >> Not Speechable language... ")
             print(main_word, main_lang)
             output_file = os.path.join(output_path, f'{main_word}_{main_lang}.wav')
     # print(gtts.lang.tts_langs())
