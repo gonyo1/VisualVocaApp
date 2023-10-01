@@ -91,18 +91,34 @@ subcontrol-origin: margin;
      <cursorShape>ArrowCursor</cursorShape>
     </property>
     <property name="styleSheet">
-     <string notr="true">#mb_voca_adj {
-background-color: rgb(234, 234, 240);
-}
+     <string notr="true">/* Pallete --------------------------------- 
+
+lightgray : rgb(242, 242, 247)
+gray : rgb(141, 141, 147)
+darkgray : rgb(122, 122, 128)
+
+grayorange : rgb(228, 175, 10)
+pointorange : rgb(250, 188, 1)
+
+blue : rgb(0, 155, 255)
+bluehover : rgba(0, 155, 255, 80)
+
+--------------------------------------- */
+
 QWidget {
 padding: 10px;
 padding: 0px;
 background-color: transparent;
 }
+#mb_voca_adj {
+background-color: rgb(242, 242, 247);
+}
 .Line {
-background-color: rgb(234, 234, 240);
+background-color: rgb(227, 227, 233);
 margin: 0px 10px 0px 50px;
 }
+
+
 /* Left - White Grouped Section --------------------------------- */
 #mb_setting_widget,
 #mb_voca_scroll {
@@ -118,64 +134,52 @@ margin-top: 5px;
 }
 #mb_setting_title,
 #mb_voca_total_title {
-margin: 0px 0px 4px 0px;
-color: rgb(170, 170, 170);
-font: 11px;
-font-weight: bold;
-text-align: Left;
+margin: 0px 0px 0px 20px;
+color: black;
+font: 14px;
 }
-#mb_setting_title {
-margin: 0px 20px 4px 20px;
+#mb_voca_setting_button {
+color: rgb(122, 122, 128);
 }
-
+#mb_voca_setting_button:hover {
+color: rgb(228, 175, 10);
+}
 /* Left - Setting detail name(ex: Auto Scroll ....) ------------------------------------- */
-#mb_top_bar_repeat,
-#mb_top_bar_play_type,
-#mb_top_bar_auto_scroll {
-margin: 0px 0px 0px 20px;
-}
-#mb_top_bar_repeat_title,
 #mb_top_bar_play_type_title,
-#mb_top_bar_auto_scroll_title {
-font: 13px;
-margin: 0px 0px 0px 20px;
+#mb_top_bar_auto_scroll_title,
+#mb_top_bar_repeat_title {
+font: 12px;
+margin: 0px 0px 0px 30px;
 color: black;
 }
 
 /* SpinBox Setting ------------------------------------- */
 #mb_top_bar_repeat_spinbox {
-color: rgb(170, 170, 170);
+color: rgb(141, 141, 147);
 }
 #mb_top_bar_repeat_spinbox:hover {
-color: black;
+color: rgb(228, 175, 10);
 }
 #mb_top_bar_repeat_spinbox:up-arrow:hover,
 #mb_top_bar_repeat_spinbox:down-arrow:hover  {
-color: rgb(0, 155, 255);
-}
-
-#mb_show_setting_button {
-color: rgb(170, 170, 170);
-}
-#mb_show_setting_button:hover {
-color: rgb(0, 155, 255);
+color: rgb(228, 175, 10);
 }
 
 
 /* Type PushButton Setting ------------------------------------- */
 #mb_top_bar_play_type .QPushButton {
 font: 11px;
-background-color: rgb(234, 234, 240);
+background-color: rgb(227, 227, 233);
 border-radius: 8px;
 text-align: center;
 color: black;
 }
 #mb_top_bar_play_type .QPushButton:hover {
-background-color: rgba(78, 209, 100, 80);
+background-color: rgba(228, 175, 10, 80);
 }
 #mb_top_bar_play_type .QPushButton:checked {
 color: white;
-background-color: rgb(78, 209, 100);
+background-color: rgb(228, 175, 10);
 }
 #mb_top_bar_only_img {
 margin-right: 10px;
@@ -185,6 +189,7 @@ margin-right: 10px;
 /* QScrollWidget PushButton part ------------------ */
 QScrollArea {
 margin-bottom: 0px;
+padding-top: 10px;
 }
 QScrollArea .QLabel {
 padding-left: 10px;
@@ -208,21 +213,47 @@ padding-right: 4px;
 }
 QListWidget::item {
 padding: 3px;
-padding-left: 40px;
+padding-left: 30px;
 color: rgb(180, 180, 180);
 }
 QListWidget::item:hover {
-padding-left: 40px;
+padding-left: 30px;
 margin: 0px -4px 0px -4px;
 color: black;
-background-color: rgb(204, 227, 249);
+background-color: rgb(227, 227, 233);
 }
 QListWidget::item:selected {
-padding-left: 40px;
+padding-left: 30px;
 margin: 0px -4px 0px -4px;
-background-color: rgb(232, 232, 237);
-color: black;
+background-color: rgb(228, 175, 10);
+color: white;
 }
+QListWidget::indicator {
+border-radius: 8px;
+border: 1px solid;
+border-color: rgb(141, 141, 147);
+background-color: transparent;
+}
+QListWidget::indicator:hover {
+border-radius: 8px;
+border: 0px solid;
+background-repeat: none;
+background-position: center;
+background-image: url(&quot;C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/Indicator.svg&quot;);
+background-color: rgba(250, 188, 1, 120);
+}
+QListWidget::indicator:checked {
+border: 0px solid;
+background-repeat: none;
+background-position: center;
+background-image: url(&quot;C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/Indicator.svg&quot;);
+background-color: rgb(250, 188, 1);
+}
+
+
+
+
+
 
 /* Add Files Part */
 #mb_voca_open {
@@ -231,15 +262,22 @@ color: white;
 font: 16px;
 font-weight: bold;
 border-radius: 5px;
-background-color: rgb(0, 155, 255);
+background-color: rgb(228, 175, 10);
 }
 #mb_voca_open:hover {
-background-color: rgba(0, 155, 255, 80);
+background-color: rgba(228, 175, 10, 80);
+}
+
+
+/* border for temperary */
+#mb_voca_bookmark,
+#mb_voca_refresh {
+border: 1px solid blue;
 }</string>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <property name="spacing">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="leftMargin">
       <number>0</number>
@@ -304,34 +342,127 @@ background-color: rgba(0, 155, 255, 80);
          <number>0</number>
         </property>
        </widget>
+       <widget class="QPushButton" name="mb_voca_refresh">
+        <property name="geometry">
+         <rect>
+          <x>164</x>
+          <y>5</y>
+          <width>30</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </widget>
      </item>
      <item>
-      <widget class="Line" name="mb_h_line_1">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+      <widget class="QWidget" name="mb_setting_title_bar" native="true">
        <property name="minimumSize">
         <size>
-         <width>0</width>
-         <height>1</height>
+         <width>200</width>
+         <height>30</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>1</height>
+         <height>30</height>
         </size>
        </property>
-       <property name="lineWidth">
-        <number>1</number>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
+       <widget class="QLabel" name="mb_setting_title">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>160</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>160</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>160</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Setting</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+        <property name="indent">
+         <number>0</number>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="mb_voca_setting_button">
+        <property name="geometry">
+         <rect>
+          <x>160</x>
+          <y>-1</y>
+          <width>30</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>≡</string>
+        </property>
+       </widget>
       </widget>
      </item>
      <item>
@@ -352,93 +483,6 @@ background-color: rgba(0, 155, 255, 80);
         <property name="bottomMargin">
          <number>10</number>
         </property>
-        <item>
-         <widget class="QWidget" name="mb_setting_hbox" native="true">
-          <property name="minimumSize">
-           <size>
-            <width>200</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>30</height>
-           </size>
-          </property>
-          <widget class="QLabel" name="mb_setting_title">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>200</width>
-             <height>30</height>
-            </rect>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Setting</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-           <property name="indent">
-            <number>0</number>
-           </property>
-          </widget>
-          <widget class="QPushButton" name="mb_show_setting_button">
-           <property name="geometry">
-            <rect>
-             <x>160</x>
-             <y>0</y>
-             <width>30</width>
-             <height>30</height>
-            </rect>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>30</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>30</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="text">
-            <string>≡</string>
-           </property>
-          </widget>
-         </widget>
-        </item>
         <item>
          <widget class="QWidget" name="mb_top_bar_play_type" native="true">
           <property name="minimumSize">
@@ -786,6 +830,99 @@ background-color: rgba(0, 155, 255, 80);
       </widget>
      </item>
      <item>
+      <widget class="QWidget" name="mb_voca_title_bar" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>40</height>
+        </size>
+       </property>
+       <widget class="QLabel" name="mb_voca_total_title">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>10</y>
+          <width>160</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>160</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>160</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
+        <property name="text">
+         <string>Word List</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+        <property name="indent">
+         <number>0</number>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="mb_voca_bookmark">
+        <property name="geometry">
+         <rect>
+          <x>160</x>
+          <y>10</y>
+          <width>30</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </widget>
+     </item>
+     <item>
       <widget class="QScrollArea" name="mb_voca_scroll">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
@@ -808,7 +945,7 @@ background-color: rgba(0, 155, 255, 80);
           <x>0</x>
           <y>0</y>
           <width>180</width>
-          <height>412</height>
+          <height>413</height>
          </rect>
         </property>
         <property name="sizePolicy">
@@ -833,93 +970,6 @@ background-color: rgba(0, 155, 255, 80);
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         <item>
-          <widget class="QWidget" name="mb_voca_title_bar" native="true">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>30</height>
-            </size>
-           </property>
-           <widget class="QLabel" name="mb_voca_total_title">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>75</width>
-              <height>31</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>75</width>
-              <height>31</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>110</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="lineWidth">
-             <number>0</number>
-            </property>
-            <property name="text">
-             <string>Word List</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-            </property>
-            <property name="indent">
-             <number>0</number>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="mb_voca_refresh">
-            <property name="geometry">
-             <rect>
-              <x>150</x>
-              <y>0</y>
-              <width>30</width>
-              <height>30</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>30</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>30</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </widget>
-         </item>
          <item>
           <widget class="QWidget" name="mb_voca_widget_0" native="true">
            <property name="enabled">
@@ -961,7 +1011,7 @@ background-color: rgba(0, 155, 255, 80);
               <property name="minimumSize">
                <size>
                 <width>180</width>
-                <height>30</height>
+                <height>35</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -972,7 +1022,7 @@ background-color: rgba(0, 155, 255, 80);
               </property>
               <property name="styleSheet">
                <string notr="true">QWidget:hover {
-background-color: rgb(204, 227, 249);
+background-color: rgb(242, 214, 130);
 }</string>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -988,6 +1038,9 @@ background-color: rgb(204, 227, 249);
                <property name="rightMargin">
                 <number>0</number>
                </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
                <item>
                 <widget class="QLabel" name="mb_voca_button_icon_adj_0">
                  <property name="sizePolicy">
@@ -999,7 +1052,7 @@ background-color: rgb(204, 227, 249);
                  <property name="maximumSize">
                   <size>
                    <width>16777215</width>
-                   <height>20</height>
+                   <height>25</height>
                   </size>
                  </property>
                  <property name="text">
@@ -1018,7 +1071,7 @@ background-color: rgb(204, 227, 249);
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
-                   <height>30</height>
+                   <height>35</height>
                   </size>
                  </property>
                  <property name="maximumSize">
@@ -1140,13 +1193,19 @@ background-color: rgb(204, 227, 249);
                <property name="text">
                 <string>jump</string>
                </property>
+               <property name="checkState">
+                <enum>Checked</enum>
+               </property>
                <property name="flags">
-                <set>ItemIsDragEnabled</set>
+                <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
                </property>
               </item>
               <item>
                <property name="text">
                 <string>run</string>
+               </property>
+               <property name="checkState">
+                <enum>Checked</enum>
                </property>
               </item>
               <item>
@@ -1206,79 +1265,6 @@ background-color: rgb(204, 227, 249);
          </item>
         </layout>
        </widget>
-      </widget>
-     </item>
-     <item alignment="Qt::AlignHCenter">
-      <widget class="QPushButton" name="bookmark_button">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>180</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Noto Sans KR SemiBold</family>
-         <pointsize>-1</pointsize>
-         <weight>7</weight>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton{
-	color: white;
-	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 190, 11, 255), stop:1 rgba(251, 86, 7, 255));
-	border-radius: 20px;
-}
-
-QPushButton:hover{
-	background-color: rgb(222, 222, 222);
-	border-left: rgb(230,230,230);
-	border-right: rgb(230,230,230);
-	border-bottom: rgb(230,230,230);
-
-}
-QPushButton:pressed{
-	background-color: rgb(180, 180, 180);
-	border-left: rgb(230,230,230);
-	border-right: rgb(230,230,230);
-	border-bottom: rgb(230,230,230);
-
-}
-button.setStyleSheet(&quot;font-size: 30px;&quot;)
-</string>
-       </property>
-       <property name="text">
-        <string>                Add Bookmark                </string>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
       </widget>
      </item>
      <item>
@@ -1366,10 +1352,14 @@ font: 100px;
 font-weight: bold;
 color: transparent;
 }
-#mb_show_dev {
+#mb_show_dev_contact {
 color: black;
 background-color: transparent;
 font: 10px;
+}
+#mb_show_dev_detail {
+font: 10px;
+color: rgb(112, 112, 112);
 }</string>
     </property>
     <widget class="QWidget" name="mb_show_btns_adj" native="true">
@@ -1566,16 +1556,16 @@ font: 10px;
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>0</y>
+       <y>10</y>
        <width>771</width>
        <height>140</height>
       </rect>
      </property>
      <property name="text">
-      <string>Visual Voca</string>
+      <string/>
      </property>
      <property name="alignment">
-      <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="mb_show_image_adj">
@@ -1588,7 +1578,7 @@ font: 10px;
       </rect>
      </property>
      <property name="text">
-      <string>⭐ Waiting for Click Event ...</string>
+      <string/>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -1610,22 +1600,6 @@ font: 10px;
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="mb_show_dev">
-     <property name="geometry">
-      <rect>
-       <x>1</x>
-       <y>680</y>
-       <width>761</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Developed by Gonyo &amp; AhnJH</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
     <widget class="QLabel" name="mb_show_special_case_adj">
      <property name="geometry">
       <rect>
@@ -1645,12 +1619,58 @@ font: 10px;
       <bool>true</bool>
      </property>
     </widget>
+    <widget class="QWidget" name="mb_show_dev" native="true">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>640</y>
+       <width>771</width>
+       <height>62</height>
+      </rect>
+     </property>
+     <widget class="QLabel" name="mb_show_dev_contact">
+      <property name="geometry">
+       <rect>
+        <x>500</x>
+        <y>1</y>
+        <width>71</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Contact
+
+Contributor</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="mb_show_dev_detail">
+      <property name="geometry">
+       <rect>
+        <x>577</x>
+        <y>0</y>
+        <width>171</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>worker.gonyo@gmail.com
+indischool@tinterest
+Gonyo, AhnJH</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+     </widget>
+    </widget>
     <zorder>mb_show_special_case_adj</zorder>
     <zorder>mb_show_eng_adj</zorder>
     <zorder>mb_show_image_adj</zorder>
     <zorder>mb_show_kor_adj</zorder>
-    <zorder>mb_show_dev</zorder>
     <zorder>mb_show_btns_adj</zorder>
+    <zorder>mb_show_dev</zorder>
    </widget>
    <zorder>mb_show_adj</zorder>
    <zorder>mb_voca_adj</zorder>
