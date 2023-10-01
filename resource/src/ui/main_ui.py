@@ -119,6 +119,10 @@ class Ui_MainApp(object):
 "#mb_voca_setting_button:hover {\n"
 "color: rgb(228, 175, 10);\n"
 "}\n"
+"\n"
+"\n"
+"\n"
+"\n"
 "/* Left - Setting detail name(ex: Auto Scroll ....) ------------------------------------- */\n"
 "#mb_top_bar_play_type_title,\n"
 "#mb_top_bar_auto_scroll_title,\n"
@@ -128,17 +132,7 @@ class Ui_MainApp(object):
 "color: black;\n"
 "}\n"
 "\n"
-"/* SpinBox Setting ------------------------------------- */\n"
-"#mb_top_bar_repeat_spinbox {\n"
-"color: rgb(141, 141, 147);\n"
-"}\n"
-"#mb_top_bar_repeat_spinbox:hover {\n"
-"color: rgb(228, 175, 10);\n"
-"}\n"
-"#mb_top_bar_repeat_spinbox:up-arrow:hover,\n"
-"#mb_top_bar_repeat_spinbox:down-arrow:hover  {\n"
-"color: rgb(228, 175, 10);\n"
-"}\n"
+"\n"
 "\n"
 "\n"
 "/* Type PushButton Setting ------------------------------------- */\n"
@@ -154,23 +148,45 @@ class Ui_MainApp(object):
 "}\n"
 "#mb_top_bar_play_type .QPushButton:checked {\n"
 "color: white;\n"
-"background-color: rgb(228, 175, 10);\n"
+"background-color: rgb(250, 188, 1);\n"
 "}\n"
 "#mb_top_bar_only_img {\n"
 "margin-right: 10px;\n"
 "}\n"
 "\n"
 "\n"
-"/* QScrollWidget PushButton part ------------------ */\n"
+"\n"
+"\n"
+"/* Repeat SpinBox Setting ------------------------------------- */\n"
+"#mb_top_bar_repeat_spinbox {\n"
+"color: rgb(141, 141, 147);\n"
+"selection-background-color: white;\n"
+"selection-color: rgb(141, 141, 147);\n"
+"}\n"
+"#mb_top_bar_repeat_spinbox:hover {\n"
+"color: rgb(228, 175, 10);\n"
+"selection-color: rgb(228, 175, 10);\n"
+"}\n"
+"#mb_top_bar_repeat_spinbox:up-arrow:hover,\n"
+"#mb_top_bar_repeat_spinbox:down-arrow:hover  {\n"
+"color: rgb(228, 175, 10);\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"/* QScrollWidget Label & PushButton part ------------------ */\n"
 "QScrollArea {\n"
 "margin-bottom: 0px;\n"
 "padding-top: 10px;\n"
 "}\n"
 "QScrollArea .QLabel {\n"
-"padding-left: 10px;\n"
+"padding-left: 5px;\n"
+"background-position: right;\n"
 "}\n"
+"/*Lesson1 */\n"
 "QScrollArea .QPushButton {\n"
-"margin: 5px 10px 5px 10px;\n"
+"margin: 5px;\n"
 "padding: 0px;\n"
 "color: black;\n"
 "text-align: left;\n"
@@ -204,13 +220,12 @@ class Ui_MainApp(object):
 "color: white;\n"
 "}\n"
 "QListWidget::indicator {\n"
-"border-radius: 8px;\n"
+"border-radius: 6px;\n"
 "border: 1px solid;\n"
 "border-color: rgb(141, 141, 147);\n"
 "background-color: transparent;\n"
 "}\n"
 "QListWidget::indicator:hover {\n"
-"border-radius: 8px;\n"
 "border: 0px solid;\n"
 "background-repeat: none;\n"
 "background-position: center;\n"
@@ -247,7 +262,7 @@ class Ui_MainApp(object):
 "/* border for temperary */\n"
 "#mb_voca_bookmark,\n"
 "#mb_voca_refresh {\n"
-"border: 1px solid blue;\n"
+"border: 1px solid lightgray;\n"
 "}")
         self.mb_voca_adj.setObjectName("mb_voca_adj")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.mb_voca_adj)
@@ -319,7 +334,7 @@ class Ui_MainApp(object):
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.mb_top_bar_play_type = QtWidgets.QWidget(self.mb_setting_widget)
-        self.mb_top_bar_play_type.setMinimumSize(QtCore.QSize(0, 32))
+        self.mb_top_bar_play_type.setMinimumSize(QtCore.QSize(0, 37))
         self.mb_top_bar_play_type.setMaximumSize(QtCore.QSize(190, 32))
         self.mb_top_bar_play_type.setObjectName("mb_top_bar_play_type")
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.mb_top_bar_play_type)
@@ -417,6 +432,7 @@ class Ui_MainApp(object):
         self.mb_top_bar_repeat_spinbox = QtWidgets.QSpinBox(self.mb_top_bar_repeat)
         self.mb_top_bar_repeat_spinbox.setMinimumSize(QtCore.QSize(53, 0))
         self.mb_top_bar_repeat_spinbox.setMaximumSize(QtCore.QSize(53, 16777215))
+        self.mb_top_bar_repeat_spinbox.setFocusPolicy(QtCore.Qt.NoFocus)
         self.mb_top_bar_repeat_spinbox.setAlignment(QtCore.Qt.AlignCenter)
         self.mb_top_bar_repeat_spinbox.setPrefix("")
         self.mb_top_bar_repeat_spinbox.setMinimum(1)
@@ -436,7 +452,7 @@ class Ui_MainApp(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mb_voca_total_title.sizePolicy().hasHeightForWidth())
         self.mb_voca_total_title.setSizePolicy(sizePolicy)
-        self.mb_voca_total_title.setMinimumSize(QtCore.QSize(160, 31))
+        self.mb_voca_total_title.setMinimumSize(QtCore.QSize(160, 30))
         self.mb_voca_total_title.setMaximumSize(QtCore.QSize(160, 16777215))
         self.mb_voca_total_title.setLineWidth(0)
         self.mb_voca_total_title.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
@@ -467,7 +483,7 @@ class Ui_MainApp(object):
         self.mb_voca_scroll.setWidgetResizable(True)
         self.mb_voca_scroll.setObjectName("mb_voca_scroll")
         self.mb_voca_scroll_widget = QtWidgets.QWidget()
-        self.mb_voca_scroll_widget.setGeometry(QtCore.QRect(0, 0, 180, 413))
+        self.mb_voca_scroll_widget.setGeometry(QtCore.QRect(0, 0, 180, 408))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -509,6 +525,7 @@ class Ui_MainApp(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mb_voca_button_icon_adj_0.sizePolicy().hasHeightForWidth())
         self.mb_voca_button_icon_adj_0.setSizePolicy(sizePolicy)
+        self.mb_voca_button_icon_adj_0.setMinimumSize(QtCore.QSize(30, 25))
         self.mb_voca_button_icon_adj_0.setMaximumSize(QtCore.QSize(16777215, 25))
         self.mb_voca_button_icon_adj_0.setText("")
         self.mb_voca_button_icon_adj_0.setObjectName("mb_voca_button_icon_adj_0")
@@ -643,13 +660,16 @@ class Ui_MainApp(object):
 "font: 20px;\n"
 "}\n"
 "#mb_show_special_case_adj {\n"
+"background-repeat: none;\n"
+"background-position: center;\n"
+"background-color: transparent;\n"
+"background-image: \'\';\n"
 "font: 100px;\n"
 "font-weight: bold;\n"
 "color: transparent;\n"
 "}\n"
 "#mb_show_dev_contact {\n"
 "color: black;\n"
-"background-color: transparent;\n"
 "font: 10px;\n"
 "}\n"
 "#mb_show_dev_detail {\n"
@@ -728,22 +748,35 @@ class Ui_MainApp(object):
         self.mb_show_special_case_adj.setWordWrap(True)
         self.mb_show_special_case_adj.setObjectName("mb_show_special_case_adj")
         self.mb_show_dev = QtWidgets.QWidget(self.mb_show_adj)
-        self.mb_show_dev.setGeometry(QtCore.QRect(0, 640, 771, 62))
+        self.mb_show_dev.setGeometry(QtCore.QRect(0, 620, 770, 67))
         self.mb_show_dev.setObjectName("mb_show_dev")
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.mb_show_dev)
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_3.setSpacing(0)
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem4)
         self.mb_show_dev_contact = QtWidgets.QLabel(self.mb_show_dev)
-        self.mb_show_dev_contact.setGeometry(QtCore.QRect(500, 1, 71, 51))
+        self.mb_show_dev_contact.setMinimumSize(QtCore.QSize(80, 100))
         self.mb_show_dev_contact.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.mb_show_dev_contact.setObjectName("mb_show_dev_contact")
+        self.horizontalLayout_3.addWidget(self.mb_show_dev_contact)
         self.mb_show_dev_detail = QtWidgets.QLabel(self.mb_show_dev)
-        self.mb_show_dev_detail.setGeometry(QtCore.QRect(577, 0, 171, 51))
+        self.mb_show_dev_detail.setMinimumSize(QtCore.QSize(250, 100))
         self.mb_show_dev_detail.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.mb_show_dev_detail.setObjectName("mb_show_dev_detail")
-        self.mb_show_dev.raise_()
+        self.horizontalLayout_3.addWidget(self.mb_show_dev_detail)
+        self.mb_show_ignore_button = QtWidgets.QPushButton(self.mb_show_adj)
+        self.mb_show_ignore_button.setGeometry(QtCore.QRect(732, 0, 31, 28))
+        self.mb_show_ignore_button.setText("")
+        self.mb_show_ignore_button.setObjectName("mb_show_ignore_button")
         self.mb_show_special_case_adj.raise_()
         self.mb_show_eng_adj.raise_()
         self.mb_show_image_adj.raise_()
         self.mb_show_kor_adj.raise_()
         self.mb_show_btns_adj.raise_()
+        self.mb_show_dev.raise_()
+        self.mb_show_ignore_button.raise_()
         self.mb_show_adj.raise_()
         self.mb_voca_adj.raise_()
         MainApp.setCentralWidget(self.mb_1)
@@ -751,13 +784,16 @@ class Ui_MainApp(object):
         self.retranslateUi(MainApp)
         self.mb_voca_word_adj_0.setCurrentRow(-1)
         QtCore.QMetaObject.connectSlotsByName(MainApp)
-        MainApp.setTabOrder(self.mb_voca_scroll, self.mb_voca_refresh)
-        MainApp.setTabOrder(self.mb_voca_refresh, self.mb_voca_button_group_title_adj_0)
-        MainApp.setTabOrder(self.mb_voca_button_group_title_adj_0, self.mb_voca_open)
-        MainApp.setTabOrder(self.mb_voca_open, self.mb_top_bar_all)
+        MainApp.setTabOrder(self.mb_voca_refresh, self.mb_voca_setting_button)
+        MainApp.setTabOrder(self.mb_voca_setting_button, self.mb_top_bar_all)
         MainApp.setTabOrder(self.mb_top_bar_all, self.mb_top_bar_only_eng)
         MainApp.setTabOrder(self.mb_top_bar_only_eng, self.mb_top_bar_only_kor)
-        MainApp.setTabOrder(self.mb_top_bar_only_kor, self.back)
+        MainApp.setTabOrder(self.mb_top_bar_only_kor, self.mb_top_bar_only_img)
+        MainApp.setTabOrder(self.mb_top_bar_only_img, self.mb_top_bar_repeat_spinbox)
+        MainApp.setTabOrder(self.mb_top_bar_repeat_spinbox, self.mb_voca_bookmark)
+        MainApp.setTabOrder(self.mb_voca_bookmark, self.mb_voca_scroll)
+        MainApp.setTabOrder(self.mb_voca_scroll, self.mb_voca_open)
+        MainApp.setTabOrder(self.mb_voca_open, self.back)
         MainApp.setTabOrder(self.back, self.pause)
         MainApp.setTabOrder(self.pause, self.forward)
 
@@ -776,6 +812,196 @@ class Ui_MainApp(object):
         self.mb_top_bar_repeat_spinbox.setSuffix(_translate("MainApp", " 번"))
         self.mb_voca_total_title.setText(_translate("MainApp", "Word List"))
         self.mb_voca_button_group_title_adj_0.setText(_translate("MainApp", "Lesson 1"))
+        self.mb_voca_word_adj_0.setStyleSheet(_translate("MainApp", "/* Pallete --------------------------------- \n"
+"\n"
+"lightgray : rgb(242, 242, 247)\n"
+"gray : rgb(141, 141, 147)\n"
+"darkgray : rgb(122, 122, 128)\n"
+"\n"
+"grayorange : rgb(228, 175, 10)\n"
+"pointorange : rgb(250, 188, 1)\n"
+"\n"
+"blue : rgb(0, 155, 255)\n"
+"bluehover : rgba(0, 155, 255, 80)\n"
+"\n"
+"--------------------------------------- */\n"
+"\n"
+"QWidget {\n"
+"padding: 10px;\n"
+"padding: 0px;\n"
+"background-color: transparent;\n"
+"}\n"
+"#mb_voca_adj {\n"
+"background-color: rgb(242, 242, 247);\n"
+"}\n"
+".Line {\n"
+"background-color: rgb(227, 227, 233);\n"
+"margin: 0px 10px 0px 50px;\n"
+"}\n"
+"\n"
+"\n"
+"/* Left - White Grouped Section --------------------------------- */\n"
+"#mb_setting_widget,\n"
+"#mb_voca_scroll {\n"
+"background-color: white;\n"
+"border-radius: 10px;\n"
+"margin: 0px 10px 10px 10px;\n"
+"}\n"
+"#mb_setting_widget {\n"
+"margin-bottom: 5px;\n"
+"}\n"
+"#mb_voca_scroll {\n"
+"margin-top: 5px;\n"
+"}\n"
+"#mb_setting_title,\n"
+"#mb_voca_total_title {\n"
+"margin: 0px 0px 0px 20px;\n"
+"color: black;\n"
+"font: 14px;\n"
+"}\n"
+"#mb_voca_setting_button {\n"
+"color: rgb(122, 122, 128);\n"
+"}\n"
+"#mb_voca_setting_button:hover {\n"
+"color: rgb(228, 175, 10);\n"
+"}\n"
+"/* Left - Setting detail name(ex: Auto Scroll ....) ------------------------------------- */\n"
+"#mb_top_bar_play_type_title,\n"
+"#mb_top_bar_auto_scroll_title,\n"
+"#mb_top_bar_repeat_title {\n"
+"font: 12px;\n"
+"margin: 0px 0px 0px 30px;\n"
+"color: black;\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"/* Type PushButton Setting ------------------------------------- */\n"
+"#mb_top_bar_play_type .QPushButton {\n"
+"font: 11px;\n"
+"background-color: rgb(227, 227, 233);\n"
+"border-radius: 8px;\n"
+"text-align: center;\n"
+"color: black;\n"
+"}\n"
+"#mb_top_bar_play_type .QPushButton:hover {\n"
+"background-color: rgba(228, 175, 10, 80);\n"
+"}\n"
+"#mb_top_bar_play_type .QPushButton:checked {\n"
+"color: white;\n"
+"background-color: rgb(250, 188, 1);\n"
+"}\n"
+"#mb_top_bar_only_img {\n"
+"margin-right: 10px;\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"/* Repeat SpinBox Setting ------------------------------------- */\n"
+"#mb_top_bar_repeat_spinbox {\n"
+"color: rgb(141, 141, 147);\n"
+"}\n"
+"#mb_top_bar_repeat_spinbox:hover {\n"
+"color: rgb(228, 175, 10);\n"
+"}\n"
+"#mb_top_bar_repeat_spinbox:up-arrow:hover,\n"
+"#mb_top_bar_repeat_spinbox:down-arrow:hover  {\n"
+"color: rgb(228, 175, 10);\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"/* QScrollWidget Label & PushButton part ------------------ */\n"
+"QScrollArea {\n"
+"margin-bottom: 0px;\n"
+"padding-top: 10px;\n"
+"}\n"
+"/*Lesson1 */\n"
+"QScrollArea .QLabel {\n"
+"padding-left: 5px;\n"
+"}\n"
+"QScrollArea .QPushButton {\n"
+"margin: 5px 10px 5px 10px;\n"
+"padding: 0px;\n"
+"color: black;\n"
+"text-align: left;\n"
+"}\n"
+"\n"
+"/* QListWidget Part ------------------------------ */\n"
+"QListView::item {\n"
+"border: 0px;\n"
+"margin: 5px -8px 5px -4px;\n"
+"}\n"
+"QListWidget {\n"
+"font: 13px;\n"
+"font-weight: light;\n"
+"padding-right: 4px;\n"
+"}\n"
+"QListWidget::item {\n"
+"padding: 3px;\n"
+"padding-left: 30px;\n"
+"color: rgb(180, 180, 180);\n"
+"}\n"
+"QListWidget::item:hover {\n"
+"padding-left: 30px;\n"
+"margin: 0px -4px 0px -4px;\n"
+"color: black;\n"
+"background-color: rgb(227, 227, 233);\n"
+"}\n"
+"QListWidget::item:selected {\n"
+"padding-left: 30px;\n"
+"margin: 0px -4px 0px -4px;\n"
+"background-color: rgb(228, 175, 10);\n"
+"color: white;\n"
+"}\n"
+"QListWidget::indicator {\n"
+"border-radius: 6px;\n"
+"border: 1px solid;\n"
+"border-color: rgb(141, 141, 147);\n"
+"background-color: transparent;\n"
+"}\n"
+"QListWidget::indicator:hover {\n"
+"border: 0px solid;\n"
+"background-repeat: none;\n"
+"background-position: center;\n"
+"background-image: url(\"C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/Indicator.svg\");\n"
+"background-color: rgba(250, 188, 1, 120);\n"
+"}\n"
+"QListWidget::indicator:checked {\n"
+"border: 0px solid;\n"
+"background-repeat: none;\n"
+"background-position: center;\n"
+"background-image: url(\"C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/Indicator.svg\");\n"
+"background-color: rgb(250, 188, 1);\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"/* Add Files Part */\n"
+"#mb_voca_open {\n"
+"margin: 0px 10px 10px 10px;\n"
+"color: white;\n"
+"font: 16px;\n"
+"font-weight: bold;\n"
+"border-radius: 5px;\n"
+"background-color: rgb(228, 175, 10);\n"
+"}\n"
+"#mb_voca_open:hover {\n"
+"background-color: rgba(228, 175, 10, 80);\n"
+"}\n"
+"\n"
+"\n"
+"/* border for temperary */\n"
+"#mb_voca_bookmark,\n"
+"#mb_voca_refresh {\n"
+"border: 1px solid blue;\n"
+"}"))
         self.mb_voca_word_adj_0.setSortingEnabled(False)
         __sortingEnabled = self.mb_voca_word_adj_0.isSortingEnabled()
         self.mb_voca_word_adj_0.setSortingEnabled(False)
@@ -812,6 +1038,6 @@ class Ui_MainApp(object):
         self.mb_show_dev_contact.setText(_translate("MainApp", "Contact\n"
 "\n"
 "Contributor"))
-        self.mb_show_dev_detail.setText(_translate("MainApp", "worker.gonyo@gmail.com\n"
-"indischool@tinterest\n"
-"Gonyo, AhnJH"))
+        self.mb_show_dev_detail.setText(_translate("MainApp", "@email\n"
+"@id\n"
+"@name/githubname"))

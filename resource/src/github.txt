@@ -1,0 +1,10 @@
+{
+  "Contact": [
+    "worker.gonyo@gmail.com",
+    "indischool@tinterest"
+  ],
+  "Contributor" : [
+    "Gonyo",
+    "AhnJH
+  ]
+}

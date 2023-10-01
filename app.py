@@ -1,6 +1,8 @@
 # <-- Import main pyqt app modules ----------------------------------------------------------->
 import sys
 import os.path
+import json
+import requests
 from glob import glob
 from fontTools import ttLib
 from PyQt5 import QtWidgets, QtCore, QtGui, Qt, QtMultimedia
@@ -30,9 +32,9 @@ URL = 'https://MYPROJECT.googlecode.com/hg/'
 MYAPPLOGGER = 'WHATEVER'
 
 __author__ = 'https://www.github.com/gonyo1'
-__date__ = 'October 2023'
+__released_date__ = 'October 2023'
 __credits__ = ['Gonyo', 'AhnJH']
-
+__version__ = '1.0'
 
 class AppUpdator(QtCore.QThread):
     """This class automatically updates a PyQt app from a remote
@@ -147,13 +149,15 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.setupUi(self)
         self.show()
 
+
         # Setup Variable
         self.set_variable()
 
         # Setup Graphic Part
-        self.setWindowTitle("  VisualVoca")
+        self.setWindowTitle(f"  VisualVoca(ver.{__version__})")
         self.setWindowIcon(Qt.QIcon("resource/src/img/AppIcon.ico"))
         self.mb_icon.setPixmap(Qt.QPixmap('resource/src/img/Logo.svg'))
+        self.get_github_json()
         self.setup_window_graphic()
 
         # Setup Signal and Slots
@@ -227,6 +231,9 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.setStyleSheet(custom_stylesheet)
 
     def set_variable(self):
+        # Github variables
+        self.github_data = None
+
         # Configuration Variables
         self.PLATFORM = sys.platform
         self.init_show_option = None
@@ -381,8 +388,9 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     sizePolicy.setHorizontalStretch(0)
                     sizePolicy.setVerticalStretch(0)
                     sizePolicy.setHeightForWidth(obj.sizePolicy().hasHeightForWidth())
-                    obj.setStyleSheet("background-repeat: none;\n"
-                                      "background-position: center;")
+                    obj.setStyleSheet("padding-left: 5px;\n"
+                                      "background-repeat: none;\n"
+                                      "background-position: right;")
                     obj.setSizePolicy(sizePolicy)
                     obj.setMaximumSize(QtCore.QSize(16777215, 25))
                     obj.setObjectName(f"mb_voca_button_icon_adj_{index}")
@@ -476,7 +484,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
         def make_toggle_button():
             if self.FIRSTRUN:
-                self.auto_scroll_toggle = AnimatedToggle(checked_color="#4ed164")
+                self.auto_scroll_toggle = AnimatedToggle(checked_color="#fabc01")
                 self.mb_top_bar_auto_scroll_verticalLayout.addWidget(self.auto_scroll_toggle)
 
                 self.auto_scroll_toggle.setStyleSheet("margin: 6px 0px 6px 0px\n")
@@ -506,7 +514,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                          'mb_voca_button_group_title_adj' in push.objectName()]
 
             # Setup Pixmap
-            max_size = int(voca_btns[0].maximumHeight() * 1)
+            max_size = int(voca_btns[0].maximumHeight() * 0.8)
             for idx, btn in enumerate(voca_btns):
                 self.folder_icon = self.folder_icon.scaledToHeight(max_size)
                 self.folder_open_icon = self.folder_open_icon.scaledToHeight(max_size)
@@ -575,7 +583,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.VIVOIMAGE = os.path.abspath("./resource/src/img/FrontImage.svg")
             self.VIVOIMAGE = self.VIVOIMAGE.replace("\\", "/")
 
-            self.mb_show_special_case_adj.setStyleSheet(f"background-image: url({self.VIVOIMAGE})")
+            self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOIMAGE})")
 
             self.mb_show_image_adj.setText("")
             self.change_stylesheet(self.mb_show_eng_adj, color="white")
@@ -589,9 +597,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                                      "}\n"
                                      "QPushButton:hover {\n"
                                      f"background-image: url({self.pyqt_image_url(f'{button_name}Hover.svg')});"
-                                     "}"
-                                     )
-                print(button.styleSheet())
+                                     "}")
 
         def which_option_clicked():
             idx = self.JSON_DATA["BookmarkIndex"]
@@ -601,10 +607,26 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
             self.init_show_option = self.option_btns[idx]
 
+        def update_contact():
+            dev_text = str()
+
+            self.mb_show_dev_contact.setText("Contact" + "\n" * len(self.github_data["Contact"]) + "Contributor")
+            for data in self.github_data:
+                if data == "Contact":
+                    for line in self.github_data[data]:
+                        dev_text += "".join([line, "\n"])
+                elif data == "Contributor":
+                    dev_text += ", ".join(self.github_data[data])
+
+            self.mb_show_dev_detail.setText(dev_text)
+
+        self.setGeometry(self.geometry().x(), self.geometry().y(), 970, 700)
 
         # UI 에서 샘플로 만들었던 위젯 지우기
         self.mb_voca_widget_0.hide()
         self.mb_show_btns_adj.hide()
+
+        # SpinBox Value 설정하기
         self.mb_top_bar_repeat_spinbox.setValue(int(self.JSON_DATA["ImageDownCount"]))
 
         # Do Something...
@@ -622,6 +644,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.voca_widget_button_event()
 
         calculate_ratio()
+        update_contact()
         self.mb_voca_refresh.setEnabled(True)
 
     def set_signal(self, *args):
@@ -807,26 +830,25 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.mb_show_image_adj.hide()
             self.mb_show_special_case_adj.hide()
             self.mb_show_special_case_adj.clear()
-            # self.mb_show_special_case_adj.setText("")
 
             if btn == self.mb_top_bar_all:
                 self.mb_show_kor_adj.show()
                 self.mb_show_eng_adj.show()
                 self.mb_show_image_adj.show()
                 if self.FIRSTCHANGE == False:
-                    self.mb_show_special_case_adj.setStyleSheet(f"background-image: url({self.VIVOIMAGE})")
+                    self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOIMAGE})")
                     self.mb_show_special_case_adj.show()
                     self.mb_show_special_case_adj.raise_()
             elif btn == self.mb_top_bar_only_eng:
                 self.change_stylesheet(self.mb_show_special_case_adj, color="black")
-                self.mb_show_special_case_adj.setStyleSheet(f"background-image: url({self.VIVOCLEAR})")
+                self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOCLEAR})")
                 self.mb_show_special_case_adj.setText(self.mb_show_eng_adj.text())
                 self.mb_show_special_case_adj.show()
                 if self.FIRSTCHANGE == False:
                     self.mb_show_special_case_adj.setText("Visual Voca")
             elif btn == self.mb_top_bar_only_kor:
                 self.change_stylesheet(self.mb_show_special_case_adj, color="black")
-                self.mb_show_special_case_adj.setStyleSheet(f"background-image: url({self.VIVOCLEAR})")
+                self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOCLEAR})")
                 self.mb_show_special_case_adj.setText(self.mb_show_kor_adj.text())
                 self.mb_show_special_case_adj.show()
                 if self.FIRSTCHANGE == False:
@@ -835,7 +857,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 self.mb_show_special_case_adj.setText("")
                 self.mb_show_image_adj.show()
                 if self.FIRSTCHANGE == False:
-                    self.mb_show_special_case_adj.setStyleSheet(f"background-image: url({self.VIVOIMAGE})")
+                    self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOIMAGE})")
                     self.mb_show_special_case_adj.show()
                     self.mb_show_special_case_adj.raise_()
 
@@ -851,6 +873,12 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             elif args[0] == 'qlistwidget':
                 insert_QListWidget_item_signal()
 
+    def get_github_json(self):
+        url = 'https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/contributor.json'
+        resp = requests.get(url)
+        self.github_data = json.loads(resp.text)
+        print(self.github_data)
+
 
 
     # <-- Main Window Section -------------------------------------------------------------->
@@ -861,6 +889,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
         elif key == "ImageDownCount":
             value = self.mb_top_bar_repeat_spinbox.value()
+            self.mb_top_bar_repeat_spinbox.setAttribute(Qt.WA_MacShowFocusRect, 0)
             self.JSON_DATA["ImageDownCount"] = value
             save_json_file(key, value)
 
@@ -1216,10 +1245,10 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         # Change stylesheet by kwargs
         for key, value in kwargs.items():
             key = key.replace("_", "-")
-            new_start = crop_stylesheet.find(str(key + ":"))
+            new_start = crop_stylesheet.find("\n" + str(key) + ":") + 1
             new_end = new_start + crop_stylesheet[new_start:].find(";") + 1
 
-            new_css = "".join(['\n', key, ": ", value, ";\n"])
+            new_css = "".join([key, ": ", value, ";"])
 
             if new_start != 0:
                 # print(f"  [Info] {obj_name}'s css has changed from:{crop_stylesheet[new_start:new_end]} -> to:{new_css})")
@@ -1294,12 +1323,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     elif 'mb_show_special_case_adj' in obj_name:
                         _y = int(h * self.mb_show_special_case_adj_ratio_y)
                         _h = int(h * self.mb_show_special_case_adj_ratio_h)
-
-                        if (w / _h) > (770 / 700):
-                            self.movie.setScaledSize(QtCore.QSize(w, int(700 * w / 770)))
-
-                        else:
-                            self.movie.setScaledSize(QtCore.QSize(int(770 * _h / 700), _h))
                     elif 'mb_show_btns_adj' in obj_name:
                         _y = int(h * self.mb_show_btns_adj_ratio_y)
                         _h = int(h * self.mb_show_btns_adj_ratio_h)
