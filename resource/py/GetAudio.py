@@ -1,3 +1,5 @@
+# coding=cp949
+
 import os
 
 try:

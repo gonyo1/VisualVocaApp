@@ -1,3 +1,4 @@
+# coding=cp949
 # <-- dev ahn part -->
 import pandas as pd
 import re
@@ -8,7 +9,7 @@ CLIENT_ID, CLIENT_SECRET = "21scjke3n3ZaiiPZ8c5S", "rzH1SmWvOy"
 
 def translate(text, source="en", target="ko"):
 
-    # 1. API í™œìš© ì ‘ê·¼ ë°©ì‹
+    # 1. API È°¿ë Á¢±Ù ¹æ½Ä
     url = "https://openapi.naver.com/v1/papago/n2mt"
     headers = {
      "Content-Type": "application/json",
@@ -17,10 +18,10 @@ def translate(text, source="en", target="ko"):
     }
     params = {"source": source, "target": target, "text": text}
 
-    # 2. ìš”ì²­
+    # 2. ¿äÃ»
     response = requests.post(url, json.dumps(params), headers=headers)
 
-    # 3. json í˜•íƒœë¡œ ê²°ê³¼ ë°›ê¸°
+    # 3. json ÇüÅÂ·Î °á°ú ¹Ş±â
     return response.json()["message"]["result"]["translatedText"]
 
 text = "jump"

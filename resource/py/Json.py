@@ -1,3 +1,5 @@
+# coding=cp949
+
 import os
 import json
 
@@ -16,8 +18,9 @@ def load_json_file() -> dict:
     base_path = is_main_app()
     json_file = os.path.join(base_path, 'config.json')
 
-    with open(json_file, 'r') as f:
+    with open(json_file, 'rt', encoding='utf-8') as f:
         json_data = json.load(f)
+        f.close()
 
     return json_data
 
@@ -26,13 +29,15 @@ def save_json_file(key, value):
     base_path = is_main_app()
     json_file = os.path.join(base_path, 'config.json')
 
-    with open(json_file, 'r', encoding='utf-8') as f:
+    with open(json_file, 'rt', encoding='utf-8') as f:
         json_data = json.load(f)
+        f.close()
 
     json_data[key] = value
 
     with open(json_file, 'w', encoding='utf-8') as f:
-        json.dump(json_data, f, indent="\t")
+        json.dump(json_data, f, indent=2, ensure_ascii=False)
+        f.close()
 
     return json_data
 
@@ -46,7 +51,21 @@ def generate_init(path):
         "FontFamily": "Noto Sans KR SemiBold",
         "BookmarkIndex": 0,
         "AutoScroll": "True",
-        "ImageDownCount": 3,
+        "ImageDownCount": 1,
+        "LanguagesShow": {
+            "UpperPart": "en",
+            "LowerPart": "ko",
+            "Reference": "https://learn.microsoft.com/en-us/azure/ai-services/translator/language-support"
+        },
+        "LanguagesSpeech": {
+            "First": "en",
+            "Second": "ko",
+            "Reference": "https://cloud.google.com/translate/docs/languages?hl=ko"
+        },
+        "APIKeys": {
+            "NaverPapago": "<YOUR_SECRET_API_KEY>",
+            "MSAzureTranslator": "d6b7496c3f714146867f5042c0782126"
+        },
         "GetImageFromURL": [
             {
                 "URL": "https://www.gettyimagesbank.com/s/?q=",
@@ -56,11 +75,11 @@ def generate_init(path):
                 "URL": "https://tenor.com/ko/search/",
                 "CSS": "div.GifList > div > figure > a > div.Gif > img"
             }
-            ]
+        ]
         }
 
     with open(path, 'w', encoding='utf-8') as f:
-        json.dump(json_data, f, indent="\t")
+        json.dump(json_data, f, indent="‚t")
 
     return json_data
 

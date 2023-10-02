@@ -1,3 +1,5 @@
+# coding=cp949
+
 import os
 import pandas as pd
 

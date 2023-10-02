@@ -174,7 +174,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             init_x, init_y, init_w, init_h = self.geometry().getRect()
             mbs_x, mbs_y, mbs_w, mbs_h = self.mb_show_adj.geometry().getRect()
 
-            # <--- mb_1 ì˜ì—­ì˜ widget ì ˆëŒ€ê°’ ê¸°ë¡ --->
+            # <--- mb_1 ¿µ¿ªÀÇ widget Àı´ë°ª ±â·Ï --->
             self.mb_show_x = self.mb_show_adj.geometry().getRect()[0]
             self.mb_voca_open_y = self.mb_voca_open.geometry().getRect()[1]
             self.mb_voca_open_h = self.mb_voca_open.geometry().getRect()[3]
@@ -182,7 +182,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.mb_show_kor_h = self.mb_show_kor_adj.geometry().getRect()[3]
             self.mb_voca_open_bottom = init_h - (self.mb_voca_open_y + self.mb_voca_open_h)
 
-            # <--- mb_show_adj ì˜ì—­ì˜ y ë¹„ìœ¨ ê³„ì‚° --->
+            # <--- mb_show_adj ¿µ¿ªÀÇ y ºñÀ² °è»ê --->
             self.mb_show_eng_adj_ratio_y = self.mb_show_eng_adj.geometry().getRect()[1] / mbs_h
             self.mb_show_eng_adj_ratio_h = self.mb_show_eng_adj.geometry().getRect()[3] / mbs_h
 
@@ -246,7 +246,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     sizePolicy.setVerticalStretch(0)
                     sizePolicy.setHeightForWidth(obj.sizePolicy().hasHeightForWidth())
                     obj.setSizePolicy(sizePolicy)
-                    # setMinimumSize ì„¤ì •í•˜ë©´ ê³ ì • ë˜ì–´ë²„ë¦¼
+                    # setMinimumSize ¼³Á¤ÇÏ¸é °íÁ¤ µÇ¾î¹ö¸²
                     # obj.setMinimumSize(QtCore.QSize(180, 35))
                     obj.setMaximumSize(QtCore.QSize(16777215, 16777215))
                     obj.setObjectName(f"mb_voca_widget_{index}")
@@ -366,7 +366,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     for w_idx, word in enumerate(words_in_group):
                         item = QtWidgets.QListWidgetItem()
 
-                        # ë¹ˆì¹¸ì´ë©´ ë¹ˆ ì…€ë¡œ ë³€í™˜í•˜ê¸°
+                        # ºóÄ­ÀÌ¸é ºó ¼¿·Î º¯È¯ÇÏ±â
                         item.setCheckState(QtCore.Qt.Unchecked)
                         self.q_list_widget.addItem(item)
                         self.q_list_widget.item(w_idx).setText(str(word))
@@ -519,11 +519,11 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
         self.setGeometry(self.geometry().x(), self.geometry().y(), 970, 700)
 
-        # UI ì—ì„œ ìƒ˜í”Œë¡œ ë§Œë“¤ì—ˆë˜ ìœ„ì ¯ ì§€ìš°ê¸°
+        # UI ¿¡¼­ »ùÇÃ·Î ¸¸µé¾ú´ø À§Á¬ Áö¿ì±â
         self.mb_voca_widget_0.hide()
         self.mb_show_btns_adj.hide()
 
-        # SpinBox Value ì„¤ì •í•˜ê¸°
+        # SpinBox Value ¼³Á¤ÇÏ±â
         self.mb_top_bar_repeat_spinbox.setValue(int(self.JSON_DATA["ImageDownCount"]))
 
         # Do Something...
@@ -606,7 +606,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             if (self.sending_from_widget != None):
                 idx = self.sending_from_widget.currentRow()
 
-                # ì²«ë²ˆì§¸ëŠ” ì–´ì©” ìˆ˜ ì—†ì´ ì§ì ‘ ì‹¤í–‰í•´ì•¼í•˜ë‚˜ ë´„...
+                # Ã¹¹øÂ°´Â ¾îÂ¿ ¼ö ¾øÀÌ Á÷Á¢ ½ÇÇàÇØ¾ßÇÏ³ª º½...
                 self.sending_from_widget.setCurrentRow(idx)
                 self.change_mb_voca_widget(obj=self.sending_from_widget)
                 self.get_tts_audio(obj=self.sending_from_widget)
@@ -722,15 +722,15 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 self.mb_show_dev.show()
                 self.mb_show_dev.raise_()
 
-            # ALL, KOR, ENG, etc.. í´ë¦­ë˜ë©´ ë¬´ì—‡ì´ ë‚˜ì˜¤ê²Œ í• ì§€
+            # ALL, KOR, ENG, etc.. Å¬¸¯µÇ¸é ¹«¾ùÀÌ ³ª¿À°Ô ÇÒÁö
             btn = self.sender()
 
-            # ë³¸ì¸ì„ ì œì™¸í•œ ë‹¤ë¥¸ ì˜µì…˜ ë²„íŠ¼ì„ unchecked ë¡œ ë³€ê²½í•˜ê¸°
+            # º»ÀÎÀ» Á¦¿ÜÇÑ ´Ù¸¥ ¿É¼Ç ¹öÆ°À» unchecked ·Î º¯°æÇÏ±â
             for item in self.option_btns:
                 item.setChecked(False)
             btn.setChecked(True)
 
-            # <-- Dev. AhnJH part ê°„ì†Œí™”
+            # <-- Dev. AhnJH part °£¼ÒÈ­
             self.mb_show_kor_adj.hide()
             self.mb_show_eng_adj.hide()
             self.mb_show_image_adj.hide()
@@ -764,7 +764,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 if self.FIRSTCHANGE == False:
                     clean_show_adj_btns()
                     raise_labels()
-                    self.mb_show_special_case_adj.setText("ë¹„ì¥¬ì–¼ ë³´ì¹´")
+                    self.mb_show_special_case_adj.setText("ºñÁê¾ó º¸Ä«")
             elif btn == self.mb_top_bar_only_img:
                 self.mb_show_special_case_adj.setText("")
                 self.mb_show_image_adj.show()
@@ -830,10 +830,10 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.is_voca_changed = True
             self.FIRSTCHANGE = True
 
-            # ì²˜ìŒ ì‹¤í–‰ ë•Œ ì¦ê²¨ì°¾ê¸°ë§Œ í•  ê²½ìš° ëŒ€ë¹„í•œ ì½”ë“œ
+            # Ã³À½ ½ÇÇà ¶§ Áñ°ÜÃ£±â¸¸ ÇÒ °æ¿ì ´ëºñÇÑ ÄÚµå
             if obj.currentRow() != -1:
 
-                self.word = obj.currentItem().text()  # Upper text ê°€ ë  ë¶€ë¶„ (ë‚˜ì¤‘ì— Ko -> ru(ëŸ¬ì‹œì•„ì–´)ë¡œ ë³€ê²½ê°€ëŠ¥)
+                self.word = obj.currentItem().text()  # Upper text °¡ µÉ ºÎºĞ (³ªÁß¿¡ Ko -> ru(·¯½Ã¾Æ¾î)·Î º¯°æ°¡´É)
                 self.current_idx = obj.currentRow()
 
                 # reset index of image
@@ -873,14 +873,14 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                         lower_text_language]
                     lower_text = lower_text.iloc[self.current_idx]
 
-                    # iloc ì— í•´ë‹¹í•˜ëŠ” ê°’ì´ None (ë¹„ì–´ìˆìŒ)ì´ë©´ ìë™ë²ˆì—­ê¸° ì‹¤í–‰
+                    # iloc ¿¡ ÇØ´çÇÏ´Â °ªÀÌ None (ºñ¾îÀÖÀ½)ÀÌ¸é ÀÚµ¿¹ø¿ª±â ½ÇÇà
                     if type(lower_text) is float:
                         self.translated_result = translate(word=self.word,
                                                            langs=self.JSON_DATA["LanguagesSpeech"],
                                                            key=self.JSON_DATA["APIKeys"]["MSAzureTranslator"])
                         lower_text = search_text_by_lang(self.translated_result, lower_text_language)
 
-                # CSV íŒŒì¼ì— LanguageShow ì–¸ì–´ê°€ ì—†ë‹¤ë©´ ìë™ë²ˆì—­ê¸° ì‹¤í–‰í•˜ê¸°
+                # CSV ÆÄÀÏ¿¡ LanguageShow ¾ğ¾î°¡ ¾ø´Ù¸é ÀÚµ¿¹ø¿ª±â ½ÇÇàÇÏ±â
                 except KeyError:
                     print("  [Info] No Column found in CSV file. Do Auto Translate... ")
                     self.translated_result = translate(word=self.word,
@@ -965,7 +965,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     append_list_widget.setHidden(False)
 
                     w = append_list_widget.width()
-                    # wë¥¼ ì•„ì´í…œ í¬ê¸°ì— ë§ì¶œ ë•Œ ì‚¬ìš©í•  ìˆ˜ ìˆìŒ
+                    # w¸¦ ¾ÆÀÌÅÛ Å©±â¿¡ ¸ÂÃâ ¶§ »ç¿ëÇÒ ¼ö ÀÖÀ½
                     # w = append_list_widget.sizeHintForColumn(0) + append_list_widget.frameWidth() * 2
                     h = append_list_widget.sizeHintForRow(0) * append_list_widget.count() + 2 * append_list_widget.frameWidth()
                     append_list_widget.setFixedSize(w, h)
@@ -990,17 +990,17 @@ class MainWindow(QtWidgets.QMainWindow, mp):
     # <-- Play audio TTS ------------------------------------------------------------------->
     def start_player(self):
         def replace_korean(word):
-            word = word.replace("~", "ë¬´ì—‡ ")
-            word = word.replace("ï½", "ë¬´ì—‡ ")
-            word = word.replace("-", "ë¬´ì—‡ ")
+            word = word.replace("~", "¹«¾ù ")
+            word = word.replace("¢¦", "¹«¾ù ")
+            word = word.replace("-", "¹«¾ù ")
             word = word.replace("(", " ")
             word = word.replace(")", " ")
-            word = word.replace("=", "ê°™ì€ í‘œí˜„ìœ¼ë¡œëŠ” ")
-            word = word.replace("â‰ ", "ë‹¤ë¥¸ í‘œí˜„ìœ¼ë¡œëŠ” ")
-            word = word.replace("(ëª…)", "ëª…ì‚¬í˜•ìœ¼ë¡œëŠ” ")
-            word = word.replace("(ë™)", "ë™ì‚¬í˜•ìœ¼ë¡œëŠ” ")
-            word = word.replace("(í˜•)", "í˜•ìš©ì‚¬í˜•ìœ¼ë¡œëŠ” ")
-            word = word.replace("(ë³µìˆ˜)", "ì—¬ëŸ¬ ê°œë¥¼ ì§€ì¹­í•  ë• ")
+            word = word.replace("=", "°°Àº Ç¥ÇöÀ¸·Î´Â ")
+            word = word.replace("¡Á", "´Ù¸¥ Ç¥ÇöÀ¸·Î´Â ")
+            word = word.replace("(¸í)", "¸í»çÇüÀ¸·Î´Â ")
+            word = word.replace("(µ¿)", "µ¿»çÇüÀ¸·Î´Â ")
+            word = word.replace("(Çü)", "Çü¿ë»çÇüÀ¸·Î´Â ")
+            word = word.replace("(º¹¼ö)", "¿©·¯ °³¸¦ ÁöÄªÇÒ ¶© ")
 
             return word
 
@@ -1014,7 +1014,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             print("  [Info] Played Practice Alarm sound... (done)")
 
         def play_tts_audio_file():
-            # content ê°€ì ¸ì˜¤ê¸°
+            # content °¡Á®¿À±â
             content = get_downloaded_tts_audio_file()
             self.player.setMedia(content)
             self.player.play()
@@ -1031,12 +1031,12 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             elif lang == self.JSON_DATA["LanguagesShow"]["LowerPart"]:
                 word = self.mb_show_kor_adj.text()
             else:
-                # ìœ„ ì•„ë˜ì— ì œì‹œë˜ëŠ” ì–¸ì–´ê°€ ì•„ë‹ê²½ìš° (ì˜ˆ: ru : ëŸ¬ì‹œì•„ì–´)
+                # À§ ¾Æ·¡¿¡ Á¦½ÃµÇ´Â ¾ğ¾î°¡ ¾Æ´Ò°æ¿ì (¿¹: ru : ·¯½Ã¾Æ¾î)
                 try:
                     csv_word = self.CSV_DATA["dataframe"][self.CSV_DATA["dataframe"]["GroupName"] == self.group_name][lang]
                     word = csv_word.iloc[self.current_idx]
 
-                    # iloc ì— í•´ë‹¹í•˜ëŠ” ê°’ì´ None (ë¹„ì–´ìˆìŒ)ì´ë©´ ìë™ë²ˆì—­ê¸° ì‹¤í–‰
+                    # iloc ¿¡ ÇØ´çÇÏ´Â °ªÀÌ None (ºñ¾îÀÖÀ½)ÀÌ¸é ÀÚµ¿¹ø¿ª±â ½ÇÇà
                     if type(word) is float:
                         print(f"  [Info] There is no word in CSV file. from:"
                               f"{self.JSON_DATA['LanguagesShow']['UpperPart']}-{self.mb_show_eng_adj.text()} -> "
@@ -1044,10 +1044,10 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                         word = search_text_by_lang(self.translated_result, lang)
 
                 except KeyError:
-                    # CSV íŒŒì¼ì— ì—´ì´ ìƒì„±ë˜ì§€ë„ ì•Šì•˜ì„ ë•Œ
+                    # CSV ÆÄÀÏ¿¡ ¿­ÀÌ »ı¼ºµÇÁöµµ ¾Ê¾ÒÀ» ¶§
                     print(f"  [info] Doesn't have Column:{lang}")
                     try:
-                        # Check lang in show_lang // í˜¹ì‹œë‚˜ ì¤‘êµ­ì–´ì™€ ê°™ì´ zh-Han / zh-CN ì²˜ëŸ¼ ë’¤ ì½”ë“œê°€ ë‹¤ë¥¼ ê²½ìš° ëŒ€ë¹„
+                        # Check lang in show_lang // È¤½Ã³ª Áß±¹¾î¿Í °°ÀÌ zh-Han / zh-CN Ã³·³ µÚ ÄÚµå°¡ ´Ù¸¦ °æ¿ì ´ëºñ
                         if not lang in self.show_langs:
                             short_langs = [lang[0:2] for lang in self.show_langs]
                             # print(short_langs)
@@ -1075,10 +1075,10 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
         if self.player.state() == 0 and not self.is_finished and not self.is_playing_alarm:
 
-            # ì†Œë¦¬ ë‚´ì•¼ í•˜ëŠ” ì–¸ì–´ ê°œìˆ˜(self.lang)ê°€ ëª‡ë²ˆ ë°˜ë³µ ëëŠ”ì§€ í™•ì¸
+            # ¼Ò¸® ³»¾ß ÇÏ´Â ¾ğ¾î °³¼ö(self.lang)°¡ ¸î¹ø ¹İº¹ µÆ´ÂÁö È®ÀÎ
             self.tts_idx = self.tts_idx % len(self.lang)
 
-            # ì†Œë¦¬ ë‚´ì•¼ í•˜ëŠ” ì–¸ì–´ë¥¼ ëª¨ë‘ ì¬ìƒ í–ˆì§€ë§Œ, ë‹¨ì–´ ë°˜ë³µ íšŸìˆ˜(ì˜ˆ: 2ë²ˆ)ê°€ ë‹¤ ëŒì§€ ì•Šì•˜ë‹¤ë©´ ì‚¬ì§„ ë°”ê¾¸ê¸°
+            # ¼Ò¸® ³»¾ß ÇÏ´Â ¾ğ¾î¸¦ ¸ğµÎ Àç»ı ÇßÁö¸¸, ´Ü¾î ¹İº¹ È½¼ö(¿¹: 2¹ø)°¡ ´Ù µ¹Áö ¾Ê¾Ò´Ù¸é »çÁø ¹Ù²Ù±â
             if self.tts_idx == 0:
                 if not self.mb_top_bar_all.isChecked():
                     # Set practice time
@@ -1088,14 +1088,14 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     self.change_mb_voca_image(idx=self.image_idx)
 
 
-            # ì–¸ì–´ì— í•´ë‹¹í•˜ëŠ” ë‹¨ì–´ê°€ ì†Œë¦¬ ë‚˜ë„ë¡ ì„¤ì •
+            # ¾ğ¾î¿¡ ÇØ´çÇÏ´Â ´Ü¾î°¡ ¼Ò¸® ³ªµµ·Ï ¼³Á¤
             audio_lang = self.lang[self.tts_idx]
             self.word = get_detected_word(audio_lang)            
 
-            # Koreanì´ë©´ íŠ¹ìˆ˜ë¬¸ì ì œê±°í•˜ê¸°
+            # KoreanÀÌ¸é Æ¯¼ö¹®ÀÚ Á¦°ÅÇÏ±â
             self.word = replace_korean(self.word) if audio_lang == 'ko' else self.word
 
-            # ì•„ì´ë“¤ì´ ì˜ì–´ ë”°ë¼ ë§í•  ìˆ˜ ìˆëŠ” ì‹œê°„ ì£¼ê¸°
+            # ¾ÆÀÌµéÀÌ ¿µ¾î µû¶ó ¸»ÇÒ ¼ö ÀÖ´Â ½Ã°£ ÁÖ±â
             if not self.mb_top_bar_all.isChecked():
                 practice_time = 1500 if self.tts_idx == 0 else 0
                 self.timer.singleShot(practice_time, play_tts_audio_file)
@@ -1133,8 +1133,8 @@ class MainWindow(QtWidgets.QMainWindow, mp):
     # <-- Resize Event Handler ------------------------------------------------------------->
     def change_stylesheet(self, obj, **kwargs):
         """
-        ëŒ€ë¶€ë¶„ í°íŠ¸ ì‚¬ì´ì¦ˆë¥¼ ìœˆë„ìš° ì°½ í¬ê¸°ì— ë§ì¶”ì–´ ë°”ê¾¸ë„ë¡ ì œì‘ë¨
-        kwargsëŠ” font=14px ì™€ ê°™ì´ stylesheetì— ì¦‰ì‹œ ì ìš©ë  ìˆ˜ ìˆì„ ìˆ˜ì¤€ìœ¼ë¡œ ì‘ì„± ë˜ì–´ì•¼ í•¨
+        ´ëºÎºĞ ÆùÆ® »çÀÌÁî¸¦ À©µµ¿ì Ã¢ Å©±â¿¡ ¸ÂÃß¾î ¹Ù²Ùµµ·Ï Á¦ÀÛµÊ
+        kwargs´Â font=14px ¿Í °°ÀÌ stylesheet¿¡ Áï½Ã Àû¿ëµÉ ¼ö ÀÖÀ» ¼öÁØÀ¸·Î ÀÛ¼º µÇ¾î¾ß ÇÔ
         """
 
         # Get Object name
