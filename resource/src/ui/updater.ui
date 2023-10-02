@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>500</height>
+    <height>550</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,13 +19,13 @@
   <property name="minimumSize">
    <size>
     <width>500</width>
-    <height>500</height>
+    <height>550</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>500</width>
-    <height>500</height>
+    <height>550</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -46,7 +46,8 @@ bluehover : rgba(0, 155, 255, 80)
 
 --------------------------------------- */
 QObject {
-font: 14px &quot;Noto Sans KR SemiBold&quot;;
+border: 0px solid blue;
+font: 16px &quot;Noto Sans KR SemiBold&quot;;
 }
 QDialog {
 background-color: white;
@@ -55,6 +56,7 @@ background-color: white;
 background-image: url(&quot;C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/UpdateImage.svg&quot;);
 }
 QLabel#UpdaterState {
+font: 12px; 
 qproperty-alignment: 'AlignVCenter | AlignHCenter';
 }
 #UpdaterBtns .QPushButton {
@@ -67,19 +69,49 @@ color: black;
 background-color: rgb(122, 122, 128);
 color: white;
 }
+
+
 #UpdaterBtns .QPushButton#UpdateDo {
 background-color: rgb(250, 188, 1);
 color: white;
 }
 #UpdaterBtns .QPushButton#UpdateDo:hover {
 background-color: rgba(250, 188, 1, 80);
+}
+
+
+
+#UpdaterTopbar .QPushButton#close_ {
+border-radius: 8px;
+font: 12px;
+text-align: center;
+color: rgb(113, 22, 15);
+background: rgb(255, 96, 92);
+}
+#UpdaterTopbar .QPushButton#close_:hover {
+background: rgba(255, 96, 92, 150);
+color: rgba(113, 22, 15, 150);
+}
+
+
+
+#UpdaterTopbar .QPushButton#minimize_ {
+border-radius: 8px;
+font: 20px;
+text-align: center;
+color: rgb(143, 88, 28);
+background: rgb(255, 189, 68);
+}
+#UpdaterTopbar .QPushButton#minimize_:hover {
+color: rgba(143, 88, 28, 150);
+background: rgba(255, 189, 68, 150);
 }</string>
   </property>
   <widget class="QLabel" name="UpdaterBackground">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>0</y>
+     <y>50</y>
      <width>500</width>
      <height>500</height>
     </rect>
@@ -104,7 +136,7 @@ background-color: rgba(250, 188, 1, 80);
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>280</y>
+     <y>330</y>
      <width>501</width>
      <height>31</height>
     </rect>
@@ -117,7 +149,7 @@ background-color: rgba(250, 188, 1, 80);
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>360</y>
+     <y>410</y>
      <width>301</width>
      <height>70</height>
     </rect>
@@ -186,6 +218,84 @@ background-color: rgba(250, 188, 1, 80);
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QWidget" name="UpdaterTopbar" native="true">
+   <property name="geometry">
+    <rect>
+     <x>429</x>
+     <y>0</y>
+     <width>71</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <widget class="QPushButton" name="close_">
+    <property name="geometry">
+     <rect>
+      <x>38</x>
+      <y>15</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>16</width>
+      <height>16</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16</width>
+      <height>16</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>×</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="minimize_">
+    <property name="geometry">
+     <rect>
+      <x>13</x>
+      <y>15</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>16</width>
+      <height>16</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16</width>
+      <height>16</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

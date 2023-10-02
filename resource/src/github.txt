@@ -1,10 +1,14 @@
 {
-  "Contact": [
+  "Contact":[
     "worker.gonyo@gmail.com",
-    "indischool@tinterest"
+    "indischool@tinterest",
+    "Gangwon Gangneung Namsan Elem."
   ],
-  "Contributor" : [
+  "Contributor":[
     "Gonyo",
-    "AhnJH
-  ]
+    "AhnJH"
+  ],
+  "Version":"1.0",
+  "ReleaseDate":"2023-10-04",
+  "ForceStop":"False"
 }

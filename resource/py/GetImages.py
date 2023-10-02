@@ -21,6 +21,8 @@ def get_images_from_word(word: str = None, count: int = 4, *args) -> str:
     # args는 파일타입(이미지 파일 타입)
     def is_main_app(word: str = None) -> str:
         base_dir = str()
+        base_dir = os.path.abspath(".")
+        print(os.path.abspath("./"),' dddddddddddddddd')
 
         if os.path.basename(os.path.abspath("./")) != "py":
             base_dir = os.path.abspath(f"./resource/voca/img/{word}")

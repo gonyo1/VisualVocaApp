@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'resource/src/ui/updater.ui'
+# Form implementation generated from reading ui file './resource/src/ui/updater.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -14,14 +14,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(500, 500)
+        Dialog.resize(500, 550)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
         Dialog.setSizePolicy(sizePolicy)
-        Dialog.setMinimumSize(QtCore.QSize(500, 500))
-        Dialog.setMaximumSize(QtCore.QSize(500, 500))
+        Dialog.setMinimumSize(QtCore.QSize(500, 550))
+        Dialog.setMaximumSize(QtCore.QSize(500, 550))
         Dialog.setStyleSheet("/* Pallete --------------------------------- \n"
 "\n"
 "lightgray : rgb(242, 242, 247)\n"
@@ -36,7 +36,8 @@ class Ui_Dialog(object):
 "\n"
 "--------------------------------------- */\n"
 "QObject {\n"
-"font: 14px \"Noto Sans KR SemiBold\";\n"
+"border: 0px solid blue;\n"
+"font: 16px \"Noto Sans KR SemiBold\";\n"
 "}\n"
 "QDialog {\n"
 "background-color: white;\n"
@@ -45,6 +46,7 @@ class Ui_Dialog(object):
 "background-image: url(\"C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/UpdateImage.svg\");\n"
 "}\n"
 "QLabel#UpdaterState {\n"
+"font: 12px; \n"
 "qproperty-alignment: \'AlignVCenter | AlignHCenter\';\n"
 "}\n"
 "#UpdaterBtns .QPushButton {\n"
@@ -57,24 +59,54 @@ class Ui_Dialog(object):
 "background-color: rgb(122, 122, 128);\n"
 "color: white;\n"
 "}\n"
+"\n"
+"\n"
 "#UpdaterBtns .QPushButton#UpdateDo {\n"
 "background-color: rgb(250, 188, 1);\n"
 "color: white;\n"
 "}\n"
 "#UpdaterBtns .QPushButton#UpdateDo:hover {\n"
 "background-color: rgba(250, 188, 1, 80);\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"#UpdaterTopbar .QPushButton#close_ {\n"
+"border-radius: 8px;\n"
+"font: 12px;\n"
+"text-align: center;\n"
+"color: rgb(113, 22, 15);\n"
+"background: rgb(255, 96, 92);\n"
+"}\n"
+"#UpdaterTopbar .QPushButton#close_:hover {\n"
+"background: rgba(255, 96, 92, 150);\n"
+"color: rgba(113, 22, 15, 150);\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"#UpdaterTopbar .QPushButton#minimize_ {\n"
+"border-radius: 8px;\n"
+"font: 20px;\n"
+"text-align: center;\n"
+"color: rgb(143, 88, 28);\n"
+"background: rgb(255, 189, 68);\n"
+"}\n"
+"#UpdaterTopbar .QPushButton#minimize_:hover {\n"
+"color: rgba(143, 88, 28, 150);\n"
+"background: rgba(255, 189, 68, 150);\n"
 "}")
         self.UpdaterBackground = QtWidgets.QLabel(Dialog)
-        self.UpdaterBackground.setGeometry(QtCore.QRect(0, 0, 500, 500))
+        self.UpdaterBackground.setGeometry(QtCore.QRect(0, 50, 500, 500))
         self.UpdaterBackground.setMinimumSize(QtCore.QSize(500, 500))
         self.UpdaterBackground.setMaximumSize(QtCore.QSize(500, 500))
         self.UpdaterBackground.setText("")
         self.UpdaterBackground.setObjectName("UpdaterBackground")
         self.UpdaterState = QtWidgets.QLabel(Dialog)
-        self.UpdaterState.setGeometry(QtCore.QRect(0, 280, 501, 31))
+        self.UpdaterState.setGeometry(QtCore.QRect(0, 330, 501, 31))
         self.UpdaterState.setObjectName("UpdaterState")
         self.UpdaterBtns = QtWidgets.QWidget(Dialog)
-        self.UpdaterBtns.setGeometry(QtCore.QRect(100, 360, 301, 70))
+        self.UpdaterBtns.setGeometry(QtCore.QRect(100, 410, 301, 70))
         self.UpdaterBtns.setMinimumSize(QtCore.QSize(0, 70))
         self.UpdaterBtns.setMaximumSize(QtCore.QSize(16777215, 70))
         self.UpdaterBtns.setObjectName("UpdaterBtns")
@@ -101,6 +133,31 @@ class Ui_Dialog(object):
         self.UpdateDo.setMaximumSize(QtCore.QSize(16777215, 50))
         self.UpdateDo.setObjectName("UpdateDo")
         self.horizontalLayout.addWidget(self.UpdateDo)
+        self.UpdaterTopbar = QtWidgets.QWidget(Dialog)
+        self.UpdaterTopbar.setGeometry(QtCore.QRect(429, 0, 71, 51))
+        self.UpdaterTopbar.setObjectName("UpdaterTopbar")
+        self.close_ = QtWidgets.QPushButton(self.UpdaterTopbar)
+        self.close_.setGeometry(QtCore.QRect(38, 15, 16, 16))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.close_.sizePolicy().hasHeightForWidth())
+        self.close_.setSizePolicy(sizePolicy)
+        self.close_.setMinimumSize(QtCore.QSize(16, 16))
+        self.close_.setMaximumSize(QtCore.QSize(16, 16))
+        self.close_.setCheckable(True)
+        self.close_.setObjectName("close_")
+        self.minimize_ = QtWidgets.QPushButton(self.UpdaterTopbar)
+        self.minimize_.setGeometry(QtCore.QRect(13, 15, 16, 16))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.minimize_.sizePolicy().hasHeightForWidth())
+        self.minimize_.setSizePolicy(sizePolicy)
+        self.minimize_.setMinimumSize(QtCore.QSize(16, 16))
+        self.minimize_.setMaximumSize(QtCore.QSize(16, 16))
+        self.minimize_.setCheckable(True)
+        self.minimize_.setObjectName("minimize_")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -111,3 +168,5 @@ class Ui_Dialog(object):
         self.UpdaterState.setText(_translate("Dialog", "Downloading ..."))
         self.UpdateSkip.setText(_translate("Dialog", "Skip"))
         self.UpdateDo.setText(_translate("Dialog", "Update"))
+        self.close_.setText(_translate("Dialog", "×"))
+        self.minimize_.setText(_translate("Dialog", "-"))

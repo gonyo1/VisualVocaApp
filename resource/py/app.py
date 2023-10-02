@@ -8,74 +8,29 @@ from fontTools import ttLib
 from PyQt5 import QtWidgets, QtCore, QtGui, Qt, QtMultimedia
 
 # Import Local Python Files
-from resource.py import GetImages
-from resource.py import GetAudio
-from resource.py.Translator import translate, search_text_by_lang
-from resource.py.ToggleButton import AnimatedToggle
-from resource.py.Json import load_json_file, save_json_file, generate_init
-from resource.py.CSVData import get_main_csv
-from resource.py.ConvertUI import get_ui_python_file as convert
+import GetImages
+import GetAudio
+
+from Translator import translate, search_text_by_lang
+from ToggleButton import AnimatedToggle
+from Json import load_json_file, save_json_file, generate_init
+from CSVData import get_main_csv
+from ConvertUI import get_ui_python_file as convert
+
 
 # Set False when compile to exe file
 convert = convert(True)
 
-from resource.src.ui.main_ui import Ui_MainApp as mp
-from resource.src.ui.updater_ui import Ui_Dialog as subp
-
-
 __author__ = 'https://www.github.com/gonyo1'
 __released_date__ = 'October 2023'
 __credits__ = ['Gonyo', 'AhnJH']
-__version__ = '1.0'
+__version__ = None
 
+root_path = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+print(root_path)
+sys.path.append(root_path)
 
-class AppUpdator(QtWidgets.QDialog, subp):
-    """This class automatically updates a PyQt app from a remote
-    Gonyo1's VisualVocaApp repository
-    # Mercurial repository.
-    """
-    def __init__(self, parent=None):
-        # Overloading MainWindow
-        super(AppUpdator, self).__init__(parent)
-        self.setupUi(self)
-        self.show()
-
-        # Setup Graphic Part
-        self.setWindowTitle(f"  VisualVoca Launcher (Ver.{__version__})")
-        self.setWindowIcon(Qt.QIcon("resource/src/img/AppIcon.ico"))
-
-        # Function Part
-        self.get_github_json()
-        self.check_version()
-        self.set_signal()
-
-    def set_signal(self):
-        self.UpdateDo.clicked.connect(self.open_main_app)
-        self.UpdateSkip.clicked.connect(self.open_main_app)
-
-    def check_version(self):
-        if float(github_data["Version"]) != float(__version__):
-            self.UpdaterState.setText("Visual Voca 업데이트가 있습니다")
-        else:
-            self.UpdaterState.setText("Visual Voca가 최신 버전입니다")
-            self.UpdateSkip.deleteLater()
-            self.UpdateDo.setText("Start")
-
-    def update(self):
-        url = "pass"
-
-    def open_main_app(self):
-        main_app = MainWindow()
-        main_app.show()
-        self.close()
-
-    def get_github_json(self):
-        global github_data
-
-        url = 'https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/contributor.json'
-        resp = requests.get(url)
-        github_data = json.loads(resp.text)
-
+from src.ui.main_ui import Ui_MainApp as mp
 
 class MainWindow(QtWidgets.QMainWindow, mp):
     resized = QtCore.pyqtSignal()
@@ -96,8 +51,8 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
         # Setup Graphic Part
         self.setWindowTitle(f"  VisualVoca (Ver.{__version__})")
-        self.setWindowIcon(Qt.QIcon("resource/src/img/AppIcon.ico"))
-        self.mb_icon.setPixmap(Qt.QPixmap('resource/src/img/Logo.svg'))
+        self.setWindowIcon(Qt.QIcon("./resource/src/img/AppIcon.ico"))
+        self.mb_icon.setPixmap(Qt.QPixmap('./resource/src/img/logo.svg'))
         self.get_github_json()
         self.setup_window_graphic()
 
@@ -158,8 +113,8 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
         except Exception as e:
             # Set font as Noto Sans KR Semi Bold if error happened
-            base_name = "resource/src/font/NotoSansKR-SemiBold"
-            font_path = ".".join(base_name, "ttf")
+            base_name = "./resource/src/font/NotoSansKR-SemiBold"
+            font_path = ".".join([base_name, "ttf"])
             font_name = "Noto Sans KR SemiBold"
             print(f"  [Error] Error happened while getting font name: {e}")
 
@@ -722,6 +677,8 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 item.raise_()
                 item.show()
                 item.setStyleSheet("color: black")
+                if item.objectName() == "mb_show_special_case_adj":
+                    self.change_stylesheet(item, background_image=f"url({self.VIVOCLEAR})")
 
             self.pause.setStyleSheet("QPushButton {\n"
                                      f"background-image: url({self.pyqt_image_url(f'Pause.svg')});\n"
@@ -746,7 +703,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             # self.mb_show_special_case_adj.setStyleSheet(f"background-image: url({self.VIVOIMAGE})")
 
         def is_open_folder_clicked():
-            base_path = os.path.abspath("./resource/voca/WordList.csv")
+            base_path = os.path.abspath("WordList.csv")
 
             if self.PLATFORM == "win32":
                 os.startfile(base_path)
@@ -784,6 +741,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 self.mb_show_kor_adj.show()
                 self.mb_show_eng_adj.show()
                 self.mb_show_image_adj.show()
+                self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOCLEAR})")
                 if self.FIRSTCHANGE == False:
                     clean_show_adj_btns()
                     raise_labels()
@@ -828,7 +786,9 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 insert_QListWidget_item_signal()
 
     def get_github_json(self):
-        self.github_data = github_data
+        file = open(os.path.abspath("./resource/src/github.txt"))
+        data = file.read()
+        self.github_data = json.loads(data)
 
 
     # <-- Main Window Section -------------------------------------------------------------->
@@ -1323,47 +1283,9 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
 
 if __name__ == "__main__":
-
-    def make_dir():
-        # Make root directory
-        for dir in ["resource", "resource/py",
-                    "resource/src", "resource/src/font", "resource/src/img", "resource/src/ui",
-                    "resource/voca", "resource/voca/img", "resource/voca/tts"]:
-            _dir = os.path.abspath(dir)
-            if not os.path.isdir(_dir):
-                os.mkdir(_dir)
-
-        # Make json file
-        path = os.path.abspath("resource/src/config.json")
-        if not os.path.isfile(path):
-            generate_init(path)
-
-        # Make CSV file
-        path = os.path.abspath("resource/voca/WordList.csv")
-        if not os.path.isfile(path):
-            with open(path, 'w') as f:
-                f.writelines(
-                    ["GroupName,en,ko\n",
-                     "Fruit,apple,사과\n",
-                     "Fruit,avocado,아보카도\n",
-                     "Fruit,banana,바나나\n",
-                     "Fruit,blackberry,블랙베리\n",
-                     "Animals,Polar bear,북극곰\n",
-                     "Animals,dog,개\n",
-                     "Animals,Turtle,거북이\n",
-                     "Transportation,bicycle,자전거\n",
-                     "Transportation,bus,버스\n",
-                     "Transportation,car,자동차\n",
-                     ]
-                )
-
-
-    # Convert .ui to .py
-    make_dir()
-
     # Run main app
     app = QtWidgets.QApplication(sys.argv)
-    main_win = AppUpdator()
+    main_win = MainWindow()
     main_win.show()
     sys.exit(app.exec_())
 
