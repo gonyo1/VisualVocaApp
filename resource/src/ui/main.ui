@@ -254,14 +254,14 @@ QListWidget::indicator:hover {
 border: 0px solid;
 background-repeat: none;
 background-position: center;
-background-image: f&quot;url({os.path.join(__dir__, 'src/img/Indicator.svg')})&quot;;
+background-image: url(&quot;C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/Indicator.svg&quot;);
 background-color: rgba(250, 188, 1, 120);
 }
 QListWidget::indicator:checked {
 border: 0px solid;
 background-repeat: none;
 background-position: center;
-background-image: f&quot;url({os.path.join(__dir__, 'src/img/Indicator.svg')})&quot;;
+background-image: url(&quot;C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/Indicator.svg&quot;);
 background-color: rgb(250, 188, 1);
 }
 
@@ -1152,6 +1152,198 @@ background-color: rgb(242, 214, 130);
               </property>
               <property name="contextMenuPolicy">
                <enum>Qt::NoContextMenu</enum>
+              </property>
+              <property name="styleSheet">
+               <string>/* Pallete --------------------------------- 
+
+lightgray : rgb(242, 242, 247)
+gray : rgb(141, 141, 147)
+darkgray : rgb(122, 122, 128)
+
+grayorange : rgb(228, 175, 10)
+pointorange : rgb(250, 188, 1)
+
+blue : rgb(0, 155, 255)
+bluehover : rgba(0, 155, 255, 80)
+
+--------------------------------------- */
+
+QWidget {
+padding: 10px;
+padding: 0px;
+background-color: transparent;
+}
+#mb_voca_adj {
+background-color: rgb(242, 242, 247);
+}
+.Line {
+background-color: rgb(227, 227, 233);
+margin: 0px 10px 0px 50px;
+}
+
+
+/* Left - White Grouped Section --------------------------------- */
+#mb_setting_widget,
+#mb_voca_scroll {
+background-color: white;
+border-radius: 10px;
+margin: 0px 10px 10px 10px;
+}
+#mb_setting_widget {
+margin-bottom: 5px;
+}
+#mb_voca_scroll {
+margin-top: 5px;
+}
+#mb_setting_title,
+#mb_voca_total_title {
+margin: 0px 0px 0px 20px;
+color: black;
+font: 14px;
+}
+#mb_voca_setting_button {
+color: rgb(122, 122, 128);
+}
+#mb_voca_setting_button:hover {
+color: rgb(228, 175, 10);
+}
+/* Left - Setting detail name(ex: Auto Scroll ....) ------------------------------------- */
+#mb_top_bar_play_type_title,
+#mb_top_bar_auto_scroll_title,
+#mb_top_bar_repeat_title {
+font: 12px;
+margin: 0px 0px 0px 30px;
+color: black;
+}
+
+
+
+
+/* Type PushButton Setting ------------------------------------- */
+#mb_top_bar_play_type .QPushButton {
+font: 11px;
+background-color: rgb(227, 227, 233);
+border-radius: 8px;
+text-align: center;
+color: black;
+}
+#mb_top_bar_play_type .QPushButton:hover {
+background-color: rgba(228, 175, 10, 80);
+}
+#mb_top_bar_play_type .QPushButton:checked {
+color: white;
+background-color: rgb(250, 188, 1);
+}
+#mb_top_bar_only_img {
+margin-right: 10px;
+}
+
+
+
+
+/* Repeat SpinBox Setting ------------------------------------- */
+#mb_top_bar_repeat_spinbox {
+color: rgb(141, 141, 147);
+}
+#mb_top_bar_repeat_spinbox:hover {
+color: rgb(228, 175, 10);
+}
+#mb_top_bar_repeat_spinbox:up-arrow:hover,
+#mb_top_bar_repeat_spinbox:down-arrow:hover  {
+color: rgb(228, 175, 10);
+}
+
+
+
+
+/* QScrollWidget Label &amp; PushButton part ------------------ */
+QScrollArea {
+margin-bottom: 0px;
+padding-top: 10px;
+}
+/*Lesson1 */
+QScrollArea .QLabel {
+padding-left: 5px;
+}
+QScrollArea .QPushButton {
+margin: 5px 10px 5px 10px;
+padding: 0px;
+color: black;
+text-align: left;
+}
+
+/* QListWidget Part ------------------------------ */
+QListView::item {
+border: 0px;
+margin: 5px -8px 5px -4px;
+}
+QListWidget {
+font: 13px;
+font-weight: light;
+padding-right: 4px;
+}
+QListWidget::item {
+padding: 3px;
+padding-left: 30px;
+color: rgb(180, 180, 180);
+}
+QListWidget::item:hover {
+padding-left: 30px;
+margin: 0px -4px 0px -4px;
+color: black;
+background-color: rgb(227, 227, 233);
+}
+QListWidget::item:selected {
+padding-left: 30px;
+margin: 0px -4px 0px -4px;
+background-color: rgb(228, 175, 10);
+color: white;
+}
+QListWidget::indicator {
+border-radius: 6px;
+border: 1px solid;
+border-color: rgb(141, 141, 147);
+background-color: transparent;
+}
+QListWidget::indicator:hover {
+border: 0px solid;
+background-repeat: none;
+background-position: center;
+background-image: url(&quot;C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/Indicator.svg&quot;);
+background-color: rgba(250, 188, 1, 120);
+}
+QListWidget::indicator:checked {
+border: 0px solid;
+background-repeat: none;
+background-position: center;
+background-image: url(&quot;C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/Indicator.svg&quot;);
+background-color: rgb(250, 188, 1);
+}
+
+
+
+
+
+
+/* Add Files Part */
+#mb_voca_open {
+margin: 0px 10px 10px 10px;
+color: white;
+font: 16px;
+font-weight: bold;
+border-radius: 5px;
+background-color: rgb(228, 175, 10);
+}
+#mb_voca_open:hover {
+background-color: rgba(228, 175, 10, 80);
+}
+
+
+/* border for temperary */
+#mb_voca_bookmark,
+#mb_voca_refresh {
+border: 1px solid blue;
+}</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::NoFrame</enum>

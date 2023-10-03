@@ -43,6 +43,15 @@ def save_json_file(key, value, name:str = 'config.json'):
     return json_data
 
 def generate_init():
+    base_path = get_directory()
+
+    if not os.path.isdir(base_path):
+        os.mkdir(base_path)
+
+    path = os.path.join(base_path, "src").replace("\\", "/")
+    if not os.path.isdir(path):
+        os.mkdir(path)
+
     try:
         json_data = {
             "AppName": "Visual Voca",
@@ -81,7 +90,6 @@ def generate_init():
             ]
             }
 
-        base_path = get_directory()
         path = os.path.join(base_path, "src/config.json").replace("\\", "/")
 
         with open(path, 'w', encoding='utf-8') as f:

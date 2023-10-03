@@ -9,19 +9,15 @@ from glob import glob
 from fontTools import ttLib
 from PyQt5 import QtWidgets, QtCore, QtGui, Qt
 
-# print(os.path.dirname(os.path.abspath(__file__)))
-# sys.argv.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # Import Local Python Files
-from resource.py.Json import load_json_file, save_json_file
 from resource.py.Path import get_root_directory, get_paths
 from resource.py.ConvertUI import get_ui_python_file as convert
 from resource.src.ui.updater_ui import Ui_Dialog as LauncherUI
 from resource.py.ChangeStylesheet import change_stylesheet
-
+from resource.py.Json import load_json_file, save_json_file
 
 __dir__ = get_root_directory()
-__exepath__, __internalpath__ = get_paths()
 __author__ = 'https://www.github.com/gonyo1'
 __released_date__ = 'October 2023'
 
@@ -35,7 +31,7 @@ def make_necessary():
         exe_base_directory = os.path.abspath(os.path.join(__dir__, directory)).replace("\\", "/")
 
         if not os.path.isdir(exe_base_directory):
-            resource_base_directory = "/".join([__internalpath__, directory.replace(".", "resource")])
+            resource_base_directory = os.path.join(get_paths()[1], "resource").replace("\\", "/")
 
             if os.path.isdir(resource_base_directory):
                 print(f"  >> move {resource_base_directory} {exe_base_directory}")
@@ -44,14 +40,11 @@ def make_necessary():
                 print(f"  >> mkdir {exe_base_directory}")
                 os.mkdir(exe_base_directory)
 
-    # Make json file
-    path = os.path.abspath(os.path.join(__dir__, "src/config.json")).replace("\\", "/")
-    if not os.path.isfile(path):
-        load_json_file(path)
-
     # Make CSV file
     path = os.path.abspath(os.path.join(__dir__, "voca/WordList.csv")).replace("\\", "/")
     if not os.path.isfile(path):
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+
         with open(path, 'w') as f:
             f.writelines(
                 ["GroupName,en,ko\n",
@@ -68,6 +61,8 @@ def make_necessary():
                  ]
             )
 make_necessary()
+
+
 
 class UpdateDownloader(QtCore.QObject):
     signal = QtCore.pyqtSignal()
@@ -132,8 +127,6 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
         super(Launcher, self).__init__(parent)
         self.setupUi(self)
         self.show()
-
-        self.timer = QtCore.QTimer()
 
         # Function Part
         self.set_font_family()
@@ -242,8 +235,8 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
                 self.UpdaterState.setText("Visual Voca가 최신 버전입니다")
                 self.UpdateSkip.deleteLater()
                 self.UpdateDo.setText("Start")
-                self.timer.singleShot(500, lambda txt="Main APP이 실행됩니다...": self.UpdaterState.setText(txt))
-                self.timer.singleShot(2000, self.UpdateDo.click)
+                # self.timer.singleShot(500, lambda txt="Main APP이 실행됩니다...": self.UpdaterState.setText(txt))
+                # self.timer.singleShot(2000, self.UpdateDo.click)
                 self.__update_check__ = False
 
             return self.__update_check__

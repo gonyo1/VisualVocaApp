@@ -5,6 +5,7 @@ import sys
 import os.path
 import json
 import requests
+import webbrowser
 from glob import glob
 from fontTools import ttLib
 from PyQt5 import QtWidgets, QtCore, QtGui, Qt, QtMultimedia
@@ -51,7 +52,16 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         # Setup Graphic Part
         self.setWindowTitle(f"  VisualVoca  |  version:{self.JSON_DATA['Version']}")
         self.setWindowIcon(Qt.QIcon(f"{__dir__}/src/img/AppIcon.ico"))
-        self.mb_icon.setPixmap(Qt.QPixmap(f'{__dir__}/src/img/logo.svg'))
+
+        logo = os.path.join(__dir__, 'src/img/Logo.svg').replace('\\', '/')
+        logo_hover = os.path.join(__dir__, 'src/img/LogoHover.svg').replace('\\', '/')
+
+        self.mb_icon.setStyleSheet("QPushButton {\n"
+                                   f"background-image: url({logo});\n"
+                                   "}\n"
+                                   "QPushButton:hover {\n"
+                                   f"background-image: url({logo_hover});\n"
+                                   "}")
         self.get_github_json()
         self.setup_window_graphic()
 
@@ -475,10 +485,10 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                                                 )
 
         def insert_FrontImage():
-            self.VIVOCLEAR = os.path.abspath(f"{__dir__}/src/img/Indicator.svg")
             self.VIVOIMAGE = os.path.abspath(f"{__dir__}/src/img/FrontImage.svg")
             self.VIVOEMPTY = os.path.abspath(f"{__dir__}/src/img/Empty.svg")
             self.VIVOIMAGE = self.VIVOIMAGE.replace("\\", "/")
+            self.VIVOEMPTY = self.VIVOEMPTY.replace("\\", "/")
 
             self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOIMAGE})")
 
@@ -564,6 +574,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
     def set_signal(self, *args):
         def insert_total_signal():
             # Mainwindow buttons
+            self.mb_icon.clicked.connect(is_icon_clicked)
             self.mb_voca_open.clicked.connect(is_open_folder_clicked)
             self.mb_top_bar_all.clicked.connect(is_option_button_clicked)
             self.mb_top_bar_only_eng.clicked.connect(is_option_button_clicked)
@@ -615,6 +626,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     widget.currentRowChanged.connect(lambda: self.change_mb_voca_widget(obj=self.sending_from_widget))
                     widget.currentRowChanged.connect(lambda: self.get_tts_audio(obj=self.sending_from_widget))
 
+
         # Event Slots ------------------------------------
         def is_voca_button_clicked():
             self.player.stop()
@@ -639,14 +651,15 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 self.is_pause_clicked = True
 
                 # show black
-                self.BLACK.show()
-                for item in self.show_labels:
+                for idx, item in enumerate(self.show_labels):
                     if item.isVisible():
                         item.raise_()
                         item.show()
-                        item.setStyleSheet("color: white;\n")
+                        if idx < 4:
+                            self.change_stylesheet(item, color="white")
 
-                self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url('{self.VIVOEMPTY}')")
+                self.mb_show_btns_adj.raise_()
+
             else:
                 # play player
                 self.change_mb_voca_widget(obj=self.sending_from_widget)
@@ -662,15 +675,15 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     if item.isVisible():
                         item.raise_()
                         item.show()
-                        item.setStyleSheet("color: black;\n")
+                        self.change_stylesheet(item, color="black")
+                        # item.setStyleSheet("color: black;\n")
 
                 self.pause.setStyleSheet("QPushButton {\n"
                                          f"background-image: url({self.pyqt_image_url(f'Pause.svg')});\n"
                                          "}\n"
                                          "QPushButton:hover {\n"
                                          f"background-image: url({self.pyqt_image_url(f'PauseHover.svg')});"
-                                         "}"
-                                         )
+                                         "}")
 
         def is_direction_button_clicked():
             # Stop Player and reset setting
@@ -691,19 +704,20 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.is_pause_clicked = False
 
             for item in self.show_labels:
-                item.raise_()
-                item.show()
-                item.setStyleSheet("color: black")
-                if item.objectName() == "mb_show_special_case_adj":
-                    self.change_stylesheet(item, background_image=f"url({self.VIVOCLEAR})")
+                if item.isVisible():
+                    item.raise_()
+                    item.show()
+                    self.change_stylesheet(item, color="black")
+
+                    if item.objectName() == "mb_show_special_case_adj":
+                        self.change_stylesheet(item, background_image=f"url({self.VIVOEMPTY})")
 
             self.pause.setStyleSheet("QPushButton {\n"
                                      f"background-image: url({self.pyqt_image_url(f'Pause.svg')});\n"
                                      "}\n"
                                      "QPushButton:hover {\n"
                                      f"background-image: url({self.pyqt_image_url(f'PauseHover.svg')});"
-                                     "}"
-                                     )
+                                     "}")
 
         def is_refresh_clicked():
 
@@ -716,7 +730,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
             geometry = self.geometry()
             self.__init__(geometry=geometry)
-            self.mb_show_image_adj.setStyleSheet(f"background-image: url({self.VIVOCLEAR})")
+            self.mb_show_image_adj.setStyleSheet(f"background-image: url({self.VIVOEMPTY})")
             # self.mb_show_special_case_adj.setStyleSheet(f"background-image: url({self.VIVOIMAGE})")
 
         def is_open_folder_clicked():
@@ -755,19 +769,19 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.mb_show_special_case_adj.hide()
             self.mb_show_special_case_adj.clear()
 
+
             if btn == self.mb_top_bar_all:
                 self.mb_show_kor_adj.show()
                 self.mb_show_eng_adj.show()
                 self.mb_show_image_adj.show()
-                self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOCLEAR})")
+                self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOEMPTY})")
                 if self.FIRSTCHANGE == False:
                     clean_show_adj_btns()
                     raise_labels()
                     self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOIMAGE})")
-
             elif btn == self.mb_top_bar_only_eng:
-                self.change_stylesheet(self.mb_show_special_case_adj, color="black")
-                self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOCLEAR})")
+                self.change_stylesheet(self.mb_show_special_case_adj, color="black" if not self.is_pause_clicked else "white")
+                self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOEMPTY})")
                 self.mb_show_special_case_adj.setText(self.mb_show_eng_adj.text())
                 self.mb_show_special_case_adj.show()
                 if self.FIRSTCHANGE == False:
@@ -775,8 +789,8 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     raise_labels()
                     self.mb_show_special_case_adj.setText("Visual Voca")
             elif btn == self.mb_top_bar_only_kor:
-                self.change_stylesheet(self.mb_show_special_case_adj, color="black")
-                self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOCLEAR})")
+                self.change_stylesheet(self.mb_show_special_case_adj, color="black" if not self.is_pause_clicked else "white")
+                self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOEMPTY})")
                 self.mb_show_special_case_adj.setText(self.mb_show_kor_adj.text())
                 self.mb_show_special_case_adj.show()
                 if self.FIRSTCHANGE == False:
@@ -793,6 +807,12 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
             idx = self.option_btns.index(btn)
             self.change_json_file(key="BookmarkIndex", value=idx)
+
+        def is_icon_clicked():
+
+            url = "https://indischool.com/@tinterest"
+
+            webbrowser.open(url, new=0, autoraise=True)
 
         # Insert Signal to main window
         if self.FIRSTRUN:
@@ -1135,8 +1155,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                                  "}\n"
                                  "QPushButton:hover {\n"
                                  f"background-image: url({self.pyqt_image_url(f'PlayHover.svg')});"
-                                 "}"
-                                 )
+                                 "}")
         self.mb_show_btns_adj.raise_()
 
     def get_tts_audio(self, obj: str = None):

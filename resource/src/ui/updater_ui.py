@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/Users/gonyo/Documents/GitHub/VisualVocaApp/resource/src/ui/updater.ui'
+# Form implementation generated from reading ui file 'C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/ui/updater.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -43,7 +43,7 @@ class Ui_Dialog(object):
 "background-color: white;\n"
 "}\n"
 "#UpdaterBackground {\n"
-"background-image: f\"url({os.path.join(__dir__, \'src/img/UpdateImage.svg\')})\";\n"
+"background-image: url(\"C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/UpdateImage.svg\");\n"
 "}\n"
 "QLabel#UpdaterState {\n"
 "font: 12px; \n"

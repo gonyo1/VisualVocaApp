@@ -53,7 +53,7 @@ QDialog {
 background-color: white;
 }
 #UpdaterBackground {
-background-image: f&quot;url({os.path.join(__dir__, 'src/img/UpdateImage.svg')})&quot;;
+background-image: url(&quot;C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/UpdateImage.svg&quot;);
 }
 QLabel#UpdaterState {
 font: 12px; 

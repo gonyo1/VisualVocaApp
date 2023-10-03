@@ -12,7 +12,8 @@ PyinstallerArgs = " ".join(['--icon=./resource/src/img/Appicon.ico',
                             '--name=VisualVoca',
                             '--log-level=WARN',
                             'launcher.py',
-                            '-F'
+                            '-F',
+                            '-w'
                             ])
 path = os.path.abspath(".").replace("\\", "/")
 print(path)

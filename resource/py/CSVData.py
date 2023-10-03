@@ -20,12 +20,7 @@ def get_main_csv() -> dict:
 
     base_path = is_main_app()
     csv_file = os.path.join(base_path, 'WordList.csv')
-    for encoding in ['cp949', 'utf-8', 'EUC-KR']:
-        try:
-            dataframe = pd.read_csv(csv_file, encoding=encoding)
-            break
-        except UnicodeDecodeError as e:
-            print("  [Error] Enconding problem occurred.. ")
+    dataframe = pd.read_csv(csv_file, encoding='cp949')
     unique_name = get_unique_group_name(dataframe)
 
     csv_data["dataframe"] = dataframe

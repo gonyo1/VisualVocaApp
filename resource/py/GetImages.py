@@ -24,6 +24,7 @@ def get_images_from_word(word: str = None, count: int = 4, *args) -> str:
     def is_main_app(word: str = None) -> str:
         base_dir = str()
         base_dir = os.path.abspath(".")
+        print(os.path.abspath("./"),' dddddddddddddddd')
 
         if os.path.basename(os.path.abspath("./")) != "py":
             base_dir = os.path.abspath(f"./resource/voca/img/{word}")
@@ -46,6 +47,7 @@ def get_images_from_word(word: str = None, count: int = 4, *args) -> str:
                 # Setup URL
                 base_url = args[0]["GetImageFromURL"][site_idx]["URL"]
                 base_url = f"{base_url}{word}"
+                print(base_url)
 
                 res = requests.get(base_url, verify=False, timeout=10)
 
@@ -75,6 +77,7 @@ def get_images_from_word(word: str = None, count: int = 4, *args) -> str:
                         img_file.write(img_data)
                     # os.system(f"curl -k {url} > {path}")
         except Exception as e:
+            print(e)
             print("  [WebError] Please Check Internet Network ...")
 
     def is_image_downloaded(path: str = None, word: str = None) -> str:
