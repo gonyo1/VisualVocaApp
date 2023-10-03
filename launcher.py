@@ -32,10 +32,10 @@ def make_necessary():
             resource_base_directory = "/".join([__internalpath__, directory.replace(".", "resource")])
 
             if os.path.isdir(resource_base_directory):
-                print(f"move {resource_base_directory} {exe_base_directory}")
+                print(f"  >> move {resource_base_directory} {exe_base_directory}")
                 os.system(f"move {resource_base_directory} {exe_base_directory}")
             else:
-                print(f"mkdir {exe_base_directory}")
+                print(f"  >> mkdir {exe_base_directory}")
                 os.mkdir(exe_base_directory)
 
     # Make json file
@@ -79,7 +79,7 @@ class UpdateDownloader(QtCore.QObject):
         # Writing the file to the local file system
         with open(filename, 'wb') as file:
             file.write(req.content)
-        print('Downloading Completed')
+        print('  [Info] Downloading Completed')
 
         zipfile.ZipFile(filename).extractall(output_path)
 
@@ -161,7 +161,6 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
 
     def set_signal(self):
         def move_next_page():
-            print(self.__update_check__)
             if self.__update_check__:
                 self.UPDATECLASS.update()
             else:
