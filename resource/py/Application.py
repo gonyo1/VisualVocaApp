@@ -40,6 +40,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         super(MainWindow, self).__init__(parent)
 
         # Setup GUI Widget
+        self.set_font_family()
         self.setupUi(self)
         self.show()
 
@@ -47,7 +48,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.set_variable()
 
         # Setup Graphic Part
-        self.setWindowTitle(f"  VisualVoca  |  version - {self.JSON_DATA['Version']}")
+        self.setWindowTitle(f"  VisualVoca  |  version:{self.JSON_DATA['Version']}")
         self.setWindowIcon(Qt.QIcon(f"{__dir__}/src/img/AppIcon.ico"))
         self.mb_icon.setPixmap(Qt.QPixmap(f'{__dir__}/src/img/logo.svg'))
         self.get_github_json()
@@ -68,6 +69,60 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         # self.thread = AppUpdator()
         return
 
+    def set_font_family(self):
+        def grab_ttf_file() -> list:
+            return glob(os.path.abspath(f"{__dir__}/src/font/*.ttf"))
+
+        def get_font_name(font_path: str = None) -> str:
+            font = ttLib.TTFont(font_path)
+            font_family_name = font['name'].getDebugName(1)
+            # fullName = font['name'].getDebugName(4)
+
+            return font_family_name
+
+        def del_special_character(font: str = None) -> str:
+            font = font.replace("-", "")
+            font = font.replace("_", "")
+            font = font.replace(" ", "")
+            font = font.lower()
+
+            return font
+
+        # Make Font Database
+        fontDB = Qt.QFontDatabase()
+
+        # Get font name by JSON_DATA
+        font_path = None
+        font_name = None
+        font_file_list = grab_ttf_file()
+        user_target_font = self.JSON_DATA['FontFamily']
+
+        try:
+            # Check if PC has a font that user want to set as font family
+            modified_font_name = del_special_character(user_target_font)
+            font_file_name = [del_special_character(os.path.basename(item).replace(".ttf", "")) for item in
+                              font_file_list]
+
+            # Find User Target Font
+            idx = font_file_name.index(modified_font_name)
+            font_path = font_file_list[idx]
+            font_name = get_font_name(font_path)
+            print(f"  [Info] Font changed Successfully to User font:{font_name}")
+
+        except Exception as e:
+            # Set font as Noto Sans KR Semi Bold if error happened
+            base_name = f"{__dir__}/src/font/NotoSansKR-SemiBold"
+            font_path = ".".join([base_name, "ttf"])
+            font_name = "Noto Sans KR SemiBold"
+            print(f"  [Error] Error happened while getting font name: {e}")
+
+        fontDB.addApplicationFont(os.path.abspath(font_path))
+
+        # Customize font family
+        self.setFont(QtGui.QFont(font_name))
+        custom_stylesheet = self.styleSheet()
+        custom_stylesheet = custom_stylesheet.replace("Noto Sans KR SemiBold", font_name)
+        self.setStyleSheet(custom_stylesheet)
 
     def set_variable(self):
         # Github variables
@@ -113,62 +168,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.timer = QtCore.QTimer(self)
         
     def setup_window_graphic(self):
-
-        def set_font_family():
-            def grab_ttf_file() -> list:
-                return glob(os.path.abspath(f"{__dir__}/src/font/*.ttf"))
-
-            def get_font_name(font_path: str = None) -> str:
-                font = ttLib.TTFont(font_path)
-                font_family_name = font['name'].getDebugName(1)
-                # fullName = font['name'].getDebugName(4)
-
-                return font_family_name
-
-            def del_special_character(font: str = None) -> str:
-                font = font.replace("-", "")
-                font = font.replace("_", "")
-                font = font.replace(" ", "")
-                font = font.lower()
-
-                return font
-
-            # Make Font Database
-            fontDB = Qt.QFontDatabase()
-
-            # Get font name by JSON_DATA
-            font_path = None
-            font_name = None
-            font_file_list = grab_ttf_file()
-            user_target_font = self.JSON_DATA['FontFamily']
-
-            try:
-                # Check if PC has a font that user want to set as font family
-                modified_font_name = del_special_character(user_target_font)
-                font_file_name = [del_special_character(os.path.basename(item).replace(".ttf", "")) for item in
-                                  font_file_list]
-
-                # Find User Target Font
-                idx = font_file_name.index(modified_font_name)
-                font_path = font_file_list[idx]
-                font_name = get_font_name(font_path)
-                print(f"  [Info] Font changed Successfully to User font:{font_name}")
-
-            except Exception as e:
-                # Set font as Noto Sans KR Semi Bold if error happened
-                base_name = f"{__dir__}/src/font/NotoSansKR-SemiBold"
-                font_path = ".".join([base_name, "ttf"])
-                font_name = "Noto Sans KR SemiBold"
-                print(f"  [Error] Error happened while getting font name: {e}")
-
-            fontDB.addApplicationFont(os.path.abspath(font_path))
-
-            # Customize font family
-            self.setFont(QtGui.QFont(font_name))
-            custom_stylesheet = self.styleSheet()
-            custom_stylesheet = custom_stylesheet.replace("Noto Sans KR SemiBold", font_name)
-            self.setStyleSheet(custom_stylesheet)
-
         def calculate_ratio():
             init_x, init_y, init_w, init_h = self.geometry().getRect()
             mbs_x, mbs_y, mbs_w, mbs_h = self.mb_show_adj.geometry().getRect()
@@ -526,8 +525,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.mb_top_bar_repeat_spinbox.setValue(int(self.JSON_DATA["ImageDownCount"]))
 
         # Do Something...
-        set_font_family()
-
         make_voca_groups()
         make_toggle_button()
         make_black_vail()
@@ -692,6 +689,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         def is_refresh_clicked():
 
             # Setup GUI Widget
+            # self.set_font_family()
             self.JSON_DATA = load_json_file()
             self.CSV_DATA = get_main_csv()
 
@@ -821,8 +819,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.change_stylesheet(self.mb_show_eng_adj, color="black")
         self.change_stylesheet(self.mb_show_kor_adj, color="black")
         self.change_stylesheet(self.mb_show_special_case_adj, color="black")
-        self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOIMAGE})")
-
         self.mb_show_dev.hide()
         self.mb_show_btns_adj.show()
         self.mb_show_special_case_adj.hide()
@@ -917,10 +913,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     self.sending_from_widget.setCurrentRow(idx)
                 else:
                     self.stop_player()
-                    self.BLACK.hide()
-
-                    self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOIMAGE})")
-
                     print("  [Info] <-- No more images left to show -->")
             else:
                 self.stop_player()

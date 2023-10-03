@@ -4,6 +4,7 @@ import sys
 import os.path
 import json
 import requests
+import zipfile
 from PyQt5 import QtWidgets, QtCore, QtGui, Qt
 
 # Import Local Python Files
@@ -17,7 +18,6 @@ __dir__ = get_root_directory()
 __exepath__, __internalpath__ = get_paths()
 __author__ = 'https://www.github.com/gonyo1'
 __released_date__ = 'October 2023'
-__update_check__ = False
 
 
 # Make necessary folder
@@ -65,14 +65,24 @@ make_necessary()
 
 class UpdateDownloader(QtCore.QObject):
     signal = QtCore.pyqtSignal()
+    __update_check__ = False
 
     def update(self):
         print("  [Info] Updated python file is downloading...")
-        url = "https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/resource/py/Application.py"
-        resp = requests.get(url)
+        output_path = os.path.abspath(__dir__)
+        url = "https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/update/resource.zip"
+        req = requests.get(url)
 
-        with open(os.path.abspath("resource/py/Application.py"), 'w') as f:
-            f.write(resp.text)
+        # Split URL to get the file name
+        filename = os.path.join(output_path, url.split('/')[-1])
+
+        # Writing the file to the local file system
+        with open(filename, 'wb') as file:
+            file.write(req.content)
+        print('Downloading Completed')
+
+        zipfile.ZipFile(filename).extractall(output_path)
+
         print("  [Info] Updated python file has been finished !")
         self.signal.emit()
 
@@ -100,6 +110,7 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
         self.set_signal()
 
     def setup_graphic_part(self):
+
         def round_corners():
             radius = 9.0
             path = QtGui.QPainterPath()
@@ -127,21 +138,31 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
         def check_version():
             if float(self.github_data["Version"]) != float(self.JSON_DATA["Version"]):
                 self.UpdaterState.setText("Visual Voca 업데이트가 있습니다")
-                __update_check__ = True
+                self.UpdaterState.setStyleSheet("color: tomato;\nfont: 14px;")
+                self.__update_check__ = True
             else:
                 self.UpdaterState.setText("Visual Voca가 최신 버전입니다")
                 self.UpdateSkip.deleteLater()
                 self.UpdateDo.setText("Start")
-                __update_check__ = False
+                self.__update_check__ = False
 
-            return __update_check__
+            return self.__update_check__
+
+        def is_force_stop():
+            if self.github_data["ForceStop"] == "True":
+                self.UpdaterState.setText("Visual Voca 서비스가 중단되었습니다.")
+                self.UpdaterState.setStyleSheet("color: tomato;\nfont: 14px;")
+                self.UpdateSkip.deleteLater()
+                self.UpdateDo.setText("Exit")
 
         get_github_json()
         check_version()
+        is_force_stop()
 
     def set_signal(self):
         def move_next_page():
-            if __update_check__:
+            print(self.__update_check__)
+            if self.__update_check__:
                 self.UPDATECLASS.update()
             else:
                 self.UPDATECLASS.no_update()
@@ -155,7 +176,11 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
             main_app.show()
             self.close()
 
-        self.UpdateDo.clicked.connect(move_next_page)
+        if self.github_data["ForceStop"] == "True":
+            self.UpdateDo.clicked.connect(self.close)
+        else:
+            self.UpdateDo.clicked.connect(move_next_page)
+
         self.UPDATECLASS.signal.connect(open_main_app)
         self.UpdateSkip.clicked.connect(open_main_app)
 

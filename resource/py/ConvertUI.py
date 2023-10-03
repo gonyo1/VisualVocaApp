@@ -4,6 +4,7 @@ import os
 
 
 def get_ui_python_file(dev_mode:bool = False, path: str = None):
+    print(path, "dddddddddddddddddddddddd")
     if dev_mode is True:
         if path is None:
             path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
