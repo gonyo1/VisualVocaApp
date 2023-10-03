@@ -477,6 +477,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         def insert_FrontImage():
             self.VIVOCLEAR = os.path.abspath(f"{__dir__}/src/img/Indicator.svg")
             self.VIVOIMAGE = os.path.abspath(f"{__dir__}/src/img/FrontImage.svg")
+            self.VIVOEMPTRY = os.path.abspath(f"{__dir__}/src/img/FrontImage.svg")
             self.VIVOIMAGE = self.VIVOIMAGE.replace("\\", "/")
 
             self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOIMAGE})")
@@ -645,8 +646,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                         item.show()
                         item.setStyleSheet("color: white;\n")
 
-                self.change_stylesheet(item, background_image=" ")
-                self.mb_show_btns_adj.setStyleSheet("color: black;\n")
+                self.change_stylesheet(item, background_image=f"url({self.VIVOEMPTY})")
             else:
                 # play player
                 self.change_mb_voca_widget(obj=self.sending_from_widget)

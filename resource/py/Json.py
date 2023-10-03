@@ -2,51 +2,33 @@
 
 import os
 import json
+from resource.py.Path import get_root_directory
 
+def get_directory():
+    __dir__ = get_root_directory()
+    return __dir__
 
-def is_main_app() -> str:
-    path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    path = os.path.join(path, "src/config.json")
-    path = path.replace("\\", "/")
-
-    if os.path.basename(os.path.abspath(__file__)) != "py":
-        base_dir = os.path.abspath(f"./resource/src")
-    else:
-        base_dir = os.path.abspath(f"../src")
-
-    base_dir = base_dir.replace("\\", "/")
-
-    return base_dir
 
 def load_json_file(name:str = 'config.json') -> dict:
-    json_data = None
-    while True:
-        try:
-            base_path = is_main_app()
-            json_file = os.path.join(base_path, name)
-            json_file = json_file.replace("\\", "/")
-            print(json_file)
+    base_path = get_directory()
+    path = os.path.join(base_path, "src").replace("\\", "/")
 
-            with open(json_file, 'rt', encoding='utf-8') as f:
-                json_data = json.load(f)
-                f.close()
-                break
+    json_file = os.path.join(path, name)
+    json_file = json_file.replace("\\", "/")
+    print(json_file)
 
-        except FileNotFoundError:
-            # count += 1
-            base_path = is_main_app()
+    if not os.path.isfile(json_file):
+        generate_init()
 
-            print(f"  [Info] No Config file Found... {base_path}")
-            json_file = os.path.join(base_path, name)
-            json_file = json_file.replace("\\", "/")
-            generate_init(path=json_file)
+    with open(json_file, 'rt', encoding='utf-8') as f:
+        json_data = json.load(f)
+        f.close()
 
     return json_data
 
 def save_json_file(key, value, name:str = 'config.json'):
-    json_data = None
-    base_path = is_main_app()
-    json_file = os.path.join(base_path, name)
+    base_path = get_directory()
+    json_file = os.path.join(base_path, f"src/{name}").replace("\\", "/")
 
     with open(json_file, 'rt', encoding='utf-8') as f:
         json_data = json.load(f)
@@ -60,7 +42,7 @@ def save_json_file(key, value, name:str = 'config.json'):
 
     return json_data
 
-def generate_init(path):
+def generate_init():
     try:
         json_data = {
             "AppName": "Visual Voca",
@@ -98,6 +80,9 @@ def generate_init(path):
                 }
             ]
             }
+
+        base_path = get_directory()
+        path = os.path.join(base_path, "src/config.json").replace("\\", "/")
 
         with open(path, 'w', encoding='utf-8') as f:
             json.dump(json_data, f, indent=2, ensure_ascii=False)

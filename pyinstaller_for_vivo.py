@@ -12,12 +12,10 @@ PyinstallerArgs = " ".join(['--icon=./resource/src/img/Appicon.ico',
                             '--name=VisualVoca',
                             '--log-level=WARN',
                             'launcher.py',
-                            '-F',
-                            '-w'
+                            '-F'
                             ])
 path = os.path.abspath(".").replace("\\", "/")
 print(path)
 
 os.system(f"cd {path}")
-os.system(f"rmdir {path}/resource/py/__pycache__")
 os.system(f"pyinstaller {PyinstallerArgs}")
