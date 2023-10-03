@@ -1,0 +1,13 @@
+*.pyc
+.idea/
+*.DS_Store
+*/__pycache__/
+*.wav
+dist/
+build/
+*.spec
+*.ui
+pyinstaller_for_vivo.py
+*/voca/
+github.json
+resource.zip
