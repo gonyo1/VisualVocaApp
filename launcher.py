@@ -71,7 +71,7 @@ class UpdateDownloader(QtCore.QObject):
     def update(self):
         print("  [Info] Updated python file is downloading...")
         # Get github raw zip file
-        output_path = os.path.abspath(__dir__)
+        output_path = os.path.dirname(os.path.abspath(__dir__))
         url = "https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/update/resource.zip"
         req = requests.get(url)
 
