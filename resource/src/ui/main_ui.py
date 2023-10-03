@@ -229,14 +229,14 @@ class Ui_MainApp(object):
 "border: 0px solid;\n"
 "background-repeat: none;\n"
 "background-position: center;\n"
-"background-image: url(\"C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/Indicator.svg\");\n"
+"background-image: f\"url({os.path.join(__dir__, \'src/img/Indicator.svg\')})\";\n"
 "background-color: rgba(250, 188, 1, 120);\n"
 "}\n"
 "QListWidget::indicator:checked {\n"
 "border: 0px solid;\n"
 "background-repeat: none;\n"
 "background-position: center;\n"
-"background-image: url(\"C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/Indicator.svg\");\n"
+"background-image: f\"url({os.path.join(__dir__, \'src/img/Indicator.svg\')})\";\n"
 "background-color: rgb(250, 188, 1);\n"
 "}\n"
 "\n"
@@ -278,14 +278,6 @@ class Ui_MainApp(object):
         self.mb_icon_widget.setMinimumSize(QtCore.QSize(200, 40))
         self.mb_icon_widget.setMaximumSize(QtCore.QSize(200, 40))
         self.mb_icon_widget.setObjectName("mb_icon_widget")
-        self.mb_icon = QtWidgets.QLabel(self.mb_icon_widget)
-        self.mb_icon.setGeometry(QtCore.QRect(0, 0, 200, 40))
-        self.mb_icon.setMinimumSize(QtCore.QSize(0, 40))
-        self.mb_icon.setMaximumSize(QtCore.QSize(16777215, 40))
-        self.mb_icon.setLineWidth(0)
-        self.mb_icon.setText("")
-        self.mb_icon.setIndent(0)
-        self.mb_icon.setObjectName("mb_icon")
         self.mb_voca_refresh = QtWidgets.QPushButton(self.mb_icon_widget)
         self.mb_voca_refresh.setGeometry(QtCore.QRect(164, 5, 30, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -295,9 +287,17 @@ class Ui_MainApp(object):
         self.mb_voca_refresh.setSizePolicy(sizePolicy)
         self.mb_voca_refresh.setMinimumSize(QtCore.QSize(30, 30))
         self.mb_voca_refresh.setMaximumSize(QtCore.QSize(30, 30))
+        self.mb_voca_refresh.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.mb_voca_refresh.setStyleSheet("")
         self.mb_voca_refresh.setText("")
         self.mb_voca_refresh.setObjectName("mb_voca_refresh")
+        self.mb_icon = QtWidgets.QPushButton(self.mb_icon_widget)
+        self.mb_icon.setGeometry(QtCore.QRect(0, 0, 200, 40))
+        self.mb_icon.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.mb_icon.setText("")
+        self.mb_icon.setObjectName("mb_icon")
+        self.mb_icon.raise_()
+        self.mb_voca_refresh.raise_()
         self.verticalLayout.addWidget(self.mb_icon_widget)
         self.mb_setting_title_bar = QtWidgets.QWidget(self.mb_voca_adj)
         self.mb_setting_title_bar.setMinimumSize(QtCore.QSize(200, 30))
@@ -432,6 +432,7 @@ class Ui_MainApp(object):
         self.mb_top_bar_repeat_spinbox = QtWidgets.QSpinBox(self.mb_top_bar_repeat)
         self.mb_top_bar_repeat_spinbox.setMinimumSize(QtCore.QSize(53, 0))
         self.mb_top_bar_repeat_spinbox.setMaximumSize(QtCore.QSize(53, 16777215))
+        self.mb_top_bar_repeat_spinbox.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.mb_top_bar_repeat_spinbox.setFocusPolicy(QtCore.Qt.NoFocus)
         self.mb_top_bar_repeat_spinbox.setAlignment(QtCore.Qt.AlignCenter)
         self.mb_top_bar_repeat_spinbox.setPrefix("")
@@ -467,6 +468,7 @@ class Ui_MainApp(object):
         self.mb_voca_bookmark.setSizePolicy(sizePolicy)
         self.mb_voca_bookmark.setMinimumSize(QtCore.QSize(30, 30))
         self.mb_voca_bookmark.setMaximumSize(QtCore.QSize(30, 30))
+        self.mb_voca_bookmark.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.mb_voca_bookmark.setStyleSheet("")
         self.mb_voca_bookmark.setText("")
         self.mb_voca_bookmark.setCheckable(True)
@@ -784,18 +786,19 @@ class Ui_MainApp(object):
         self.retranslateUi(MainApp)
         self.mb_voca_word_adj_0.setCurrentRow(-1)
         QtCore.QMetaObject.connectSlotsByName(MainApp)
+        MainApp.setTabOrder(self.mb_icon, self.mb_voca_refresh)
         MainApp.setTabOrder(self.mb_voca_refresh, self.mb_voca_setting_button)
         MainApp.setTabOrder(self.mb_voca_setting_button, self.mb_top_bar_all)
         MainApp.setTabOrder(self.mb_top_bar_all, self.mb_top_bar_only_eng)
         MainApp.setTabOrder(self.mb_top_bar_only_eng, self.mb_top_bar_only_kor)
         MainApp.setTabOrder(self.mb_top_bar_only_kor, self.mb_top_bar_only_img)
-        MainApp.setTabOrder(self.mb_top_bar_only_img, self.mb_top_bar_repeat_spinbox)
-        MainApp.setTabOrder(self.mb_top_bar_repeat_spinbox, self.mb_voca_bookmark)
+        MainApp.setTabOrder(self.mb_top_bar_only_img, self.mb_voca_bookmark)
         MainApp.setTabOrder(self.mb_voca_bookmark, self.mb_voca_scroll)
         MainApp.setTabOrder(self.mb_voca_scroll, self.mb_voca_open)
         MainApp.setTabOrder(self.mb_voca_open, self.back)
         MainApp.setTabOrder(self.back, self.pause)
         MainApp.setTabOrder(self.pause, self.forward)
+        MainApp.setTabOrder(self.forward, self.mb_show_ignore_button)
 
     def retranslateUi(self, MainApp):
         _translate = QtCore.QCoreApplication.translate
@@ -812,196 +815,6 @@ class Ui_MainApp(object):
         self.mb_top_bar_repeat_spinbox.setSuffix(_translate("MainApp", " 번"))
         self.mb_voca_total_title.setText(_translate("MainApp", "Word List"))
         self.mb_voca_button_group_title_adj_0.setText(_translate("MainApp", "Lesson 1"))
-        self.mb_voca_word_adj_0.setStyleSheet(_translate("MainApp", "/* Pallete --------------------------------- \n"
-"\n"
-"lightgray : rgb(242, 242, 247)\n"
-"gray : rgb(141, 141, 147)\n"
-"darkgray : rgb(122, 122, 128)\n"
-"\n"
-"grayorange : rgb(228, 175, 10)\n"
-"pointorange : rgb(250, 188, 1)\n"
-"\n"
-"blue : rgb(0, 155, 255)\n"
-"bluehover : rgba(0, 155, 255, 80)\n"
-"\n"
-"--------------------------------------- */\n"
-"\n"
-"QWidget {\n"
-"padding: 10px;\n"
-"padding: 0px;\n"
-"background-color: transparent;\n"
-"}\n"
-"#mb_voca_adj {\n"
-"background-color: rgb(242, 242, 247);\n"
-"}\n"
-".Line {\n"
-"background-color: rgb(227, 227, 233);\n"
-"margin: 0px 10px 0px 50px;\n"
-"}\n"
-"\n"
-"\n"
-"/* Left - White Grouped Section --------------------------------- */\n"
-"#mb_setting_widget,\n"
-"#mb_voca_scroll {\n"
-"background-color: white;\n"
-"border-radius: 10px;\n"
-"margin: 0px 10px 10px 10px;\n"
-"}\n"
-"#mb_setting_widget {\n"
-"margin-bottom: 5px;\n"
-"}\n"
-"#mb_voca_scroll {\n"
-"margin-top: 5px;\n"
-"}\n"
-"#mb_setting_title,\n"
-"#mb_voca_total_title {\n"
-"margin: 0px 0px 0px 20px;\n"
-"color: black;\n"
-"font: 14px;\n"
-"}\n"
-"#mb_voca_setting_button {\n"
-"color: rgb(122, 122, 128);\n"
-"}\n"
-"#mb_voca_setting_button:hover {\n"
-"color: rgb(228, 175, 10);\n"
-"}\n"
-"/* Left - Setting detail name(ex: Auto Scroll ....) ------------------------------------- */\n"
-"#mb_top_bar_play_type_title,\n"
-"#mb_top_bar_auto_scroll_title,\n"
-"#mb_top_bar_repeat_title {\n"
-"font: 12px;\n"
-"margin: 0px 0px 0px 30px;\n"
-"color: black;\n"
-"}\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"/* Type PushButton Setting ------------------------------------- */\n"
-"#mb_top_bar_play_type .QPushButton {\n"
-"font: 11px;\n"
-"background-color: rgb(227, 227, 233);\n"
-"border-radius: 8px;\n"
-"text-align: center;\n"
-"color: black;\n"
-"}\n"
-"#mb_top_bar_play_type .QPushButton:hover {\n"
-"background-color: rgba(228, 175, 10, 80);\n"
-"}\n"
-"#mb_top_bar_play_type .QPushButton:checked {\n"
-"color: white;\n"
-"background-color: rgb(250, 188, 1);\n"
-"}\n"
-"#mb_top_bar_only_img {\n"
-"margin-right: 10px;\n"
-"}\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"/* Repeat SpinBox Setting ------------------------------------- */\n"
-"#mb_top_bar_repeat_spinbox {\n"
-"color: rgb(141, 141, 147);\n"
-"}\n"
-"#mb_top_bar_repeat_spinbox:hover {\n"
-"color: rgb(228, 175, 10);\n"
-"}\n"
-"#mb_top_bar_repeat_spinbox:up-arrow:hover,\n"
-"#mb_top_bar_repeat_spinbox:down-arrow:hover  {\n"
-"color: rgb(228, 175, 10);\n"
-"}\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"/* QScrollWidget Label & PushButton part ------------------ */\n"
-"QScrollArea {\n"
-"margin-bottom: 0px;\n"
-"padding-top: 10px;\n"
-"}\n"
-"/*Lesson1 */\n"
-"QScrollArea .QLabel {\n"
-"padding-left: 5px;\n"
-"}\n"
-"QScrollArea .QPushButton {\n"
-"margin: 5px 10px 5px 10px;\n"
-"padding: 0px;\n"
-"color: black;\n"
-"text-align: left;\n"
-"}\n"
-"\n"
-"/* QListWidget Part ------------------------------ */\n"
-"QListView::item {\n"
-"border: 0px;\n"
-"margin: 5px -8px 5px -4px;\n"
-"}\n"
-"QListWidget {\n"
-"font: 13px;\n"
-"font-weight: light;\n"
-"padding-right: 4px;\n"
-"}\n"
-"QListWidget::item {\n"
-"padding: 3px;\n"
-"padding-left: 30px;\n"
-"color: rgb(180, 180, 180);\n"
-"}\n"
-"QListWidget::item:hover {\n"
-"padding-left: 30px;\n"
-"margin: 0px -4px 0px -4px;\n"
-"color: black;\n"
-"background-color: rgb(227, 227, 233);\n"
-"}\n"
-"QListWidget::item:selected {\n"
-"padding-left: 30px;\n"
-"margin: 0px -4px 0px -4px;\n"
-"background-color: rgb(228, 175, 10);\n"
-"color: white;\n"
-"}\n"
-"QListWidget::indicator {\n"
-"border-radius: 6px;\n"
-"border: 1px solid;\n"
-"border-color: rgb(141, 141, 147);\n"
-"background-color: transparent;\n"
-"}\n"
-"QListWidget::indicator:hover {\n"
-"border: 0px solid;\n"
-"background-repeat: none;\n"
-"background-position: center;\n"
-"background-image: url(\"C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/Indicator.svg\");\n"
-"background-color: rgba(250, 188, 1, 120);\n"
-"}\n"
-"QListWidget::indicator:checked {\n"
-"border: 0px solid;\n"
-"background-repeat: none;\n"
-"background-position: center;\n"
-"background-image: url(\"C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/Indicator.svg\");\n"
-"background-color: rgb(250, 188, 1);\n"
-"}\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"/* Add Files Part */\n"
-"#mb_voca_open {\n"
-"margin: 0px 10px 10px 10px;\n"
-"color: white;\n"
-"font: 16px;\n"
-"font-weight: bold;\n"
-"border-radius: 5px;\n"
-"background-color: rgb(228, 175, 10);\n"
-"}\n"
-"#mb_voca_open:hover {\n"
-"background-color: rgba(228, 175, 10, 80);\n"
-"}\n"
-"\n"
-"\n"
-"/* border for temperary */\n"
-"#mb_voca_bookmark,\n"
-"#mb_voca_refresh {\n"
-"border: 1px solid blue;\n"
-"}"))
         self.mb_voca_word_adj_0.setSortingEnabled(False)
         __sortingEnabled = self.mb_voca_word_adj_0.isSortingEnabled()
         self.mb_voca_word_adj_0.setSortingEnabled(False)

@@ -43,7 +43,7 @@ class Ui_Dialog(object):
 "background-color: white;\n"
 "}\n"
 "#UpdaterBackground {\n"
-"background-image: url(\"C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/img/UpdateImage.svg\");\n"
+"background-image: f\"url({os.path.join(__dir__, \'src/img/UpdateImage.svg\')})\";\n"
 "}\n"
 "QLabel#UpdaterState {\n"
 "font: 12px; \n"
@@ -121,6 +121,7 @@ class Ui_Dialog(object):
         self.UpdateSkip.setSizePolicy(sizePolicy)
         self.UpdateSkip.setMinimumSize(QtCore.QSize(50, 50))
         self.UpdateSkip.setMaximumSize(QtCore.QSize(50, 50))
+        self.UpdateSkip.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.UpdateSkip.setObjectName("UpdateSkip")
         self.horizontalLayout.addWidget(self.UpdateSkip)
         self.UpdateDo = QtWidgets.QPushButton(self.UpdaterBtns)
@@ -131,6 +132,7 @@ class Ui_Dialog(object):
         self.UpdateDo.setSizePolicy(sizePolicy)
         self.UpdateDo.setMinimumSize(QtCore.QSize(0, 50))
         self.UpdateDo.setMaximumSize(QtCore.QSize(16777215, 50))
+        self.UpdateDo.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.UpdateDo.setObjectName("UpdateDo")
         self.horizontalLayout.addWidget(self.UpdateDo)
         self.UpdaterTopbar = QtWidgets.QWidget(Dialog)
@@ -145,6 +147,7 @@ class Ui_Dialog(object):
         self.close_.setSizePolicy(sizePolicy)
         self.close_.setMinimumSize(QtCore.QSize(16, 16))
         self.close_.setMaximumSize(QtCore.QSize(16, 16))
+        self.close_.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.close_.setCheckable(True)
         self.close_.setObjectName("close_")
         self.minimize_ = QtWidgets.QPushButton(self.UpdaterTopbar)
@@ -156,6 +159,7 @@ class Ui_Dialog(object):
         self.minimize_.setSizePolicy(sizePolicy)
         self.minimize_.setMinimumSize(QtCore.QSize(16, 16))
         self.minimize_.setMaximumSize(QtCore.QSize(16, 16))
+        self.minimize_.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.minimize_.setCheckable(True)
         self.minimize_.setObjectName("minimize_")
 
