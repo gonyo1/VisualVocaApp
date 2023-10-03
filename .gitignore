@@ -7,7 +7,6 @@ dist/
 build/
 *.spec
 *.ui
-pyinstaller_for_vivo.py
 */voca/
 github.json
 resource.zip
