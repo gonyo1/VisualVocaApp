@@ -7,17 +7,16 @@
   ],
   "FontFamily": "Noto Sans KR SemiBold",
   "BookmarkIndex": 0,
-  "AutoScroll": "True",
+  "AutoScroll": "False",
   "ImageDownCount": 1,
   "LanguagesShow": {
     "UpperPart": "en",
-    "LowerPart": "ru",
+    "LowerPart": "ko",
     "Reference": "https://learn.microsoft.com/en-us/azure/ai-services/translator/language-support"
   },
   "LanguagesSpeech": {
     "First": "en",
-    "Second": "ru",
-    "Third": "ko",
+    "Second": "ko",
     "Reference": "https://cloud.google.com/translate/docs/languages?hl=ko"
   },
   "APIKeys": {
