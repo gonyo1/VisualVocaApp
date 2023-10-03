@@ -10,17 +10,5 @@
   ],
   "Version":"1.1",
   "ReleaseDate":"2023-10-04",
-  "ForceStop":"False",
-  "UpdateRaws":[
-    "https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/resource/py/Application.py",
-    "https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/resource/py/CSVData.py",
-    "https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/resource/py/ConvertUI.py",
-    "https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/resource/py/GetAudio.py",
-    "https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/resource/py/GetImages.py",
-    "https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/resource/py/Json.py",
-    "https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/resource/py/Path.py",
-    "https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/resource/py/ToggleButton.py",
-    "https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/resource/py/Translator.py",
-    "https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/resource/py/meaning_auto.py",
-  ]
+  "ForceStop":"False"
 }
