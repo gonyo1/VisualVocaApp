@@ -82,8 +82,8 @@ class UpdateDownloader(QtCore.QObject):
         print('  [Info] Downloading Completed')
 
         # Backup User Json file
-        origin_name = os.path.join(output_path, "src/config.json")
-        modified_name = os.path.join(output_path, "src/config_user.json")
+        origin_name = os.path.join(output_path, "resource/src/config.json")
+        modified_name = os.path.join(output_path, "resource/src/config_user.json")
         os.rename(origin_name, modified_name)
 
         # Extract and Erase files
@@ -92,6 +92,8 @@ class UpdateDownloader(QtCore.QObject):
 
         # Change downloaded json to user json except version
         version = github_data["Version"]
+
+        # Just in case if developer missed version data..
         save_json_file(key="Version", value=version, name="config.json")
 
         user_json = load_json_file("config_user.json")
