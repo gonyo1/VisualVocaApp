@@ -117,7 +117,7 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
     def check_updates(self):
         def get_github_json():
             # Github의 Contributor.json 파일을 다운로드하여 github.json에 저장
-            url = 'https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/contributor.json'
+            url = 'https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/update/contributor.json'
             resp = requests.get(url)
             self.github_data = json.loads(resp.text)
 
