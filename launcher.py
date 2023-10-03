@@ -127,6 +127,8 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
         self.setupUi(self)
         self.show()
 
+        self.timer = QtCore.QTimer()
+
         # Function Part
         self.setup_graphic_part()
         self.check_updates()
@@ -168,6 +170,7 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
                 self.UpdaterState.setText("Visual Voca가 최신 버전입니다")
                 self.UpdateSkip.deleteLater()
                 self.UpdateDo.setText("Start")
+                self.timer.singleShot(500, self.UpdateDo.click)
                 self.__update_check__ = False
 
             return self.__update_check__
