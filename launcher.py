@@ -173,7 +173,7 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
                 self.UpdaterState.setText("Visual Voca가 최신 버전입니다")
                 self.UpdateSkip.deleteLater()
                 self.UpdateDo.setText("Start")
-                self.timer.singleShot(500, self.UpdateDo.click)
+                # self.timer.singleShot(500, self.UpdateDo.click)
                 self.__update_check__ = False
 
             return self.__update_check__
