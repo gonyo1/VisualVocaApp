@@ -18,13 +18,13 @@ def is_main_app() -> str:
 
     return base_dir
 
-def load_json_file() -> dict:
+def load_json_file(name:str = 'config.json') -> dict:
     json_data = None
 
     while True:
         try:
             base_path = is_main_app()
-            json_file = os.path.join(base_path, 'config.json')
+            json_file = os.path.join(base_path, name)
             json_file = json_file.replace("‚‚", "/")
 
             with open(json_file, 'rt', encoding='utf-8') as f:
@@ -35,16 +35,16 @@ def load_json_file() -> dict:
         except FileNotFoundError:
             base_path = is_main_app()
             print(f"  [Info] No Config file Found... {base_path}")
-            json_file = os.path.join(base_path, 'config.json')
+            json_file = os.path.join(base_path, name)
             json_file = json_file.replace("‚‚", "/")
             generate_init(path=json_file)
 
     return json_data
 
-def save_json_file(key, value):
+def save_json_file(key, value, name:str = 'config.json'):
     json_data = None
     base_path = is_main_app()
-    json_file = os.path.join(base_path, 'config.json')
+    json_file = os.path.join(base_path, name)
 
     with open(json_file, 'rt', encoding='utf-8') as f:
         json_data = json.load(f)

@@ -9,7 +9,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui, Qt
 
 # Import Local Python Files
 from resource.src.ui.updater_ui import Ui_Dialog as LauncherUI
-from resource.py.Json import load_json_file
+from resource.py.Json import load_json_file, save_json_file
 from resource.py.Path import get_root_directory, get_paths
 from resource.py.ConvertUI import get_ui_python_file as convert
 
@@ -69,20 +69,31 @@ class UpdateDownloader(QtCore.QObject):
 
     def update(self):
         print("  [Info] Updated python file is downloading...")
+        # Get github raw zip file
         output_path = os.path.abspath(__dir__)
         url = "https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/update/resource.zip"
         req = requests.get(url)
 
-        # Split URL to get the file name
+        # Save zip to local
         filename = os.path.join(output_path, url.split('/')[-1])
-
-        # Writing the file to the local file system
         with open(filename, 'wb') as file:
             file.write(req.content)
         print('  [Info] Downloading Completed')
 
-        zipfile.ZipFile(filename).extractall(output_path)
+        # User Json file
+        origin_name = os.path.join(output_path, "src/config.json")
+        modified_name = os.path.join(output_path, "src/config_user.json")
+        os.rename(origin_name, modified_name)
 
+        # Extract and Erase files
+        zipfile.ZipFile(filename).extractall(output_path)
+        os.remove(filename)
+
+        # Change downloaded json to user json except version
+        new_version = load_json_file("config.json")["Version"]
+        save_json_file(key="Version", value=new_version, name="config_user.json")
+        os.remove(origin_name)
+        os.rename(modified_name, origin_name)
         print("  [Info] Updated python file has been finished !")
         self.signal.emit()
 
@@ -190,7 +201,7 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
 
 if __name__ == "__main__":
     # Set False when compile to exe file
-    convert = convert(dev_mode=True, path=__dir__)
+    convert = convert(dev_mode=False, path=__dir__)
 
     # Run main app
     app = QtWidgets.QApplication(sys.argv)

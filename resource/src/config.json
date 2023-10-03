@@ -1,13 +1,14 @@
 {
   "AppName": "Visual Voca",
-  "Version": "1.0",
+  "Version": "1.1",
   "Contributors": [
     "Gonyo",
-    "Ahn"
+    "Ahn",
+    "Taeha"
   ],
   "FontFamily": "Noto Sans KR SemiBold",
   "BookmarkIndex": 0,
-  "AutoScroll": "False",
+  "AutoScroll": "True",
   "ImageDownCount": 1,
   "LanguagesShow": {
     "UpperPart": "en",

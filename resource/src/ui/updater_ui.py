@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/ui/updater.ui'
+# Form implementation generated from reading ui file 'C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/dist/resource/src/ui/updater.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
