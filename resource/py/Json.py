@@ -5,7 +5,7 @@ import json
 
 
 def is_main_app() -> str:
-    if os.path.basename(os.path.abspath("./")) != "py":
+    if os.path.basename(os.path.abspath(__file__)) != "py":
         base_dir = os.path.abspath(f"./resource/src")
     else:
         base_dir = os.path.abspath(f"../src")
@@ -44,6 +44,7 @@ def save_json_file(key, value):
 def generate_init(path):
     json_data = {
         "AppName": "Visual Voca",
+        "Version": "1.0",
         "Contributors": [
             "Gonyo",
             "Ahn"

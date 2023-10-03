@@ -19,14 +19,32 @@ from Json import load_json_file, save_json_file, generate_init
 from CSVData import get_main_csv
 from ConvertUI import get_ui_python_file as convert
 
+from src.ui.main_ui import Ui_MainApp as mp
+
+def get_root_directory():
+    root_directory = os.path.basename(os.path.abspath("./"))
+
+    if root_directory != "resource":
+        # if Application.py called from Launcher.py
+        path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+        path = path.replace("\\", "/")
+        print(path)
+        return path
+
+    elif root_directory == "resource":
+        # if Application.py called from itself
+        path = os.path.join(root_directory, "resource")
+        path = path.replace("\\", "/")
+        print(path)
+        return path
 
 
+__dir__ = get_root_directory()
 __author__ = 'https://www.github.com/gonyo1'
 __released_date__ = 'October 2023'
 __credits__ = ['Gonyo', 'AhnJH']
 __version__ = None
 
-from src.ui.main_ui import Ui_MainApp as mp
 
 class MainWindow(QtWidgets.QMainWindow, mp):
     resized = QtCore.pyqtSignal()
@@ -46,7 +64,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.set_variable()
 
         # Setup Graphic Part
-        self.setWindowTitle(f"  VisualVoca (Ver.{__version__})")
+        self.setWindowTitle(f"  VisualVoca  |  version:{self.JSON_DATA['Version']}")
         self.setWindowIcon(Qt.QIcon(f"{__dir__}/src/img/AppIcon.ico"))
         self.mb_icon.setPixmap(Qt.QPixmap(f'{__dir__}/src/img/logo.svg'))
         self.get_github_json()
@@ -699,7 +717,8 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             # self.mb_show_special_case_adj.setStyleSheet(f"background-image: url({self.VIVOIMAGE})")
 
         def is_open_folder_clicked():
-            base_path = os.path.abspath("WordList.csv")
+            base_path = os.path.abspath(f"{__dir__}/voca/WordList.csv")
+            base_path = base_path.replace("\\", "/")
 
             if self.PLATFORM == "win32":
                 os.startfile(base_path)
@@ -1281,26 +1300,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
 
 if __name__ == "__main__":
-    global __dir__
-
-    def get_root_directory():
-        root_directory = os.path.basename(os.path.abspath("./"))
-
-        if root_directory != "resource":
-            # if Application.py called from Launcher.py
-            path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-            path = path.replace("\\", "/")
-            print(path)
-            return path
-
-        elif root_directory == "resource":
-            # if Application.py called from itself
-            path = os.path.join(root_directory, "resource")
-            path = path.replace("\\", "/")
-            print(path)
-            return path
-
-    __dir__ = get_root_directory()
     # Set False when compile to exe file
     convert = convert(dev_mode=True, path=__dir__)
 

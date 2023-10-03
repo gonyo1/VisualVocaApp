@@ -1,5 +1,6 @@
 {
   "AppName": "Visual Voca",
+  "Version": "1.0",
   "Contributors": [
     "Gonyo",
     "Ahn"
@@ -10,12 +11,13 @@
   "ImageDownCount": 1,
   "LanguagesShow": {
     "UpperPart": "en",
-    "LowerPart": "ko",
+    "LowerPart": "ru",
     "Reference": "https://learn.microsoft.com/en-us/azure/ai-services/translator/language-support"
   },
   "LanguagesSpeech": {
     "First": "en",
-    "Second": "ko",
+    "Second": "ru",
+    "Third": "ko",
     "Reference": "https://cloud.google.com/translate/docs/languages?hl=ko"
   },
   "APIKeys": {
