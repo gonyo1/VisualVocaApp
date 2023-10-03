@@ -10,17 +10,17 @@ from fontTools import ttLib
 from PyQt5 import QtWidgets, QtCore, QtGui, Qt, QtMultimedia
 
 # Import Local Python Files
-import GetImages
-import GetAudio
+from . import GetImages
+from . import GetAudio
 
-from Translator import translate, search_text_by_lang
-from ToggleButton import AnimatedToggle
-from Json import load_json_file, save_json_file
-from CSVData import get_main_csv
-from ConvertUI import get_ui_python_file as convert
+from .Translator import translate, search_text_by_lang
+from .ToggleButton import AnimatedToggle
+from .Json import load_json_file, save_json_file
+from .CSVData import get_main_csv
+from .ConvertUI import get_ui_python_file as convert
 
-from src.ui.main_ui import Ui_MainApp as mp
-from Path import get_root_directory
+from ..src.ui.main_ui import Ui_MainApp as mp
+from .Path import get_root_directory
 
 
 __dir__ = get_root_directory()

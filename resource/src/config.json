@@ -11,7 +11,7 @@
   "ImageDownCount": 2,
   "LanguagesShow": {
     "UpperPart": "en",
-    "LowerPart": "ru",
+    "LowerPart": "ko",
     "Reference": "https://learn.microsoft.com/en-us/azure/ai-services/translator/language-support"
   },
   "LanguagesSpeech": {

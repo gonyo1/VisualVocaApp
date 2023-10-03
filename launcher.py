@@ -7,11 +7,14 @@ import requests
 import zipfile
 from PyQt5 import QtWidgets, QtCore, QtGui, Qt
 
+# print(os.path.dirname(os.path.abspath(__file__)))
+# sys.argv.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 # Import Local Python Files
-from resource.src.ui.updater_ui import Ui_Dialog as LauncherUI
 from resource.py.Json import load_json_file, save_json_file
 from resource.py.Path import get_root_directory, get_paths
 from resource.py.ConvertUI import get_ui_python_file as convert
+from resource.src.ui.updater_ui import Ui_Dialog as LauncherUI
 
 
 __dir__ = get_root_directory()
