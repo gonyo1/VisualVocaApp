@@ -34,6 +34,19 @@ Visual Voca는 깜빡이 형태로 단어 암기를 돕는 프로그램입니다
 <br>
 <br>
 
+### Develoer
+- Updata Check: update > contributor.json 의 Version으로 확인
+- Update Date: update > resource.zip를 다운로드하여 배포<br><br>
+   🔥필수 포함 목록<br>
+      >> resource > py 폴더 (업데이트 파일)<br>
+      >> resource > src > config.json 파일<br><br>
+   💧제외 폴더 목록<br>
+      >> resource > resource.zip 파일<br>
+      >> resource > voca 폴더<br>
+      >> resource > src > font 폴더<br>
+      >> resource > src > github.json 파일<br>
+<br>
+<br>
 
 ### Translate Language - "Miscrosoft" Azure Translator
 > https://learn.microsoft.com/en-us/azure/ai-services/translator/language-support

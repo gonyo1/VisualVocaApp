@@ -80,7 +80,7 @@ class UpdateDownloader(QtCore.QObject):
             file.write(req.content)
         print('  [Info] Downloading Completed')
 
-        # User Json file
+        # Backup User Json file
         origin_name = os.path.join(output_path, "src/config.json")
         modified_name = os.path.join(output_path, "src/config_user.json")
         os.rename(origin_name, modified_name)
@@ -90,10 +90,22 @@ class UpdateDownloader(QtCore.QObject):
         os.remove(filename)
 
         # Change downloaded json to user json except version
-        new_version = load_json_file("config.json")["Version"]
-        save_json_file(key="Version", value=new_version, name="config_user.json")
-        os.remove(origin_name)
-        os.rename(modified_name, origin_name)
+        version = github_data["Version"]
+        save_json_file(key="Version", value=version, name="config.json")
+
+        user_json = load_json_file("config_user.json")
+        for key in ["FontFamily",
+                    "BookmarkIndex",
+                    "AutoScroll",
+                    "ImageDownCount",
+                    "LanguagesShow",
+                    "LanguagesSpeech",
+                    "APIKeys",
+                    "GetImageFromURL"]:
+            value = user_json[key]
+            save_json_file(key=key, value=value, name="config.json")
+
+        os.remove(modified_name)
         print("  [Info] Updated python file has been finished !")
         self.signal.emit()
 
@@ -138,16 +150,17 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
 
     def check_updates(self):
         def get_github_json():
+            global github_data
             # Github의 Contributor.json 파일을 다운로드하여 github.json에 저장
             url = 'https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/update/contributor.json'
             resp = requests.get(url)
-            self.github_data = json.loads(resp.text)
+            github_data = json.loads(resp.text)
 
             with open(os.path.abspath("./resource/src/github.json"), 'wt') as f:
                 f.write(resp.text)
 
         def check_version():
-            if float(self.github_data["Version"]) != float(self.JSON_DATA["Version"]):
+            if float(github_data["Version"]) != float(self.JSON_DATA["Version"]):
                 self.UpdaterState.setText("Visual Voca 업데이트가 있습니다")
                 self.UpdaterState.setStyleSheet("color: tomato;\nfont: 14px;")
                 self.__update_check__ = True
@@ -160,7 +173,7 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
             return self.__update_check__
 
         def is_force_stop():
-            if self.github_data["ForceStop"] == "True":
+            if github_data["ForceStop"] == "True":
                 self.UpdaterState.setText("Visual Voca 서비스가 중단되었습니다.")
                 self.UpdaterState.setStyleSheet("color: tomato;\nfont: 14px;")
                 self.UpdateSkip.deleteLater()
@@ -186,7 +199,7 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
             main_app.show()
             self.close()
 
-        if self.github_data["ForceStop"] == "True":
+        if github_data["ForceStop"] == "True":
             self.UpdateDo.clicked.connect(self.close)
         else:
             self.UpdateDo.clicked.connect(move_next_page)

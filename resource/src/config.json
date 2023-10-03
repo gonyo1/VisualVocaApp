@@ -1,18 +1,17 @@
 {
   "AppName": "Visual Voca",
-  "Version": "1.1",
+  "Version": "1.0",
   "Contributors": [
     "Gonyo",
-    "Ahn",
-    "Taeha"
+    "Ahn"
   ],
   "FontFamily": "Noto Sans KR SemiBold",
   "BookmarkIndex": 0,
   "AutoScroll": "True",
-  "ImageDownCount": 1,
+  "ImageDownCount": 2,
   "LanguagesShow": {
     "UpperPart": "en",
-    "LowerPart": "ko",
+    "LowerPart": "ru",
     "Reference": "https://learn.microsoft.com/en-us/azure/ai-services/translator/language-support"
   },
   "LanguagesSpeech": {
