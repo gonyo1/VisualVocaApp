@@ -10,17 +10,18 @@ from fontTools import ttLib
 from PyQt5 import QtWidgets, QtCore, QtGui, Qt, QtMultimedia
 
 # Import Local Python Files
-from . import GetImages
-from . import GetAudio
+from resource.py import GetImages
+from resource.py import GetAudio
 
-from .Translator import translate, search_text_by_lang
-from .ToggleButton import AnimatedToggle
-from .Json import load_json_file, save_json_file
-from .CSVData import get_main_csv
-from .ConvertUI import get_ui_python_file as convert
+from resource.py.Translator import translate, search_text_by_lang
+from resource.py.ToggleButton import AnimatedToggle
+from resource.py.ChangeStylesheet import change_stylesheet
+from resource.py.Json import load_json_file, save_json_file
+from resource.py.CSVData import get_main_csv
+from resource.py.ConvertUI import get_ui_python_file as convert
 
-from ..src.ui.main_ui import Ui_MainApp as mp
-from .Path import get_root_directory
+from resource.src.ui.main_ui import Ui_MainApp as mp
+from resource.py.Path import get_root_directory
 
 
 __dir__ = get_root_directory()
@@ -483,6 +484,21 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.mb_show_image_adj.setText("")
             self.change_stylesheet(self.mb_show_eng_adj, color="white")
 
+        def insert_indicator():
+            indicator_image = f"url('{os.path.join(__dir__, 'src/img/Indicator.svg')}')".replace("\\", "/")
+
+            # Set StyleSheet
+            stylesheet = change_stylesheet(parent_widget=self.mb_voca_adj,
+                                           obj_name="QListWidget::indicator:hover",
+                                           background_image=indicator_image)
+            self.mb_voca_adj.setStyleSheet(stylesheet)
+
+            # Set StyleSheet
+            stylesheet = change_stylesheet(parent_widget=self.mb_voca_adj,
+                                           obj_name="QListWidget::indicator:checked",
+                                           background_image=indicator_image)
+            self.mb_voca_adj.setStyleSheet(stylesheet)
+
         def insert_player_button_image():
             for button in [self.back, self.forward, self.pause]:
                 button_name = button.objectName().capitalize()
@@ -533,7 +549,9 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         insert_refresh_icon()
         insert_bookmark_icon()
         insert_FrontImage()
+        insert_indicator()
         insert_player_button_image()
+
         which_option_clicked()
 
         self.voca_widget_button_event()
@@ -627,6 +645,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                         item.show()
                         item.setStyleSheet("color: white;\n")
 
+                self.change_stylesheet(item, background_image=" ")
                 self.mb_show_btns_adj.setStyleSheet("color: black;\n")
             else:
                 # play player
@@ -790,6 +809,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         with open(json_file, 'rt', encoding='utf-8') as f:
             self.github_data = json.load(f)
             f.close()
+
 
 
     # <-- Main Window Section -------------------------------------------------------------->
@@ -1132,7 +1152,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
 
     # <-- Resize Event Handler ------------------------------------------------------------->
-    def change_stylesheet(self, obj, **kwargs):
+    def change_stylesheet(self, obj, *args, **kwargs):
         """
         대부분 폰트 사이즈를 윈도우 창 크기에 맞추어 바꾸도록 제작됨
         kwargs는 font=14px 와 같이 stylesheet에 즉시 적용될 수 있을 수준으로 작성 되어야 함
@@ -1149,42 +1169,14 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         elif 'MainAPP' in obj_name:
             parent_widget = self
 
-        # Find target selector and Crop Stylesheet
-        stylesheet = parent_widget.styleSheet()
-        start = stylesheet.find("".join(["#", obj_name, " ", "{"]))
-        end = start + stylesheet[start:].find("}")
-        crop_stylesheet = stylesheet[start:end]
-
-        # Change stylesheet by kwargs
-        for key, value in kwargs.items():
-            key = key.replace("_", "-")
-            new_start = crop_stylesheet.find("\n" + str(key) + ":") + 1
-            new_end = new_start + crop_stylesheet[new_start:].find(";") + 1
-
-            new_css = "".join([key, ": ", value, ";"])
-
-            if new_start != 0:
-                # print(f"  [Info] {obj_name}'s css has changed from:{crop_stylesheet[new_start:new_end]} -> to:{new_css})")
-                if value != "del":
-                    stylesheet = "".join([stylesheet[:start],
-                                          crop_stylesheet[:new_start],
-                                          new_css,
-                                          crop_stylesheet[new_end:],
-                                          stylesheet[end:]])
-                elif value == "del":
-                    stylesheet = "".join([stylesheet[:start],
-                                          crop_stylesheet[:new_start],
-                                          crop_stylesheet[new_end:],
-                                          stylesheet[end:]])
-
+        for arg in args:
+            if arg in ["indicator", "placeholder", "item"]:
+                obj_name += "::" + arg
             else:
-                stylesheet = "".join([stylesheet[:start],
-                                      crop_stylesheet,
-                                      new_css,
-                                      crop_stylesheet[new_end:],
-                                      stylesheet[end:]])
+                obj_name +=":" + arg
 
-            stylesheet = stylesheet.replace("\n\n", "\n")
+        stylesheet = change_stylesheet(parent_widget=parent_widget, obj_name=obj_name, **kwargs)
+
         # Set StyleSheet
         parent_widget.setStyleSheet(stylesheet)
 

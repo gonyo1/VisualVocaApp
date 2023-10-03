@@ -5,6 +5,8 @@ import os.path
 import json
 import requests
 import zipfile
+from glob import glob
+from fontTools import ttLib
 from PyQt5 import QtWidgets, QtCore, QtGui, Qt
 
 # print(os.path.dirname(os.path.abspath(__file__)))
@@ -15,6 +17,7 @@ from resource.py.Json import load_json_file, save_json_file
 from resource.py.Path import get_root_directory, get_paths
 from resource.py.ConvertUI import get_ui_python_file as convert
 from resource.src.ui.updater_ui import Ui_Dialog as LauncherUI
+from resource.py.ChangeStylesheet import change_stylesheet
 
 
 __dir__ = get_root_directory()
@@ -133,9 +136,65 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
         self.timer = QtCore.QTimer()
 
         # Function Part
+        self.set_font_family()
         self.setup_graphic_part()
         self.check_updates()
         self.set_signal()
+
+    def set_font_family(self):
+        def grab_ttf_file() -> list:
+            return glob(os.path.abspath(f"{__dir__}/src/font/*.ttf"))
+
+        def get_font_name(font_path: str = None) -> str:
+            font = ttLib.TTFont(font_path)
+            font_family_name = font['name'].getDebugName(1)
+            # fullName = font['name'].getDebugName(4)
+
+            return font_family_name
+
+        def del_special_character(font: str = None) -> str:
+            font = font.replace("-", "")
+            font = font.replace("_", "")
+            font = font.replace(" ", "")
+            font = font.lower()
+
+            return font
+
+        # Make Font Database
+        fontDB = Qt.QFontDatabase()
+
+        # Get font name by JSON_DATA
+        font_path = None
+        font_name = None
+        font_file_list = grab_ttf_file()
+        user_target_font = self.JSON_DATA['FontFamily']
+
+        try:
+            # Check if PC has a font that user want to set as font family
+            modified_font_name = del_special_character(user_target_font)
+            font_file_name = [del_special_character(os.path.basename(item).replace(".ttf", "")) for item in
+                              font_file_list]
+
+            # Find User Target Font
+            idx = font_file_name.index(modified_font_name)
+            font_path = font_file_list[idx]
+            font_name = get_font_name(font_path)
+            print(f"  [Info] Font changed Successfully to User font:{font_name}")
+
+        except Exception as e:
+            # Set font as Noto Sans KR Semi Bold if error happened
+            base_name = f"{__dir__}/src/font/NotoSansKR-SemiBold"
+            font_path = ".".join([base_name, "ttf"])
+            font_name = "Noto Sans KR SemiBold"
+            print(f"  [Error] Error happened while getting font name: {e}")
+
+        fontDB.addApplicationFont(os.path.abspath(font_path))
+
+        # Customize font family
+        self.setFont(QtGui.QFont(font_name))
+        custom_stylesheet = self.styleSheet()
+        custom_stylesheet = custom_stylesheet.replace("Noto Sans KR SemiBold", font_name)
+        self.setStyleSheet(custom_stylesheet)
 
     def setup_graphic_part(self):
 
@@ -146,11 +205,21 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
             mask = QtGui.QRegion(path.toFillPolygon().toPolygon())
             self.setMask(mask)
 
+        def set_updator_image():
+            background_image = f"url('{os.path.join(__dir__, 'src/img/UpdateImage.svg')}')".replace("\\", "/")
+            stylesheet = change_stylesheet(parent_widget=self,
+                                           obj_name="UpdaterBackground",
+                                           background_image=background_image)
+
+            # Set StyleSheet
+            self.setStyleSheet(stylesheet)
+
         # Setup Graphic Part
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         self.setWindowIcon(Qt.QIcon("resource/src/img/AppIcon.ico"))
 
         # Window shape setting
+        set_updator_image()
         round_corners()
 
     def check_updates(self):
@@ -173,7 +242,8 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
                 self.UpdaterState.setText("Visual Voca가 최신 버전입니다")
                 self.UpdateSkip.deleteLater()
                 self.UpdateDo.setText("Start")
-                self.timer.singleShot(500, self.UpdateDo.click)
+                self.timer.singleShot(500, lambda txt="Main APP이 실행됩니다...": self.UpdaterState.setText(txt))
+                self.timer.singleShot(2000, self.UpdateDo.click)
                 self.__update_check__ = False
 
             return self.__update_check__
@@ -220,7 +290,7 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
 
 if __name__ == "__main__":
     # Set False when compile to exe file
-    convert = convert(dev_mode=False, path=__dir__)
+    convert = convert(dev_mode=True, path=__dir__)
 
     # Run main app
     app = QtWidgets.QApplication(sys.argv)

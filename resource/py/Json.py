@@ -1,4 +1,4 @@
-# coding=cp949
+# coding=utf-8
 
 import os
 import json
@@ -7,36 +7,38 @@ import json
 def is_main_app() -> str:
     path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     path = os.path.join(path, "src/config.json")
-    path = path.replace("‚‚", "/")
+    path = path.replace("\\", "/")
 
     if os.path.basename(os.path.abspath(__file__)) != "py":
         base_dir = os.path.abspath(f"./resource/src")
     else:
         base_dir = os.path.abspath(f"../src")
 
-    base_dir = base_dir.replace("‚‚", "/")
+    base_dir = base_dir.replace("\\", "/")
 
     return base_dir
 
 def load_json_file(name:str = 'config.json') -> dict:
     json_data = None
-
     while True:
         try:
             base_path = is_main_app()
             json_file = os.path.join(base_path, name)
-            json_file = json_file.replace("‚‚", "/")
+            json_file = json_file.replace("\\", "/")
+            print(json_file)
 
             with open(json_file, 'rt', encoding='utf-8') as f:
                 json_data = json.load(f)
                 f.close()
-            break
+                break
 
         except FileNotFoundError:
+            # count += 1
             base_path = is_main_app()
+
             print(f"  [Info] No Config file Found... {base_path}")
             json_file = os.path.join(base_path, name)
-            json_file = json_file.replace("‚‚", "/")
+            json_file = json_file.replace("\\", "/")
             generate_init(path=json_file)
 
     return json_data
