@@ -24,7 +24,3 @@ def translate(text, source="en", target="ko"):
     # 3. json 형태로 결과 받기
     return response.json()["message"]["result"]["translatedText"]
 
-text = "jump"
-test = translate(text)
-print(test)
-

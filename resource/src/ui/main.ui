@@ -245,7 +245,7 @@ background-color: rgb(228, 175, 10);
 color: white;
 }
 QListWidget::indicator {
-border-radius: 8px;
+border-radius: 6px;
 border: 1px solid;
 border-color: rgb(141, 141, 147);
 background-color: transparent;
@@ -270,7 +270,7 @@ background-color: rgb(250, 188, 1);
 
 
 
-/* Add Files Part */
+/* Add Files Part ----------------------------------------------------- */
 #mb_voca_open {
 margin: 0px 10px 10px 10px;
 color: white;

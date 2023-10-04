@@ -5,6 +5,7 @@ import os.path
 import json
 import requests
 import zipfile
+import urllib3
 from glob import glob
 from fontTools import ttLib
 from PyQt5 import QtWidgets, QtCore, QtGui, Qt
@@ -16,6 +17,8 @@ from resource.py.ConvertUI import get_ui_python_file as convert
 from resource.src.ui.updater_ui import Ui_Dialog as LauncherUI
 from resource.py.ChangeStylesheet import change_stylesheet
 from resource.py.Json import load_json_file, save_json_file
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 __dir__ = get_root_directory()
 __author__ = 'https://www.github.com/gonyo1'
@@ -73,7 +76,7 @@ class UpdateDownloader(QtCore.QObject):
         # Get github raw zip file
         output_path = os.path.dirname(os.path.abspath(__dir__))
         url = "https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/update/resource.zip"
-        req = requests.get(url)
+        req = requests.get(url, timeout=5)
 
         # Save zip to local
         filename = os.path.join(output_path, url.split('/')[-1])
@@ -127,11 +130,11 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
     def __init__(self, parent=None):
         # Overloading MainWindow
         super(Launcher, self).__init__(parent)
+        self.set_font_family()
         self.setupUi(self)
         self.show()
 
         # Function Part
-        self.set_font_family()
         self.setup_graphic_part()
         self.check_updates()
         self.set_signal()
@@ -222,7 +225,7 @@ class Launcher(QtWidgets.QDialog, LauncherUI):
             global github_data
             # Github의 Contributor.json 파일을 다운로드하여 github.json에 저장
             url = 'https://raw.githubusercontent.com/gonyo1/VisualVocaApp/main/update/contributor.json'
-            resp = requests.get(url)
+            resp = requests.get(url,  timeout=5, verify=False)
             github_data = json.loads(resp.text)
 
             with open(os.path.abspath("./resource/src/github.json"), 'wt') as f:

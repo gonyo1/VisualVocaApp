@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:/Users/Gonyo/Documents/GitHub/VisualVocaApp/resource/src/ui/main.ui'
+# Form implementation generated from reading ui file 'C:/Users/남산초등학교/Documents/GitHub/VisualVocaApp/resource/src/ui/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -220,7 +220,7 @@ class Ui_MainApp(object):
 "color: white;\n"
 "}\n"
 "QListWidget::indicator {\n"
-"border-radius: 8px;\n"
+"border-radius: 6px;\n"
 "border: 1px solid;\n"
 "border-color: rgb(141, 141, 147);\n"
 "background-color: transparent;\n"
@@ -245,7 +245,7 @@ class Ui_MainApp(object):
 "\n"
 "\n"
 "\n"
-"/* Add Files Part */\n"
+"/* Add Files Part ----------------------------------------------------- */\n"
 "#mb_voca_open {\n"
 "margin: 0px 10px 10px 10px;\n"
 "color: white;\n"

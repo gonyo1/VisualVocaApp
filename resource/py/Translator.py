@@ -1,6 +1,5 @@
 import requests, uuid, json
 
-
 def translate(word: str = None, langs: dict = None, key: str = None):
     def set_base_url():
         endpoint = "https://api.cognitive.microsofttranslator.com"

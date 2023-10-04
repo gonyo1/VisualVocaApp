@@ -24,7 +24,6 @@ def get_images_from_word(word: str = None, count: int = 4, *args) -> str:
     def is_main_app(word: str = None) -> str:
         base_dir = str()
         base_dir = os.path.abspath(".")
-        print(os.path.abspath("./"),' dddddddddddddddd')
 
         if os.path.basename(os.path.abspath("./")) != "py":
             base_dir = os.path.abspath(f"./resource/voca/img/{word}")
@@ -49,7 +48,7 @@ def get_images_from_word(word: str = None, count: int = 4, *args) -> str:
                 base_url = f"{base_url}{word}"
                 print(base_url)
 
-                res = requests.get(base_url, verify=False, timeout=10)
+                res = requests.get(base_url, verify=False)
 
                 if res.status_code == 200:
 
@@ -65,6 +64,8 @@ def get_images_from_word(word: str = None, count: int = 4, *args) -> str:
                         break
                     else:
                         site_idx += 1
+
+            print("  [Info] ", len(src), "개의 파일이 검색되었습니다.")
 
             for idx, url in enumerate(src[:count]):
                 idx = str(idx + 1)
