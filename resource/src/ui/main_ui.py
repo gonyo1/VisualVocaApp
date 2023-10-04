@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:/Users/남산초등학교/Documents/GitHub/VisualVocaApp/resource/src/ui/main.ui'
+# Form implementation generated from reading ui file 'C:/Users/남산초등학교/Desktop/VisualVocaApp/resource/src/ui/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #

@@ -24,7 +24,6 @@ from resource.py.ConvertUI import get_ui_python_file as convert
 from resource.src.ui.main_ui import Ui_MainApp as mp
 from resource.py.Path import get_root_directory
 
-
 __dir__ = get_root_directory()
 __author__ = 'https://www.github.com/gonyo1'
 __released_date__ = 'October 2023'
@@ -147,8 +146,10 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         self.auto_scroll_toggle = QtWidgets.QCheckBox()
         self.auto_slide = True
         self.show_langs = list(self.JSON_DATA["LanguagesShow"].values())
-        self.option_btns = [self.mb_top_bar_all, self.mb_top_bar_only_eng, self.mb_top_bar_only_kor, self.mb_top_bar_only_img]
-        self.show_labels = [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj, self.mb_show_special_case_adj, self.mb_show_btns_adj]
+        self.option_btns = [self.mb_top_bar_all, self.mb_top_bar_only_eng, self.mb_top_bar_only_kor,
+                            self.mb_top_bar_only_img]
+        self.show_labels = [self.mb_show_eng_adj, self.mb_show_image_adj, self.mb_show_kor_adj,
+                            self.mb_show_special_case_adj, self.mb_show_btns_adj]
 
         del self.JSON_DATA["LanguagesSpeech"]["Reference"]
         self.speech_langs = list(self.JSON_DATA["LanguagesSpeech"].values())
@@ -177,7 +178,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
         # ETC
         self.timer = QtCore.QTimer(self)
-        
+
     def setup_window_graphic(self):
         def calculate_ratio():
             init_x, init_y, init_w, init_h = self.geometry().getRect()
@@ -367,9 +368,16 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
                     # Get Voca from Selected Group
                     upper_text_language = self.JSON_DATA["LanguagesShow"]["UpperPart"]
-                    words_in_group = self.CSV_DATA["dataframe"][self.CSV_DATA["dataframe"]["GroupName"] == value][
-                        upper_text_language]
-                    words_in_group = words_in_group.to_list()
+
+                    index_by_groupname = list()
+                    for group_idx, group_name in enumerate(self.CSV_DATA["dataframe"]["GroupName"]):
+                        if group_name == value:
+                            index_by_groupname.append(group_idx)
+
+                    words_in_group = list()
+                    for word_idx in index_by_groupname:
+                        word = self.CSV_DATA["dataframe"][upper_text_language][word_idx]
+                        words_in_group.append(word)
 
                     # Set QListWidgetItem text as voca
                     for w_idx, word in enumerate(words_in_group):
@@ -474,11 +482,11 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                                                 "background-repeat: none;\n"
                                                 "background-position: center;\n"
                                                 "}\n"
-                                                
+
                                                 "QPushButton:hover {\n"
                                                 f"background-image: url({bookmark_hover});\n"
                                                 "}\n"
-                                                
+
                                                 "QPushButton:checked {\n"
                                                 f"background-image: url({bookmark_checked});\n"
                                                 "}\n"
@@ -626,7 +634,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     widget.currentRowChanged.connect(lambda: self.change_mb_voca_widget(obj=self.sending_from_widget))
                     widget.currentRowChanged.connect(lambda: self.get_tts_audio(obj=self.sending_from_widget))
 
-
         # Event Slots ------------------------------------
         def is_voca_button_clicked():
             self.player.stop()
@@ -769,7 +776,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.mb_show_special_case_adj.hide()
             self.mb_show_special_case_adj.clear()
 
-
             if btn == self.mb_top_bar_all:
                 self.mb_show_kor_adj.show()
                 self.mb_show_eng_adj.show()
@@ -780,7 +786,8 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     raise_labels()
                     self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOIMAGE})")
             elif btn == self.mb_top_bar_only_eng:
-                self.change_stylesheet(self.mb_show_special_case_adj, color="black" if not self.is_pause_clicked else "white")
+                self.change_stylesheet(self.mb_show_special_case_adj,
+                                       color="black" if not self.is_pause_clicked else "white")
                 self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOEMPTY})")
                 self.mb_show_special_case_adj.setText(self.mb_show_eng_adj.text())
                 self.mb_show_special_case_adj.show()
@@ -789,7 +796,8 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     raise_labels()
                     self.mb_show_special_case_adj.setText("Visual Voca")
             elif btn == self.mb_top_bar_only_kor:
-                self.change_stylesheet(self.mb_show_special_case_adj, color="black" if not self.is_pause_clicked else "white")
+                self.change_stylesheet(self.mb_show_special_case_adj,
+                                       color="black" if not self.is_pause_clicked else "white")
                 self.change_stylesheet(self.mb_show_special_case_adj, background_image=f"url({self.VIVOEMPTY})")
                 self.mb_show_special_case_adj.setText(self.mb_show_kor_adj.text())
                 self.mb_show_special_case_adj.show()
@@ -830,8 +838,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             self.github_data = json.load(f)
             f.close()
 
-
-
     # <-- Main Window Section -------------------------------------------------------------->
     def change_json_file(self, key=None, value=None):
         if key == "AutoScroll":
@@ -851,8 +857,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
     def pyqt_image_url(filename):
         base_path = os.path.abspath(f"{__dir__}/src/img")
         return os.path.join(base_path, filename).replace("\\", "/")
-
-
 
     # <-- New Voca Clicked Event Handler --------------------------------------------------->
     def change_mb_voca_widget(self, obj):
@@ -910,12 +914,21 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 # Change meaning(under_text) title
                 lower_text_language = self.JSON_DATA["LanguagesShow"]["LowerPart"]
                 try:
-                    lower_text = self.CSV_DATA["dataframe"][self.CSV_DATA["dataframe"]["GroupName"] == self.group_name][
-                        lower_text_language]
-                    lower_text = lower_text.iloc[self.current_idx]
+                    # Pandas 대신해서 넣어야 함.
+                    index_by_groupname = list()
+                    for group_idx, group_name in enumerate(self.CSV_DATA["dataframe"]["GroupName"]):
+                        if group_name == self.group_name:
+                            index_by_groupname.append(group_idx)
+
+                    lower_text = list()
+                    for word_idx in index_by_groupname:
+                        word = self.CSV_DATA["dataframe"][lower_text_language][word_idx]
+                        lower_text.append(word)
+
+                    lower_text = lower_text[self.current_idx]
 
                     # iloc 에 해당하는 값이 None (비어있음)이면 자동번역기 실행
-                    if type(lower_text) is float:
+                    if lower_text == "":
                         self.translated_result = translate(word=self.word,
                                                            langs=self.JSON_DATA["LanguagesSpeech"],
                                                            key=self.JSON_DATA["APIKeys"]["MSAzureTranslator"])
@@ -933,7 +946,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
 
                 # Change image when voca has been changed
                 self.change_mb_voca_image(self.image_idx)
-
 
                 # Check if special case clicked
                 if self.mb_top_bar_only_eng.isChecked():
@@ -1008,7 +1020,8 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     w = append_list_widget.width()
                     # w를 아이템 크기에 맞출 때 사용할 수 있음
                     # w = append_list_widget.sizeHintForColumn(0) + append_list_widget.frameWidth() * 2
-                    h = append_list_widget.sizeHintForRow(0) * append_list_widget.count() + 2 * append_list_widget.frameWidth()
+                    h = append_list_widget.sizeHintForRow(
+                        0) * append_list_widget.count() + 2 * append_list_widget.frameWidth()
                     append_list_widget.setFixedSize(w, h)
 
                 else:
@@ -1025,8 +1038,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         if self.FIRSTRUN:
             self.spacer = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
             self.mb_voca_scroll_widget_verticalLayout.addItem(self.spacer)
-
-
 
     # <-- Play audio TTS ------------------------------------------------------------------->
     def start_player(self):
@@ -1074,7 +1085,8 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             else:
                 # 위 아래에 제시되는 언어가 아닐경우 (예: ru : 러시아어)
                 try:
-                    csv_word = self.CSV_DATA["dataframe"][self.CSV_DATA["dataframe"]["GroupName"] == self.group_name][lang]
+                    csv_word = self.CSV_DATA["dataframe"][self.CSV_DATA["dataframe"]["GroupName"] == self.group_name][
+                        lang]
                     word = csv_word.iloc[self.current_idx]
 
                     # iloc 에 해당하는 값이 None (비어있음)이면 자동번역기 실행
@@ -1102,7 +1114,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                     except KeyError:
                         word = ""
             return word
-        
+
         def get_downloaded_tts_audio_file():
             audio_path = GetAudio.get_tts(word=self.word, lang=audio_lang,
                                           main_word=self.mb_show_eng_adj.text(),
@@ -1112,7 +1124,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             content = QtMultimedia.QMediaContent(url)
 
             return content
-
 
         if self.player.state() == 0 and not self.is_finished and not self.is_playing_alarm:
 
@@ -1128,10 +1139,9 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 if not self.is_voca_changed:
                     self.change_mb_voca_image(idx=self.image_idx)
 
-
             # 언어에 해당하는 단어가 소리 나도록 설정
             audio_lang = self.lang[self.tts_idx]
-            self.word = get_detected_word(audio_lang)            
+            self.word = get_detected_word(audio_lang)
 
             # Korean이면 특수문자 제거하기
             self.word = replace_korean(self.word) if audio_lang == 'ko' else self.word
@@ -1168,8 +1178,6 @@ class MainWindow(QtWidgets.QMainWindow, mp):
                 self.start_player()
                 self.is_playing = True
 
-
-
     # <-- Resize Event Handler ------------------------------------------------------------->
     def change_stylesheet(self, obj, *args, **kwargs):
         """
@@ -1192,7 +1200,7 @@ class MainWindow(QtWidgets.QMainWindow, mp):
             if arg in ["indicator", "placeholder", "item"]:
                 obj_name += "::" + arg
             else:
-                obj_name +=":" + arg
+                obj_name += ":" + arg
 
         stylesheet = change_stylesheet(parent_widget=parent_widget, obj_name=obj_name, **kwargs)
 
@@ -1285,9 +1293,12 @@ class MainWindow(QtWidgets.QMainWindow, mp):
         resize_widget_setting(self.BLACK, w=w, h=h)
 
         # Right - Main Font Resize Section
-        self.change_stylesheet(self.mb_show_eng_adj, font=calculate_font_ratio(self.mb_show_eng_adj, self.mb_show_eng_h))
-        self.change_stylesheet(self.mb_show_kor_adj, font=calculate_font_ratio(self.mb_show_kor_adj, self.mb_show_kor_h))
-        self.change_stylesheet(self.mb_show_special_case_adj, font=calculate_font_ratio(self.mb_show_eng_adj, self.mb_show_eng_h))
+        self.change_stylesheet(self.mb_show_eng_adj,
+                               font=calculate_font_ratio(self.mb_show_eng_adj, self.mb_show_eng_h))
+        self.change_stylesheet(self.mb_show_kor_adj,
+                               font=calculate_font_ratio(self.mb_show_kor_adj, self.mb_show_kor_h))
+        self.change_stylesheet(self.mb_show_special_case_adj,
+                               font=calculate_font_ratio(self.mb_show_eng_adj, self.mb_show_eng_h))
 
     def resizeEvent(self, event):
         self.resized.emit()

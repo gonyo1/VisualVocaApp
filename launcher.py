@@ -3,13 +3,32 @@
 import sys
 import os.path
 import json
-import requests
 import zipfile
-import urllib3
 from glob import glob
-from fontTools import ttLib
-from PyQt5 import QtWidgets, QtCore, QtGui, Qt
 
+try:
+    import requests
+except:
+    os.system("pip install requests")
+    import requests
+
+try:
+    import urllib3
+except:
+    os.system("pip install urllib3")
+    import urllib3
+
+try:
+    import fontTools
+except:
+    os.system("pip install fontTools")
+    import fontTools
+
+try:
+    from PyQt5 import QtWidgets, QtCore, QtGui, Qt
+except:
+    os.system("pip install PyQt5")
+    from PyQt5 import QtWidgets, QtCore, QtGui, Qt
 
 # Import Local Python Files
 from resource.py.Path import get_root_directory, get_paths
