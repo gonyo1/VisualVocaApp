@@ -4,7 +4,7 @@ Visual Voca는 깜빡이 형태로 단어 암기를 돕는 프로그램입니다
 
 ### How does it look
 <p align="center">
-<img class="center" src="https://i.imgur.com/QLaY5US.mp4"/><br>
+<img class="center" src="https://i.imgur.com/XTZFqSw.gif"/><br>
 
 위 그림과 같이 왼쪽 사이드바에는 단어목록, 오른쪽에는 단어가 나옵니다.<br>
 제시되는 단어는 Google TTS를 활용하여 읽어주고, 정해진 횟수만큼 재생되면<br>
